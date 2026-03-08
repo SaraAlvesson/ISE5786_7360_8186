@@ -6,6 +6,6 @@
     <option name="LOCALE" value="en_US" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_25" default="true" project-jdk-name="25" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/out" />
+    <output url="file://$PROJECT_DIR$/ex0_SarahAlvesson/out" />
   </component>
 </project>
