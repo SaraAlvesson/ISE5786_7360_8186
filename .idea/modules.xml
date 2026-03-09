@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ISE5786_7360_8186/ISE5786_7360_8186.iml" filepath="$PROJECT_DIR$/ISE5786_7360_8186/ISE5786_7360_8186.iml" />
       <module fileurl="file://$PROJECT_DIR$/ex0_SarahAlvesson/ex0_SarahAlvesson.iml" filepath="$PROJECT_DIR$/ex0_SarahAlvesson/ex0_SarahAlvesson.iml" />
       <module fileurl="file://$PROJECT_DIR$/ex0_ShiraShoval/ex0_ShiraShoval.iml" filepath="$PROJECT_DIR$/ex0_ShiraShoval/ex0_ShiraShoval.iml" />
     </modules>
