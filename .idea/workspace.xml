@@ -4,8 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f23cdba-42a2-494c-a300-83fa17f67ee9" name="Changes" comment="Project_Created">
-      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/temp.txt" afterDir="false" />
+    <list default="true" id="3f23cdba-42a2-494c-a300-83fa17f67ee9" name="Changes" comment="PR01- basic classes and structure">
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/Geometry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Cylinder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Plane.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Polygon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/RadialGeometry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Sphere.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Triangle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Tube.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Double3.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Point.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Ray.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Util.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Vector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/ISE5786_7360_8186.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/ISE5786_7360_8186.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/temp.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +32,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -32,7 +50,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/SaraAlvesson/ISE5786_7360_8186.git&quot;,
-    &quot;accountId&quot;: &quot;05021b17-69a9-4206-8548-315d23b9dc31&quot;
+    &quot;accountId&quot;: &quot;b79ce1b9-5b76-4c86-a596-2f8a62d8d3c4&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -43,26 +61,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.PayRoll.executor": "Run",
-    "Application.Payroll.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/saraa/source/repos/ISE5786_7360_8186",
-    "onboarding.tips.debug.path": "C:/Users/saraa/IdeaProjects/Homework1/src/Main.java",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.PayRoll.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Payroll.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/saraa/source/repos/ISE5786_7360_8186&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/saraa/IdeaProjects/Homework1/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="Point" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\saraa\source\repos\IdeaProjects\Homework1\ex0_SarahAlvesson" />
     </key>
@@ -139,6 +160,7 @@
     <MESSAGE value="first commit" />
     <MESSAGE value="add Shira Shoval Ex0" />
     <MESSAGE value="Project_Created" />
-    <option name="LAST_COMMIT_MESSAGE" value="Project_Created" />
+    <MESSAGE value="PR01- basic classes and structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="PR01- basic classes and structure" />
   </component>
 </project>
