@@ -3,41 +3,51 @@ package primitives;
 import java.util.Objects;
 
 /**
- * Class Ray represents a line segment starting from a point in a direction.
- * @author Your Name
+ * Class Ray represents a line segment starting from a point in a specific direction.
+ * The direction vector is always kept normalized.
  */
 public final class Ray {
-    private final Point _head;
+    /** The origin point of the ray */
+    private final Point  _origin;
+    /** The normalized direction vector of the ray */
     private final Vector _direction;
 
     /**
-     * Constructor for Ray
-     * @param head origin point
-     * @param direction direction vector (will be normalized)
+     * Constructor to initialize Ray with an origin point and a direction vector.
+     * The direction vector is normalized automatically.
+     * @param origin    the starting point
+     * @param direction the direction vector
      */
-    public Ray(Point head, Vector direction) {
-        _head = head;
-        _direction = direction.normalize();
+    public Ray(Point origin, Vector direction) {
+        _origin    = origin;
+        _direction = direction.normalize(); // Ensure direction is normalized
     }
 
-    public Point head() { return _head; }
-    public Vector direction() { return _direction; }
+    /**
+     * Getter for the direction vector.
+     * Note: This method is required by the provided Main.java test.
+     * @return the normalized direction vector
+     */
+    public Vector direction() {
+        return _direction;
+    }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Ray other = (Ray) obj;
-        return _head.equals(other._head) && _direction.equals(other._direction);
+        if (obj instanceof Ray other) {
+            return _origin.equals(other._origin) && _direction.equals(other._direction);
+        }
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_head, _direction);
+        return Objects.hash(_origin, _direction);
     }
 
     @Override
     public String toString() {
-        return "Ray: head=" + _head + ", direction=" + _direction;
+        return "Ray: origin=" + _origin + ", direction=" + _direction;
     }
 }

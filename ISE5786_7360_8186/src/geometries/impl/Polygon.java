@@ -23,9 +23,9 @@ public class Polygon implements Geometry {
    /** Ordered list of polygon vertices */
    protected final List<Point> _vertices;
    /** Plane containing the polygon */
-   protected final Plane       _plane;
+   protected final Plane _plane;
    /** Number of vertices */
-   private final int           _size;
+   private final int _size;
 
    /**
     * Constructs a convex polygon from ordered vertices.

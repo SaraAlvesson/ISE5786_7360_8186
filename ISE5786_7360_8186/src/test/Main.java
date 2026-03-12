@@ -1,3 +1,4 @@
+package test;
 
 import static java.lang.System.out;
 import static primitives.Util.isZero;
@@ -9,16 +10,16 @@ import primitives.*;
  * Basic sanity tests for the primitives classes.
  * The program performs a small set of runtime checks on the basic
  * geometric primitives and on constructors of several geometry objects.
- * The tests verify correctness of the main algebraic operations and
+ * The tests verify correctness of the test.main algebraic operations and
  * several edge cases such as zero vectors and orthogonality.
  * The program prints error messages only if a test fails.
  * If no output appears, all tests succeeded.
  * @author Dan Zilberstein
  */
 @SuppressWarnings("java:S109")
-public final class main {
+public final class Main {
     /** Default constructor to satisfy JavaDoc generator */
-    public main() { /* to satisfy JavaDoc generator */ }
+    public Main() { /* to satisfy JavaDoc generator */ }
 
     /** A point for tests at (1,2,3) */
     private static final Point  P1          = new Point(1, 2, 3);

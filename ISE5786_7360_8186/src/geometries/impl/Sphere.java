@@ -1,10 +1,20 @@
 package geometries.impl;
 
 import primitives.*;
+import java.util.Objects;
 
-public class Sphere extends RadialGeometry {
+/**
+ * Class Sphere represents a sphere in 3D space, defined by a center point and a radius.
+ */
+public final class Sphere extends RadialGeometry {
+    /** The center point of the sphere */
     private final Point _center;
 
+    /**
+     * Constructor to initialize Sphere with a center point and a radius.
+     * @param center the center point of the sphere
+     * @param radius the radius of the sphere
+     */
     public Sphere(Point center, double radius) {
         super(radius);
         _center = center;
@@ -12,6 +22,25 @@ public class Sphere extends RadialGeometry {
 
     @Override
     public Vector getNormal(Point point) {
-        return null; // Temporary
+        return null; // To be implemented in later stages
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj instanceof Sphere other) {
+            return super.equals(obj) && _center.equals(other._center);
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), _center);
+    }
+
+    @Override
+    public String toString() {
+        return "Sphere: center=" + _center + ", " + super.toString();
     }
 }
