@@ -33,8 +33,8 @@ public final class Ray {
     }
 
     /**
-     *
-     * @return
+     * Getter for the origin point of the ray.
+     * @return the starting point (origin) of the ray
      */
     public Point origin() {
         return _origin;
