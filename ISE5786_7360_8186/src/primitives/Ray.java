@@ -32,6 +32,15 @@ public final class Ray {
         return _direction;
     }
 
+    /**
+     *
+     * @return
+     */
+    public Point origin() {
+        return _origin;
+    }
+
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

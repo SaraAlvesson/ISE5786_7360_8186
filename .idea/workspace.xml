@@ -5,45 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f23cdba-42a2-494c-a300-83fa17f67ee9" name="Changes" comment="PR01- basic classes and structure">
-      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/doc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Cylinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Cylinder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Plane.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Plane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Polygon.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Polygon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/RadialGeometry.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/RadialGeometry.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Sphere.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Sphere.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Triangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Triangle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Tube.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Tube.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/test/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/Geometry.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/Geometry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Ray.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Ray.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Vector.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Vector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/BasePlusCommissionEmployee.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/BasePlusCommissionEmployee.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/CommissionEmployee.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/CommissionEmployee.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/Employee.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/Employee.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/HourlyEmployee.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/HourlyEmployee.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/Main.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/Main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/Payroll.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/Payroll.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/allclasses-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/allclasses-index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/allpackages-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/allpackages-index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/help-doc.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/help-doc.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-1.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-2.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-2.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-3.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-3.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-4.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-5.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-6.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-7.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-8.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-8.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-9.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index-files/index-9.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/overview-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/overview-tree.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/package-summary.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/package-tree.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_SarahAlvesson/javadoc/search.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ex0_ShiraShoval/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/ex0_ShiraShoval/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ex0_ShiraShoval/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_ShiraShoval/.gitignore" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,26 +47,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Application.PayRoll.executor": "Run",
-    "Application.Payroll.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/saraa/source/repos/ISE5786_7360_8186",
-    "onboarding.tips.debug.path": "C:/Users/saraa/IdeaProjects/Homework1/src/Main.java",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PayRoll.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Payroll.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/saraa/source/repos/ISE5786_7360_8186&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/saraa/IdeaProjects/Homework1/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="Point" />

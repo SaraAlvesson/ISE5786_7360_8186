@@ -104,16 +104,6 @@ public final class Vector extends Point {
     }
 
     @Override
-    public double distanceSquared(Point other) {
-        return super.distanceSquared(other);
-    }
-
-    @Override
-    public double distance(Point other) {
-        return super.distance(other);
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj instanceof Vector other) {
