@@ -3,7 +3,7 @@ package primitives;
 import java.util.Objects;
 
 /**
- * Class Vector represents a direction and magnitude in 3D space.
+ * Class  Vector represents a direction and magnitude in 3D space.
  * This class inherits from Point and adds vector-specific algebraic operations.
  */
 public final class Vector extends Point {
