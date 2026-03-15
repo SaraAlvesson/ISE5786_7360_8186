@@ -1,6 +1,5 @@
 package primitives;
 
-import java.util.Objects;
 
 /**
  * Class  Vector represents a direction and magnitude in 3D space.
@@ -8,11 +7,14 @@ import java.util.Objects;
  */
 public final class Vector extends Point {
 
-    /** Static Z axis vector for tests */
+    /**
+     * Static Z axis vector for tests
+     */
     public static final Vector AXIS_Z = new Vector(0, 0, 1);
 
     /**
      * Constructor to initialize Vector based on three double values.
+     *
      * @param x first coordinate
      * @param y second coordinate
      * @param z third coordinate
@@ -24,6 +26,7 @@ public final class Vector extends Point {
 
     /**
      * Constructor to initialize Vector based on a Double3 object.
+     *
      * @param xyz Double3 object containing coordinates
      * @throws IllegalArgumentException if the result is a zero vector
      */
@@ -37,6 +40,7 @@ public final class Vector extends Point {
     /**
      * Adds another vector to this vector.
      * This method overrides the add method in Point to ensure a Vector is returned.
+     *
      * @param vector the vector to add
      * @return a new Vector representing the sum
      */
@@ -47,6 +51,7 @@ public final class Vector extends Point {
 
     /**
      * Scales the vector by a scalar factor.
+     *
      * @param scalar the scaling factor
      * @return a new scaled Vector
      * @throws IllegalArgumentException if the result is a zero vector (e.g., scale by 0)
@@ -57,6 +62,7 @@ public final class Vector extends Point {
 
     /**
      * Calculates the dot product of two vectors.
+     *
      * @param other the other vector
      * @return the scalar dot product result
      */
@@ -68,6 +74,7 @@ public final class Vector extends Point {
 
     /**
      * Calculates the cross product of two vectors.
+     *
      * @param other the other vector
      * @return a new Vector orthogonal to both operands
      * @throws IllegalArgumentException if vectors are parallel (result is zero vector)
@@ -81,6 +88,7 @@ public final class Vector extends Point {
 
     /**
      * Calculates the squared length of the vector.
+     *
      * @return the squared length
      */
     public double lengthSquared() {
@@ -89,6 +97,7 @@ public final class Vector extends Point {
 
     /**
      * Calculates the length of the vector.
+     *
      * @return the magnitude (length)
      */
     public double length() {
@@ -97,6 +106,7 @@ public final class Vector extends Point {
 
     /**
      * Normalizes the vector so its length becomes 1.
+     *
      * @return a new normalized Vector
      */
     public Vector normalize() {

@@ -1,17 +1,21 @@
 package geometries.impl;
 
-import primitives.*;
 import java.util.Objects;
+import primitives.Point;
+import primitives.Vector;
 
 /**
  * Class Sphere represents a sphere in 3D space, defined by a center point and a radius.
  */
 public final class Sphere extends RadialGeometry {
-    /** The center point of the sphere */
+    /**
+     * The center point of the sphere
+     */
     private final Point _center;
 
     /**
      * Constructor to initialize Sphere with a center point and a radius.
+     *
      * @param center the center point of the sphere
      * @param radius the radius of the sphere
      */

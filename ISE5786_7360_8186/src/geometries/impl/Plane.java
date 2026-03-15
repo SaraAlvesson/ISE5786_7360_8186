@@ -1,20 +1,27 @@
 package geometries.impl;
 
 import geometries.api.Geometry;
-import primitives.*;
 import java.util.Objects;
+import primitives.Point;
+import primitives.Vector;
+
 
 /**
  * Class Plane represents a 2D plane in 3D space, defined by a point and a normal vector.
  */
 public final class Plane implements Geometry {
-    /** A point on the plane */
+    /**
+     * A point on the plane
+     */
     private final Point _point;
-    /** The normal vector to the plane */
+    /**
+     * The normal vector to the plane
+     */
     private final Vector _normal;
 
     /**
      * Constructor to initialize Plane with a point and a normal vector.
+     *
      * @param point  a point on the plane
      * @param normal the normal vector (will be normalized)
      */
@@ -25,6 +32,7 @@ public final class Plane implements Geometry {
 
     /**
      * Constructor to initialize Plane with three points.
+     *
      * @param p1 first point
      * @param p2 second point
      * @param p3 third point

@@ -7,25 +7,31 @@ import java.util.Objects;
  * The direction vector is always kept normalized.
  */
 public final class Ray {
-    /** The origin point of the ray */
-    private final Point  _origin;
-    /** The normalized direction vector of the ray */
+    /**
+     * The origin point of the ray
+     */
+    private final Point _origin;
+    /**
+     * The normalized direction vector of the ray
+     */
     private final Vector _direction;
 
     /**
      * Constructor to initialize Ray with an origin point and a direction vector.
      * The direction vector is normalized automatically.
+     *
      * @param origin    the starting point
      * @param direction the direction vector
      */
     public Ray(Point origin, Vector direction) {
-        _origin    = origin;
+        _origin = origin;
         _direction = direction.normalize(); // Ensure direction is normalized
     }
 
     /**
      * Getter for the direction vector.
      * Note: This method is required by the provided Main.java test.
+     *
      * @return the normalized direction vector
      */
     public Vector direction() {
@@ -34,6 +40,7 @@ public final class Ray {
 
     /**
      * Getter for the origin point of the ray.
+     *
      * @return the starting point (origin) of the ray
      */
     public Point origin() {

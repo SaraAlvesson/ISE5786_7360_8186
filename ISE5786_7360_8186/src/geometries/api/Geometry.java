@@ -1,6 +1,7 @@
 package geometries.api;
 
-import primitives.*;
+import primitives.Point;
+import primitives.Vector;
 
 /**
  * Interface for all geometric shapes
@@ -8,6 +9,7 @@ import primitives.*;
 public interface Geometry {
     /**
      * Get the normal vector to the shape at a specific point
+     *
      * @param point point on the surface
      * @return normal vector
      */

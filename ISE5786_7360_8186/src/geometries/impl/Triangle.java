@@ -1,7 +1,8 @@
 package geometries.impl;
 
-import primitives.*;
-import java.util.Objects;
+import primitives.Point;
+import primitives.Vector;
+
 
 /**
  * Class Triangle represents a triangle in 3D space, defined by three vertices.
@@ -11,6 +12,7 @@ public final class Triangle extends Polygon {
 
     /**
      * Constructor to initialize Triangle with three points.
+     *
      * @param p1 first point
      * @param p2 second point
      * @param p3 third point

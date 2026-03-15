@@ -1,19 +1,26 @@
 package geometries.impl;
 
-import primitives.*;
 import java.util.Objects;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
+
 import static primitives.Util.isZero;
+
 
 /**
  * Class Cylinder represents a finite cylinder in 3D space, defined by a radius,
  * an axis ray, and a height.
  */
 public final class Cylinder extends Tube {
-    /** The height of the cylinder */
+    /**
+     * The height of the cylinder
+     */
     private final double _height;
 
     /**
      * Constructor to initialize Cylinder with radius, axis ray, and height.
+     *
      * @param radius  the radius of the cylinder
      * @param axisRay the axis ray of the cylinder
      * @param height  the height of the cylinder

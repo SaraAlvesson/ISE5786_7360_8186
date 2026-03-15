@@ -1,20 +1,25 @@
 package primitives;
 
-import static primitives.Util.isZero;
 
 /**
  * Class Point is the basic object for 3D coordinates.
+ *
  * @author Your Name
  */
 public class Point {
-    /** Coordinates of the point */
+    /**
+     * Coordinates of the point
+     */
     protected final Double3 _xyz;
 
-    /** Static zero point (0,0,0) */
+    /**
+     * Static zero point (0,0,0)
+     */
     public static final Point ZERO = new Point(Double3.ZERO);
 
     /**
      * Constructor to initialize Point based on three double values
+     *
      * @param x first number
      * @param y second number
      * @param z third number
@@ -25,6 +30,7 @@ public class Point {
 
     /**
      * Constructor to initialize Point based on Double3 object
+     *
      * @param xyz Double3 object
      */
     public Point(Double3 xyz) {
@@ -51,6 +57,7 @@ public class Point {
 
     /**
      * Calculate squared distance between two points
+     *
      * @param other the other point
      * @return squared distance
      */
@@ -63,6 +70,7 @@ public class Point {
 
     /**
      * Calculate distance between two points
+     *
      * @param other the other point
      * @return distance
      */
@@ -72,6 +80,7 @@ public class Point {
 
     /**
      * Add a vector to the point
+     *
      * @param vector the vector to add
      * @return new Point
      */
@@ -81,6 +90,7 @@ public class Point {
 
     /**
      * Subtract two points into a vector
+     *
      * @param other the other point
      * @return new Vector from other to this
      */
