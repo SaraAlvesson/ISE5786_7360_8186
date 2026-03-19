@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import primitives.Point;
 import primitives.Vector;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -28,19 +29,39 @@ class SphereTests {
     private static final String ERROR_NORMAL_VALUE = "ERROR: Sphere getNormal() wrong result";
 
     /**
+     * Error message for valid sphere construction
+     */
+    private static final String ERROR_CONSTRUCTION = "ERROR: Failed to construct a valid sphere";
+
+    /**
+     * Test method for {@link geometries.impl.Sphere#Sphere(Point, double)}.
+     */
+    @Test
+    void testConstructor() {
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: Test that a valid sphere is constructed correctly
+        assertDoesNotThrow(() -> new Sphere(new Point(0, 0, 0), 1d), ERROR_CONSTRUCTION);
+
+        // =============== Boundary Values Tests ==================
+        // BV01: Test construction with radius 0
+        assertDoesNotThrow(() -> new Sphere(new Point(0, 0, 0), 0d), ERROR_CONSTRUCTION);
+    }
+
+    /**
      * Test method for {@link geometries.impl.Sphere#getNormal(primitives.Point)}.
      */
     @Test
     void testGetNormal() {
+        Sphere sphere = new Sphere(new Point(0, 0, 0), 1d);
+
         // ============ Equivalence Partitions Tests ==============
         // EP01: Test getNormal with a point on the sphere surface
-        Sphere sphere = new Sphere(new Point(0, 0, 0), 1d);
         Vector result = sphere.getNormal(new Point(1, 0, 0));
-
-        // Ensure |n| = 1
         assertEquals(1d, result.length(), DELTA, ERROR_NORMAL_LENGTH);
-
-        // Ensure the normal is correct (point - center)
         assertEquals(new Vector(1, 0, 0), result, ERROR_NORMAL_VALUE);
+
+        // =============== Boundary Values Tests ==================
+        // BV01: Test getNormal with a point on the sphere surface on a different axis
+        assertEquals(new Vector(0, 1, 0), sphere.getNormal(new Point(0, 1, 0)), ERROR_NORMAL_VALUE);
     }
 }

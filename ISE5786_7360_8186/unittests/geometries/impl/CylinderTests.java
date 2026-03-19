@@ -5,6 +5,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -44,6 +45,30 @@ class CylinderTests {
     private static final String ERROR_BASE_EDGE = "ERROR: fails at base edge";
 
     /**
+     * Error message for valid cylinder construction
+     */
+    private static final String ERROR_CONSTRUCTION = "ERROR: Failed to construct a valid cylinder";
+
+    /**
+     * Test method for {@link geometries.impl.Cylinder#Cylinder(double, primitives.Ray, double)}.
+     */
+    @Test
+    void testConstructor() {
+        Ray axis = new Ray(new Point(0, 0, 1), new Vector(0, 0, 1));
+
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: Test that a valid cylinder is constructed correctly
+        assertDoesNotThrow(() -> new Cylinder(1.0, axis, 2.0), ERROR_CONSTRUCTION);
+
+        // =============== Boundary Values Tests ==================
+        // BV01: Test construction with radius 0
+        assertDoesNotThrow(() -> new Cylinder(0.0, axis, 2.0), ERROR_CONSTRUCTION);
+
+        // BV02: Test construction with height 0
+        assertDoesNotThrow(() -> new Cylinder(1.0, axis, 0.0), ERROR_CONSTRUCTION);
+    }
+
+    /**
      * Test method for {@link geometries.impl.Cylinder#getNormal(primitives.Point)}.
      */
     @Test
@@ -52,29 +77,29 @@ class CylinderTests {
         Cylinder cylinder = new Cylinder(1.0, axis, 2.0);
 
         // ============ Equivalence Partitions Tests ==============
-        // EP01: Point on the round surface (side)
+        // EP01: Test getNormal with a point on the round surface (side)
         Vector resSide = cylinder.getNormal(new Point(1, 0, 1));
         assertEquals(new Vector(1, 0, 0), resSide, ERROR_SIDE);
 
-        // EP02: Point on the lower base (including center)
+        // EP02: Test getNormal with a point on the lower base
         Vector resLow = cylinder.getNormal(new Point(0.5, 0, 0));
         assertEquals(new Vector(0, 0, -1), resLow, ERROR_LOW_BASE);
 
-        // EP03: Point on the upper base
+        // EP03: Test getNormal with a point on the upper base
         Vector resUp = cylinder.getNormal(new Point(0.5, 0, 2));
         assertEquals(new Vector(0, 0, 1), resUp, ERROR_UP_BASE);
 
         // =============== Boundary Values Tests ==================
-        // BV01: Point is the center of the lower base
+        // BV01: Test getNormal at the center of the lower base
         assertEquals(new Vector(0, 0, -1), cylinder.getNormal(new Point(0, 0, 0)), ERROR_BASE_CENTER);
 
-        // BV02: Point is the center of the upper base
+        // BV02: Test getNormal at the center of the upper base
         assertEquals(new Vector(0, 0, 1), cylinder.getNormal(new Point(0, 0, 2)), ERROR_BASE_CENTER);
 
-        // BV03: Point is on the edge of the lower base
+        // BV03: Test getNormal at the edge of the lower base
         assertEquals(new Vector(0, 0, -1), cylinder.getNormal(new Point(1, 0, 0)), ERROR_BASE_EDGE);
 
-        // BV04: Point is on the edge of the upper base
+        // BV04: Test getNormal at the edge of the upper base
         assertEquals(new Vector(0, 0, 1), cylinder.getNormal(new Point(1, 0, 2)), ERROR_BASE_EDGE);
     }
 }

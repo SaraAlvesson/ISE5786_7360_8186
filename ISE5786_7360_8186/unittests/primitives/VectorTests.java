@@ -2,6 +2,7 @@ package primitives;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -20,6 +21,11 @@ class VectorTests {
      * Error message for zero vector construction
      */
     private static final String ERROR_ZERO_VECTOR = "ERROR: Vector(0,0,0) should throw an exception";
+
+    /**
+     * Error message for valid vector construction
+     */
+    private static final String ERROR_VECTOR_CONSTRUCTION = "ERROR: Vector construction should not throw an exception";
 
     /**
      * Error message for length squared calculation
@@ -82,20 +88,28 @@ class VectorTests {
     private static final String ERROR_NORMALIZE = "ERROR: normalize() does not work correctly";
 
     /**
-     * Test method for Vector constructor with coordinates.
+     * Test method for {@link primitives.Vector#Vector(double, double, double)}.
      */
     @Test
     void testVector() {
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: Test that a valid vector is constructed correctly
+        assertDoesNotThrow(() -> new Vector(1, 2, 3), ERROR_VECTOR_CONSTRUCTION);
+
         // =============== Boundary Values Tests ==================
         // BV01: Test that zero vector throws exception
         assertThrows(IllegalArgumentException.class, () -> new Vector(0, 0, 0), ERROR_ZERO_VECTOR);
     }
 
     /**
-     * Test method for Vector constructor with Double3.
+     * Test method for {@link primitives.Vector#Vector(Double3)}.
      */
     @Test
     void testVectorDouble3() {
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: Test that a valid vector is constructed correctly from Double3
+        assertDoesNotThrow(() -> new Vector(new Double3(1, 2, 3)), ERROR_VECTOR_CONSTRUCTION);
+
         // =============== Boundary Values Tests ==================
         // BV01: Test that zero vector from Double3 throws exception
         assertThrows(IllegalArgumentException.class, () -> new Vector(Double3.ZERO), ERROR_ZERO_VECTOR);
@@ -106,9 +120,14 @@ class VectorTests {
      */
     @Test
     void testLengthSquared() {
+        Vector v = new Vector(1, 2, 3);
         // ============ Equivalence Partitions Tests ==============
-        // EP01: Simple length squared
-        assertEquals(14d, new Vector(1, 2, 3).lengthSquared(), DELTA, ERROR_LENGTH_SQ);
+        // EP01: Simple length squared calculation
+        assertEquals(14d, v.lengthSquared(), DELTA, ERROR_LENGTH_SQ);
+
+        // =============== Boundary Values Tests ==================
+        // BV01: Test length squared of a unit vector
+        assertEquals(1d, new Vector(0, 0, 1).lengthSquared(), DELTA, ERROR_LENGTH_SQ);
     }
 
     /**
@@ -116,9 +135,14 @@ class VectorTests {
      */
     @Test
     void testLength() {
+        Vector v = new Vector(0, 3, 4);
         // ============ Equivalence Partitions Tests ==============
-        // EP01: Simple length (Pythagorean triple)
-        assertEquals(5d, new Vector(0, 3, 4).length(), DELTA, ERROR_LENGTH);
+        // EP01: Simple length calculation (Pythagorean triple)
+        assertEquals(5d, v.length(), DELTA, ERROR_LENGTH);
+
+        // =============== Boundary Values Tests ==================
+        // BV01: Test length of a unit vector
+        assertEquals(1d, new Vector(0, 0, 1).length(), DELTA, ERROR_LENGTH);
     }
 
     /**
@@ -162,7 +186,7 @@ class VectorTests {
         assertEquals(new Vector(2, 4, 6), v1.scale(2d), ERROR_SCALE);
 
         // =============== Boundary Values Tests ==================
-        // BV01: Scale by 0
+        // BV01: Scale by 0 should throw exception
         assertThrows(IllegalArgumentException.class, () -> v1.scale(0d), ERROR_SCALE_ZERO);
     }
 
@@ -177,7 +201,7 @@ class VectorTests {
         assertEquals(-28d, v1.dotProduct(new Vector(-2, -4, -6)), DELTA, ERROR_DOT_PRODUCT);
 
         // =============== Boundary Values Tests ==================
-        // BV01: Dot product of orthogonal vectors
+        // BV01: Dot product of orthogonal vectors is zero
         assertEquals(0d, v1.dotProduct(new Vector(0, 3, -2)), DELTA, ERROR_DOT_PRODUCT);
     }
 
@@ -188,15 +212,14 @@ class VectorTests {
     void testCrossProduct() {
         Vector v1 = new Vector(1, 2, 3);
         Vector v2 = new Vector(0, 3, -2);
-        Vector v3 = v1.crossProduct(v2);
-
         // ============ Equivalence Partitions Tests ==============
         // EP01: Test cross product length and orthogonality
+        Vector v3 = v1.crossProduct(v2);
         assertEquals(v1.length() * v2.length(), v3.length(), DELTA, ERROR_CROSS_PRODUCT);
         assertEquals(0d, v3.dotProduct(v1), DELTA, ERROR_CROSS_PRODUCT);
 
         // =============== Boundary Values Tests ==================
-        // BV01: Cross product of parallel vectors
+        // BV01: Cross product of parallel vectors should throw exception
         assertThrows(IllegalArgumentException.class, () -> v1.crossProduct(v1.scale(2)), ERROR_CROSS_PRODUCT_PARALLEL);
     }
 
@@ -206,17 +229,18 @@ class VectorTests {
     @Test
     void testNormalize() {
         Vector v = new Vector(1, 2, 3);
-        Vector u = v.normalize();
-
         // ============ Equivalence Partitions Tests ==============
         // EP01: Normalized vector length is 1
+        Vector u = v.normalize();
         assertEquals(1d, u.length(), DELTA, ERROR_NORMALIZE);
 
-        // EP02: Parallel and same direction
-        // וודא שהם מקבילים (מכפלה וקטורית היא אפס ולכן נזרקת חריגה)
+        // EP02: Parallel and same direction (cross product is zero, dot product is positive)
         assertThrows(IllegalArgumentException.class, () -> v.crossProduct(u), ERROR_CROSS_PRODUCT_PARALLEL);
-
-        // וודא שהם באותו כיוון באמצעות בדיקה שהמכפלה הסקלרית שווה לאורך המקורי
         assertEquals(v.length(), v.dotProduct(u), DELTA, ERROR_NORMALIZE);
+
+        // =============== Boundary Values Tests ==================
+        // BV01: Test normalizing a vector that is already of length 1
+        Vector vUnit = new Vector(0, 0, 1);
+        assertEquals(vUnit, vUnit.normalize(), ERROR_NORMALIZE);
     }
 }

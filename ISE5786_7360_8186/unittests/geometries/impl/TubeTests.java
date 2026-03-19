@@ -5,6 +5,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -27,6 +28,27 @@ class TubeTests {
      * Error message for wrong normal calculation result
      */
     private static final String ERROR_NORMAL_VALUE = "ERROR: getNormal() wrong result";
+
+    /**
+     * Error message for valid tube construction
+     */
+    private static final String ERROR_CONSTRUCTION = "ERROR: Failed to construct a valid tube";
+
+    /**
+     * Test method for {@link geometries.impl.Tube#Tube(double, primitives.Ray)}.
+     */
+    @Test
+    void testConstructor() {
+        Ray axis = new Ray(new Point(0, 0, 1), new Vector(0, 0, 1));
+
+        // ============ Equivalence Partitions Tests ==============
+        // EP01: Test that a valid tube is constructed correctly
+        assertDoesNotThrow(() -> new Tube(1.0, axis), ERROR_CONSTRUCTION);
+
+        // =============== Boundary Values Tests ==================
+        // BV01: Test construction with radius 0
+        assertDoesNotThrow(() -> new Tube(0.0, axis), ERROR_CONSTRUCTION);
+    }
 
     /**
      * Test method for {@link geometries.impl.Tube#getNormal(primitives.Point)}.

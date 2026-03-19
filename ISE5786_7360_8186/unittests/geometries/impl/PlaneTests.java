@@ -54,19 +54,26 @@ class PlaneTests {
     }
 
     /**
-     * Test method for {@link geometries.impl.Plane#Plane(Point, Vector)}.
+     * Test method for {@link geometries.impl.Plane#Plane(primitives.Point, primitives.Vector)}.
      */
     @Test
     void testPlanePointVector() {
+        Point p = new Point(0, 0, 1);
+
         // ============ Equivalence Partitions Tests ==============
         // EP01: Test that the normal is normalized during construction
-        Point p = new Point(0, 0, 1);
-        Plane plane = new Plane(p, new Vector(0, 0, 2));
-        assertEquals(1d, plane.getNormal(p).length(), DELTA, ERROR_NORMAL);
+        assertDoesNotThrow(() -> {
+            Plane plane = new Plane(p, new Vector(0, 0, 2));
+            assertEquals(1d, plane.getNormal(p).length(), DELTA, ERROR_NORMAL);
+        }, ERROR_CONSTRUCTION);
+
+        // =============== Boundary Values Tests ==================
+        // BV01: Test construction with an already normalized vector
+        assertDoesNotThrow(() -> new Plane(p, new Vector(0, 0, 1)), ERROR_CONSTRUCTION);
     }
 
     /**
-     * Test method for {@link geometries.impl.Plane#Plane(Point, Point, Point)}.
+     * Test method for {@link geometries.impl.Plane#Plane(primitives.Point, primitives.Point, primitives.Point)}.
      */
     @Test
     void testPlanePointPointPoint() {
