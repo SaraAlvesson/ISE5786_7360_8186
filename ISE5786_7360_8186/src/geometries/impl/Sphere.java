@@ -26,7 +26,6 @@ public final class Sphere extends RadialGeometry {
 
     @Override
     public Vector getNormal(Point point) {
-        // הנורמל לכדור הוא הווקטור מהמרכז לנקודה שעל פניו
         return point.subtract(_center).normalize();
     }
 

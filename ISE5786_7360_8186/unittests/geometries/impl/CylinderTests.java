@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Unit tests for {@link geometries.impl.Cylinder} class.
  *
- * @author Sara
  */
 class CylinderTests {
     /**

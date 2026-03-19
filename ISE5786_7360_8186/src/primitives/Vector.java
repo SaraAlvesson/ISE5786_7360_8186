@@ -37,13 +37,7 @@ public final class Vector extends Point {
         }
     }
 
-    /**
-     * Adds another vector to this vector.
-     * This method overrides the add method in Point to ensure a Vector is returned.
-     *
-     * @param vector the vector to add
-     * @return a new Vector representing the sum
-     */
+
     @Override
     public Vector add(Vector vector) {
         return new Vector(_xyz.add(vector._xyz));

@@ -4,7 +4,6 @@ package primitives;
 /**
  * Class Point is the basic object for 3D coordinates.
  *
- * @author Your Name
  */
 public class Point {
     /**

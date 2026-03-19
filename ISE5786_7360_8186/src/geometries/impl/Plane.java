@@ -41,12 +41,10 @@ public final class Plane implements Geometry {
     public Plane(Point p1, Point p2, Point p3) {
         _point = p1;
 
-        // יוצרים שני וקטורים מהנקודות
         Vector v1 = p2.subtract(p1);
         Vector v2 = p3.subtract(p1);
 
-        // המכפלה הווקטורית תזרוק IllegalArgumentException אם הווקטורים
-        // מקבילים (כלומר הנקודות על אותו קו או מתלכדות) - בדיוק מה שהטסט מחפש!
+
         _normal = v1.crossProduct(v2).normalize();
     }
 
@@ -59,7 +57,6 @@ public final class Plane implements Geometry {
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (obj instanceof Plane other) {
-            // Handle null for _normal due to the placeholder constructor
             return _point.equals(other._point) &&
                     (_normal == null ? other._normal == null : _normal.equals(other._normal));
         }

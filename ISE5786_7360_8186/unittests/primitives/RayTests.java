@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Unit tests for {@link primitives.Ray} class.
  *
- * @author Sara
  */
 class RayTests {
     /**
