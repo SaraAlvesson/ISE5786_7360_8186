@@ -3,6 +3,7 @@ package geometries.impl;
 import java.util.Objects;
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 
 /**
@@ -27,7 +28,18 @@ public class Tube extends RadialGeometry {
 
     @Override
     public Vector getNormal(Point point) {
-        return null; // To be implemented in later stages
+        Point p0 = _axis.origin();
+        Vector v = _axis.direction();
+
+        double t = v.dotProduct(point.subtract(p0));
+
+        if (Util.isZero(t)) {
+            return point.subtract(p0).normalize();
+        }
+
+        Point o = p0.add(v.scale(t));
+
+        return point.subtract(o).normalize();
     }
 
     @Override

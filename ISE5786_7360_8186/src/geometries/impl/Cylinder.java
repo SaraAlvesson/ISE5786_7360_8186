@@ -3,6 +3,7 @@ package geometries.impl;
 import java.util.Objects;
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 
 import static primitives.Util.isZero;
@@ -32,7 +33,30 @@ public final class Cylinder extends Tube {
 
     @Override
     public Vector getNormal(Point point) {
-        return null; // To be implemented in later stages
+        Point p0 = _axis.origin();
+        Vector v = _axis.direction();
+
+        if (point.equals(p0)) {
+            return v.scale(-1);
+        }
+
+        double t = v.dotProduct(point.subtract(p0));
+
+        if (Util.isZero(t)) {
+            return v.scale(-1);
+        }
+
+        if (Util.isZero(t - _height)) {
+            return v;
+        }
+
+        Point o = p0.add(v.scale(t));
+
+        if (point.equals(o)) {
+            return v;
+        }
+
+        return point.subtract(o).normalize();
     }
 
     @Override

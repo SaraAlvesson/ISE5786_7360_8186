@@ -36,11 +36,18 @@ public final class Plane implements Geometry {
      * @param p1 first point
      * @param p2 second point
      * @param p3 third point
+     * @throws IllegalArgumentException if points are co-linear or overlap
      */
     public Plane(Point p1, Point p2, Point p3) {
         _point = p1;
-        // Calculation logic to be added in later stages
-        _normal = null;
+
+        // יוצרים שני וקטורים מהנקודות
+        Vector v1 = p2.subtract(p1);
+        Vector v2 = p3.subtract(p1);
+
+        // המכפלה הווקטורית תזרוק IllegalArgumentException אם הווקטורים
+        // מקבילים (כלומר הנקודות על אותו קו או מתלכדות) - בדיוק מה שהטסט מחפש!
+        _normal = v1.crossProduct(v2).normalize();
     }
 
     @Override

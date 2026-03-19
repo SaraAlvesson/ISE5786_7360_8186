@@ -4,22 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f23cdba-42a2-494c-a300-83fa17f67ee9" name="Changes" comment="PR01- basic classes and structure">
+    <list default="true" id="3f23cdba-42a2-494c-a300-83fa17f67ee9" name="Changes" comment="PR01- commit for the first tag">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/geometries/impl/CylinderTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/geometries/impl/PlaneTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/geometries/impl/SphereTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/geometries/impl/TriangleTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/geometries/impl/TubeTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/primitives/PointTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/primitives/RayTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/primitives/VectorTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/Geometry.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/Geometry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/ISE5786_7360_8186.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/ISE5786_7360_8186.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Cylinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Cylinder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Plane.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Plane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Polygon.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Polygon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/RadialGeometry.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/RadialGeometry.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Sphere.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Sphere.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Triangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Triangle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Tube.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Tube.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Double3.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Double3.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Point.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Ray.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Ray.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Util.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Vector.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Vector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/test/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/test/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,16 +70,37 @@
     "Application.Main.executor": "Run",
     "Application.PayRoll.executor": "Run",
     "Application.Payroll.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.CylinderTests.executor": "Run",
+    "JUnit.PlaneTests.executor": "Run",
+    "JUnit.PlaneTests.testPlanePointPointPoint.executor": "Run",
+    "JUnit.PointTests.executor": "Run",
+    "JUnit.PointTests.testDistance.executor": "Run",
+    "JUnit.PointTests.testDistanceSquared.executor": "Run",
+    "JUnit.PointTests.testSubtract.executor": "Run",
+    "JUnit.PolygonTests.executor": "Run",
+    "JUnit.RayTests.executor": "Run",
+    "JUnit.RayTests.testRay.executor": "Run",
+    "JUnit.SphereTests.executor": "Run",
+    "JUnit.TriangleTests.executor": "Run",
+    "JUnit.TriangleTests.testGetNormal.executor": "Run",
+    "JUnit.TubeTests.executor": "Run",
+    "JUnit.TubeTests.testGetNormal.executor": "Run",
+    "JUnit.VectorTests.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/saraa/source/repos/ISE5786_7360_8186",
     "onboarding.tips.debug.path": "C:/Users/saraa/IdeaProjects/Homework1/src/Main.java",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Libraries",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "File.Encoding"
@@ -92,39 +114,90 @@
       <recent name="C:\Users\saraa\source\repos\IdeaProjects\Homework1\ex0_SarahAlvesson" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.Main" />
+  <component name="RunManager" selected="JUnit.VectorTests">
+    <configuration name="PlaneTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE5786_7360_8186" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="test.*" />
+          <option name="PATTERN" value="geometries.impl.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <option name="PACKAGE_NAME" value="geometries.impl" />
+      <option name="MAIN_CLASS_NAME" value="geometries.impl.PlaneTests" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PayRoll" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="PayRoll" />
-      <module name="ex0_ShiraShoval" />
+    <configuration name="SphereTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ISE5786_7360_8186" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="geometries.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="geometries.impl" />
+      <option name="MAIN_CLASS_NAME" value="geometries.impl.SphereTests" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Payroll" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="Payroll" />
-      <module name="ex0_SarahAlvesson" />
+    <configuration name="TriangleTests.testGetNormal" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ISE5786_7360_8186" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="geometries.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="geometries.impl" />
+      <option name="MAIN_CLASS_NAME" value="geometries.impl.TriangleTests" />
+      <option name="METHOD_NAME" value="testGetNormal" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TubeTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ISE5786_7360_8186" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="geometries.impl.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="geometries.impl" />
+      <option name="MAIN_CLASS_NAME" value="geometries.impl.TubeTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VectorTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ISE5786_7360_8186" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="primitives.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="primitives" />
+      <option name="MAIN_CLASS_NAME" value="primitives.VectorTests" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
-        <item itemvalue="Application.PayRoll" />
-        <item itemvalue="Application.Payroll" />
+        <item itemvalue="JUnit.VectorTests" />
+        <item itemvalue="JUnit.TubeTests" />
+        <item itemvalue="JUnit.TriangleTests.testGetNormal" />
+        <item itemvalue="JUnit.SphereTests" />
+        <item itemvalue="JUnit.PlaneTests" />
       </list>
     </recent_temporary>
   </component>
@@ -168,7 +241,15 @@
       <option name="project" value="LOCAL‎" />
       <updated>1773063468485</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL‎-00005" summary="PR01- commit for the first tag">
+      <option name="closed" value="true" />
+      <created>1773605967369</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL‎-00005" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1773605967369</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -179,7 +260,8 @@
     <MESSAGE value="add Shira Shoval Ex0" />
     <MESSAGE value="Project_Created" />
     <MESSAGE value="PR01- basic classes and structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="PR01- basic classes and structure" />
+    <MESSAGE value="PR01- commit for the first tag" />
+    <option name="LAST_COMMIT_MESSAGE" value="PR01- commit for the first tag" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

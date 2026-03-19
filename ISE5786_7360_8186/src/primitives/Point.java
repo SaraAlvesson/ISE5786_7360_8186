@@ -98,3 +98,4 @@ public class Point {
         return new Vector(_xyz.subtract(other._xyz));
     }
 }
+
