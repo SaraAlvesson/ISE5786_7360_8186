@@ -87,4 +87,9 @@ public class Polygon implements Geometry {
     public Vector getNormal(Point point) {
         return _plane.getNormal(point);
     }
+
+    @Override
+    public String toString() {
+        return "vertices=" + _vertices;
+    }
 }

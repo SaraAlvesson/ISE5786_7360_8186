@@ -75,6 +75,6 @@ public final class Cylinder extends Tube {
 
     @Override
     public String toString() {
-        return "Cylinder: height=" + _height + ", " + super.toString();
+        return "Cylinder: height=" + _height + ", axis=" + _axis + ", radius=" + _radius;
     }
 }

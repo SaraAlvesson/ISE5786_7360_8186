@@ -64,6 +64,6 @@ public final class Ray {
 
     @Override
     public String toString() {
-        return "Ray: origin=" + _origin + ", direction=" + _direction;
+        return "Ray: " + _origin + " " + _direction;
     }
 }
