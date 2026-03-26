@@ -3,10 +3,10 @@ package geometries.impl;
 import geometries.api.Geometry;
 import java.util.List;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
 import static primitives.Util.isZero;
-
 
 /**
  * Represents a convex polygon in a 3D Cartesian coordinate system.
@@ -21,7 +21,7 @@ import static primitives.Util.isZero;
  *
  * @author Dan Zilberstein
  */
-public class Polygon implements Geometry {
+public class Polygon extends Geometry {
     /**
      * Ordered list of polygon vertices
      */
@@ -49,7 +49,7 @@ public class Polygon implements Geometry {
      *
      * @param vertices polygon vertices in edge order
      * @throws IllegalArgumentException if the vertices do not form a valid convex
-     *                                  polygon
+     * polygon
      */
     public Polygon(Point... vertices) {
         if (vertices.length < 3)
@@ -86,6 +86,11 @@ public class Polygon implements Geometry {
     @Override
     public Vector getNormal(Point point) {
         return _plane.getNormal(point);
+    }
+
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        return null; // Skeleton for TDD stage
     }
 
     @Override

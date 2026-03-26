@@ -2,11 +2,11 @@ package geometries.impl;
 
 import org.junit.jupiter.api.Test;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for class {@link Polygon}.
@@ -59,10 +59,6 @@ class PolygonTests {
      */
     private static final double DELTA = 1e-6;
 
-    /**
-     * Error message for wrong plane intersection
-     */
-    private static final String ERROR_PLANE = "ERROR: wrong intersection with plane";
     /**
      * Error message for wrong polygon intersection
      */
@@ -129,5 +125,50 @@ class PolygonTests {
             Vector edge = pts[i].subtract(pts[i == 0 ? pts.length - 1 : i - 1]);
             assertEquals(0d, result.dotProduct(edge), DELTA, "Polygon normal is not orthogonal to an edge");
         }
+    }
+
+    /**
+     * Test method for {@link geometries.impl.Polygon#findIntersections(primitives.Ray)}.
+     */
+    @Test
+    void testFindIntersections() {
+        Polygon poly = new Polygon(
+                new Point(0, 0, 1),
+                new Point(2, 0, 1),
+                new Point(2, 2, 1),
+                new Point(0, 2, 1)
+        );
+        Ray ray;
+
+        // ============ Equivalence Partitions Tests ==============
+
+        // EP01: Inside polygon (1 point)
+        ray = new Ray(new Point(1, 1, 0), new Vector(0, 0, 1));
+        List<Point> result = poly.findIntersections(ray);
+        assertNotNull(result, ERROR_POLYGON);
+        assertEquals(1, result.size(), ERROR_POLYGON);
+        assertEquals(new Point(1, 1, 1), result.get(0), ERROR_POLYGON);
+
+        // EP02: Outside against edge (0 points)
+        ray = new Ray(new Point(3, 1, 0), new Vector(0, 0, 1));
+        assertNull(poly.findIntersections(ray), ERROR_POLYGON);
+
+        // EP03: Outside against vertex (0 points)
+        ray = new Ray(new Point(-1, -1, 0), new Vector(0, 0, 1));
+        assertNull(poly.findIntersections(ray), ERROR_POLYGON);
+
+        // =============== Boundary Values Tests ==================
+
+        // BV01: On edge (0 points)
+        ray = new Ray(new Point(1, 0, 0), new Vector(0, 0, 1));
+        assertNull(poly.findIntersections(ray), "Point on edge should return null");
+
+        // BV02: In vertex (0 points)
+        ray = new Ray(new Point(0, 0, 0), new Vector(0, 0, 1));
+        assertNull(poly.findIntersections(ray), "Point in vertex should return null");
+
+        // BV03: On edge continuation (0 points)
+        ray = new Ray(new Point(3, 0, 0), new Vector(0, 0, 1));
+        assertNull(poly.findIntersections(ray), "Point on edge continuation should return null");
     }
 }

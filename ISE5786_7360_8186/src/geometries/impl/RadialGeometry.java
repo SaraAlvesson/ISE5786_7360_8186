@@ -9,7 +9,7 @@ import static primitives.Util.isZero;
  * Abstract class for all geometric shapes that have a radius.
  * This class serves as a base for radial geometries like Sphere, Tube, and Cylinder.
  */
-public abstract class RadialGeometry implements Geometry {
+public abstract class RadialGeometry extends Geometry {
     /**
      * The radius of the geometry
      */

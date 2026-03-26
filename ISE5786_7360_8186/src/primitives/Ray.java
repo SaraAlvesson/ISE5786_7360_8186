@@ -25,12 +25,11 @@ public final class Ray {
      */
     public Ray(Point origin, Vector direction) {
         _origin = origin;
-        _direction = direction.normalize(); // Ensure direction is normalized
+        _direction = direction.normalize();
     }
 
     /**
      * Getter for the direction vector.
-     * Note: This method is required by the provided Main.java test.
      *
      * @return the normalized direction vector
      */
@@ -47,6 +46,15 @@ public final class Ray {
         return _origin;
     }
 
+    /**
+     * Calculates a point on the ray at a given distance t from the origin.
+     *
+     * @param t the distance from the origin
+     * @return the point on the ray
+     */
+    public Point getPoint(double t) {
+        return _origin.add(_direction.scale(t));
+    }
 
     @Override
     public boolean equals(Object obj) {

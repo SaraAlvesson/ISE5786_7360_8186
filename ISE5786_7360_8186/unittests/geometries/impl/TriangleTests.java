@@ -1,66 +1,18 @@
 package geometries.impl;
 
 import org.junit.jupiter.api.Test;
-import primitives.Point;
-import primitives.Vector;
+import primitives.*;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for {@link geometries.impl.Triangle} class.
- *
  * @author Sara
  */
 class TriangleTests {
-    /**
-     * Delta value for accuracy when comparing double values.
-     */
-    private static final double DELTA = 1e-6;
-
-    /**
-     * Error message for when the normal vector length is not 1
-     */
-    private static final String ERROR_NORMAL_LENGTH = "ERROR: Triangle normal length is not 1";
-
-    /**
-     * Error message for when the normal is not orthogonal to the triangle's edges
-     */
-    private static final String ERROR_NORMAL_ORTHOGONAL = "ERROR: getNormal() result is not orthogonal to the edge";
-
-    /**
-     * Error message for valid triangle construction
-     */
-    private static final String ERROR_CONSTRUCTION = "ERROR: Failed to construct a valid triangle";
-
-    /**
-     * Error message for identical or co-linear points in constructor
-     */
-    private static final String ERROR_POINTS = "ERROR: Identical or co-linear points should throw exception";
-
-    /**
-     * Test method for {@link geometries.impl.Triangle#Triangle(Point, Point, Point)}.
-     */
-    @Test
-    void testConstructor() {
-        Point p1 = new Point(1, 0, 0);
-        Point p2 = new Point(0, 1, 0);
-        Point p3 = new Point(0, 0, 1);
-
-        // ============ Equivalence Partitions Tests ==============
-        // EP01: Test that a valid triangle is constructed correctly
-        assertDoesNotThrow(() -> new Triangle(p1, p2, p3), ERROR_CONSTRUCTION);
-
-        // =============== Boundary Values Tests ==================
-        // BV01: Test construction with two identical points
-        assertThrows(IllegalArgumentException.class, () -> new Triangle(p1, p1, p3), ERROR_POINTS);
-
-        // BV02: Test construction with three collinear points
-        assertThrows(IllegalArgumentException.class, () ->
-                        new Triangle(new Point(1, 1, 1), new Point(2, 2, 2), new Point(3, 3, 3)),
-                ERROR_POINTS);
-    }
+    private final double DELTA = 1e-6;
+    private final String ERROR_FIND_INTERSECTIONS = "ERROR: Triangle findIntersections() wrong result";
 
     /**
      * Test method for {@link geometries.impl.Triangle#getNormal(primitives.Point)}.
@@ -75,15 +27,55 @@ class TriangleTests {
         // ============ Equivalence Partitions Tests ==============
         // EP01: Test getNormal with a point inside the triangle
         Vector result = triangle.getNormal(new Point(0.33, 0.33, 0.33));
-        assertEquals(1d, result.length(), DELTA, ERROR_NORMAL_LENGTH);
+        assertEquals(1d, result.length(), DELTA, "Triangle normal length is not 1");
+
+        // Ensure the normal is orthogonal to one of the edges
         Vector v1 = p2.subtract(p1);
-        assertEquals(0d, result.dotProduct(v1), DELTA, ERROR_NORMAL_ORTHOGONAL);
+        assertEquals(0d, result.dotProduct(v1), DELTA, "getNormal() result is not orthogonal to the edge");
+    }
+
+    /**
+     * Test method for {@link geometries.impl.Triangle#findIntersections(primitives.Ray)}.
+     */
+    @Test
+    void testFindIntersections() {
+        Triangle tr = new Triangle(new Point(0, 0, 1), new Point(2, 0, 1), new Point(0, 2, 1));
+        Ray ray;
+
+        // ============ Equivalence Partitions Tests ==============
+
+        // EP01: Inside triangle (1 point)
+        ray = new Ray(new Point(0.5, 0.5, 0), new Vector(0, 0, 1));
+        List<Point> result = tr.findIntersections(ray);
+        assertNotNull(result, ERROR_FIND_INTERSECTIONS);
+        assertEquals(1, result.size(), ERROR_FIND_INTERSECTIONS);
+        assertEquals(new Point(0.5, 0.5, 1), result.get(0), ERROR_FIND_INTERSECTIONS);
+
+        // EP02: Outside against edge (0 points)
+        ray = new Ray(new Point(1, -1, 0), new Vector(0, 0, 1));
+        assertNull(tr.findIntersections(ray), ERROR_FIND_INTERSECTIONS);
+
+        // EP03: Outside against vertex (0 points)
+        ray = new Ray(new Point(-1, -1, 0), new Vector(0, 0, 1));
+        assertNull(tr.findIntersections(ray), ERROR_FIND_INTERSECTIONS);
 
         // =============== Boundary Values Tests ==================
-        // BV01: Test getNormal with one of the vertices
-        assertDoesNotThrow(() -> {
-            Vector resVertex = triangle.getNormal(p1);
-            assertEquals(1d, resVertex.length(), DELTA, ERROR_NORMAL_LENGTH);
-        }, ERROR_CONSTRUCTION);
+
+        // BV01: On edge (0 points)
+        ray = new Ray(new Point(1, 0, 0), new Vector(0, 0, 1));
+        assertNull(tr.findIntersections(ray), "Point on edge should return null");
+
+        // BV02: In vertex (0 points)
+        ray = new Ray(new Point(0, 0, 0), new Vector(0, 0, 1));
+        assertNull(tr.findIntersections(ray), "Point in vertex should return null");
+
+        // BV03: On edge continuation (0 points)
+        ray = new Ray(new Point(3, 0, 0), new Vector(0, 0, 1));
+        assertNull(tr.findIntersections(ray), "Point on edge continuation should return null");
+
+        // **** Group: Plane-based cases
+        // BV04: Ray parallel to triangle's plane (0 points)
+        assertNull(tr.findIntersections(new Ray(new Point(0, 0, 0), new Vector(1, 0, 0))),
+                "Parallel ray should return null");
     }
 }

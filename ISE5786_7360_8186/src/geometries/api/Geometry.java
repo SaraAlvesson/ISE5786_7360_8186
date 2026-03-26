@@ -4,14 +4,15 @@ import primitives.Point;
 import primitives.Vector;
 
 /**
- * Interface for all geometric shapes
+ * Abstract class for all geometric shapes.
+ * Inherits from Intersectable to allow intersection calculations.
  */
-public interface Geometry {
+public abstract class Geometry extends Intersectable {
     /**
-     * Get the normal vector to the shape at a specific point
+     * Get the normal vector to the shape at a specific point.
      *
      * @param point point on the surface
      * @return normal vector
      */
-    Vector getNormal(Point point);
+    public abstract Vector getNormal(Point point);
 }

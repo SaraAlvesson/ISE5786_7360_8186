@@ -1,15 +1,19 @@
 package geometries.impl;
 
 import geometries.api.Geometry;
+import java.util.List;
 import java.util.Objects;
 import primitives.Point;
+import primitives.Ray;
 import primitives.Vector;
 
+import static primitives.Util.alignZero;
+import static primitives.Util.isZero;
 
 /**
  * Class Plane represents a 2D plane in 3D space, defined by a point and a normal vector.
  */
-public final class Plane implements Geometry {
+public final class Plane extends Geometry {
     /**
      * A point on the plane
      */
@@ -44,13 +48,51 @@ public final class Plane implements Geometry {
         Vector v1 = p2.subtract(p1);
         Vector v2 = p3.subtract(p1);
 
-
         _normal = v1.crossProduct(v2).normalize();
     }
 
     @Override
     public Vector getNormal(Point point) {
         return _normal;
+    }
+
+    /**
+     * Finds intersections of a ray with the plane.
+     *
+     * @param ray the ray to intersect with the plane
+     * @return list of intersection points, or null if there are no intersections
+     */
+    @Override
+    public List<Point> findIntersections(Ray ray) {
+        Point p0 = ray.origin();
+        Vector v = ray.direction();
+        Vector n = _normal;
+
+        // n * v
+        double nv = n.dotProduct(v);
+
+        // Ray is parallel to the plane
+        if (isZero(nv)) {
+            return null;
+        }
+
+        // If the ray starts at the plane reference point
+        if (_point.equals(p0)) {
+            return null;
+        }
+
+        // n * (Q0 - P0)
+        double nQMinusP0 = n.dotProduct(_point.subtract(p0));
+
+        // t = Numerator / Denominator
+        double t = alignZero(nQMinusP0 / nv);
+
+        // Intersection must be in the ray's direction (t > 0)
+        if (t <= 0) {
+            return null;
+        }
+
+        return List.of(ray.getPoint(t));
     }
 
     @Override
