@@ -1,5 +1,5 @@
 package primitives;
-
+import static primitives.Util.*;
 import java.util.Objects;
 
 /**
@@ -52,10 +52,15 @@ public final class Ray {
      * @param t the distance from the origin
      * @return the point on the ray
      */
+    /**
+     * Calculates a point on the ray at distance t from the origin.
+     * Handles t=0 safely to avoid zero vector creation.
+     * * @param t distance from origin (positive, negative or zero)
+     * @return the point P = P0 + t*v
+     */
     public Point getPoint(double t) {
-        return _origin.add(_direction.scale(t));
+        return isZero(t) ? _origin : _origin.add(_direction.scale(t));
     }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

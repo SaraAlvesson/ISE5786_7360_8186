@@ -1,9 +1,9 @@
 package primitives;
 
+import java.util.Objects;
 
 /**
  * Class Point is the basic object for 3D coordinates.
- *
  */
 public class Point {
     /**
@@ -35,6 +35,34 @@ public class Point {
     public Point(Double3 xyz) {
         _xyz = xyz;
     }
+
+    // ========== הגטרים החדשים שהוספנו ==========
+
+    /**
+     * Getter for x coordinate
+     * @return the x coordinate value
+     */
+    public double getX() {
+        return _xyz._d1();
+    }
+
+    /**
+     * Getter for y coordinate
+     * @return the y coordinate value
+     */
+    public double getY() {
+        return _xyz._d2();
+    }
+
+    /**
+     * Getter for z coordinate
+     * @return the z coordinate value
+     */
+    public double getZ() {
+        return _xyz._d3();
+    }
+
+    // ==========================================
 
     @Override
     public boolean equals(Object obj) {
@@ -97,4 +125,3 @@ public class Point {
         return new Vector(_xyz.subtract(other._xyz));
     }
 }
-

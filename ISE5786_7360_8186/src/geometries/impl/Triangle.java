@@ -23,7 +23,8 @@ public final class Triangle extends Polygon {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        return null; // Skeleton for TDD stage
+        // Use polygon implementation to handle plane intersection and boundary checks
+        return super.findIntersections(ray);
     }
 
     @Override
