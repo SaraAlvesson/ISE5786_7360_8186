@@ -45,21 +45,18 @@ public final class Ray {
     public Point origin() {
         return _origin;
     }
-
-    /**
-     * Calculates a point on the ray at a given distance t from the origin.
-     *
-     * @param t the distance from the origin
-     * @return the point on the ray
-     */
     /**
      * Calculates a point on the ray at distance t from the origin.
-     * Handles t=0 safely to avoid zero vector creation.
-     * * @param t distance from origin (positive, negative or zero)
+     * @param t distance from origin (positive, negative or zero)
      * @return the point P = P0 + t*v
      */
     public Point getPoint(double t) {
-        return isZero(t) ? _origin : _origin.add(_direction.scale(t));
+        if (isZero(t)) return _origin;
+        try {
+            return _origin.add(_direction.scale(t));
+        } catch (IllegalArgumentException ignore) {
+            return _origin; // מחזיר את ראשית הקרן אם נוצר וקטור אפס
+        }
     }
     @Override
     public boolean equals(Object obj) {

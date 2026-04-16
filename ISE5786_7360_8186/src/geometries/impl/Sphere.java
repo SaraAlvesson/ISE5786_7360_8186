@@ -11,6 +11,7 @@ import static primitives.Util.isZero;
 
 /**
  * Class Sphere represents a sphere in 3D space, defined by a center point and a radius.
+ * @author Sara
  */
 public final class Sphere extends RadialGeometry {
     /**
@@ -20,7 +21,6 @@ public final class Sphere extends RadialGeometry {
 
     /**
      * Constructor to initialize Sphere with a center point and a radius.
-     *
      * @param center the center point of the sphere
      * @param radius the radius of the sphere
      */
@@ -44,17 +44,17 @@ public final class Sphere extends RadialGeometry {
         try {
             u = _center.subtract(p0);
         } catch (IllegalArgumentException ignore) {
-            // If p0 is at the center of the sphere
+            // If p0 is at the center of the sphere, return the point at radius distance [cite: 1, 150]
             return List.of(ray.getPoint(_radius));
         }
 
         // tm = v * u
         double tm = alignZero(v.dotProduct(u));
 
-        // d = sqrt(|u|^2 - tm^2)
+        // d^2 = |u|^2 - tm^2
         double dSquared = alignZero(u.lengthSquared() - tm * tm);
 
-        // If distance squared is greater than or equal to radius squared, no intersections
+        // If distance squared is greater than or equal to radius squared, no intersections [cite: 1, 132, 153]
         if (dSquared >= _radiusSquared) {
             return null;
         }
@@ -65,20 +65,20 @@ public final class Sphere extends RadialGeometry {
         double t1 = alignZero(tm - th);
         double t2 = alignZero(tm + th);
 
-        // We only return intersections where t > 0
+        // We only return intersections where t > 0 (in the direction of the ray) [cite: 1, 54]
         if (t1 <= 0 && t2 <= 0) {
             return null;
         }
 
+        // Case: Two intersection points
         if (t1 > 0 && t2 > 0) {
-            return List.of(ray.getPoint(t1), ray.getPoint(t2));
+            // Sorting: points must be ordered by distance from ray origin
+            return t1 < t2 ? List.of(ray.getPoint(t1), ray.getPoint(t2))
+                    : List.of(ray.getPoint(t2), ray.getPoint(t1));
         }
 
-        if (t1 > 0) {
-            return List.of(ray.getPoint(t1));
-        }
-
-        return List.of(ray.getPoint(t2));
+        // Case: One intersection point
+        return t1 > 0 ? List.of(ray.getPoint(t1)) : List.of(ray.getPoint(t2));
     }
 
     @Override

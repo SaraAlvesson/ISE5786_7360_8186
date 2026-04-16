@@ -2,6 +2,7 @@ package geometries.impl;
 
 import java.util.List;
 import java.util.Objects;
+
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -11,6 +12,7 @@ import static primitives.Util.isZero;
 
 /**
  * Class Tube represents an infinite tube in 3D space, defined by an axis ray and a radius.
+ * @author Sara
  */
 public class Tube extends RadialGeometry {
     /**
@@ -20,7 +22,6 @@ public class Tube extends RadialGeometry {
 
     /**
      * Constructor to initialize Tube with radius and axis ray.
-     *
      * @param radius the radius of the tube
      * @param axis   the axis ray of the tube
      */
@@ -36,11 +37,12 @@ public class Tube extends RadialGeometry {
 
         double t = v.dotProduct(point.subtract(p0));
 
+        // If the projection is exactly at the ray's origin
         if (isZero(t)) {
             return point.subtract(p0).normalize();
         }
 
-        Point o = p0.add(v.scale(t));
+        Point o = _axis.getPoint(t);
         return point.subtract(o).normalize();
     }
 
@@ -51,52 +53,53 @@ public class Tube extends RadialGeometry {
         Point p0 = ray.origin();
         Point pa = _axis.origin();
 
-        // Vector orthogonal to axis: v - (v * va) * va
-        double vva = v.dotProduct(va);
-        Vector vMinusVvaVa = v;
-        if (!isZero(vva)) {
-            vMinusVvaVa = v.subtract(va.scale(vva));
+        double vVa = alignZero(v.dotProduct(va));
+
+        Vector vOrth;
+        try {
+            vOrth = v.subtract(va.scale(vVa));
+        } catch (IllegalArgumentException e) {
+            // Ray is parallel to the tube axis
+            return null;
         }
 
-        // a = (v - (v*va)va)^2
-        double a = vMinusVvaVa.lengthSquared();
-
-        // Ray is parallel to axis
+        double a = alignZero(vOrth.lengthSquared());
         if (isZero(a)) return null;
 
-        Vector deltaP = null;
+        Vector deltaP;
         try {
             deltaP = p0.subtract(pa);
         } catch (IllegalArgumentException e) {
-            // Ray starts at axis origin
-            double b = 0;
-            double c = -_radius * _radius;
-            double disc = -4 * a * c;
-            double t = Math.sqrt(disc) / (2 * a);
-            return List.of(ray.getPoint(t));
+            // Ray starts on the tube axis origin
+            double t = alignZero(Math.sqrt(_radiusSquared / a));
+            return t > 0 ? List.of(ray.getPoint(t)) : null;
         }
 
-        // Vector orthogonal to axis: deltaP - (deltaP * va) * va
-        double dpva = deltaP.dotProduct(va);
-        Vector dpMinusDpvaVa = deltaP;
-        if (!isZero(dpva)) {
-            dpMinusDpvaVa = deltaP.subtract(va.scale(dpva));
+        double dpVa = alignZero(deltaP.dotProduct(va));
+
+        Vector dpOrth;
+        try {
+            dpOrth = deltaP.subtract(va.scale(dpVa));
+        } catch (IllegalArgumentException e) {
+            // deltaP is parallel to axis => orthogonal component is zero
+            dpOrth = null;
         }
 
-        // b = 2 * (v - (v*va)va) * (deltaP - (deltaP*va)va)
-        double b = 2 * vMinusVvaVa.dotProduct(dpMinusDpvaVa);
-        // c = (deltaP - (deltaP*va)va)^2 - r^2
-        double c = dpMinusDpvaVa.lengthSquared() - _radius * _radius;
+        double b = dpOrth == null ? 0 : alignZero(2 * vOrth.dotProduct(dpOrth));
+        double c = alignZero((dpOrth == null ? 0 : dpOrth.lengthSquared()) - _radiusSquared);
 
-        // Solve quadratic equation: at^2 + bt + c = 0
-        double disc = b * b - 4 * a * c;
-        if (disc <= 0) return null; // No real roots
+        double discriminant = alignZero(b * b - 4 * a * c);
+        if (discriminant <= 0) return null; // no intersections or tangent
 
-        double sqrtDisc = Math.sqrt(disc);
-        double t1 = alignZero((-b - sqrtDisc) / (2 * a));
-        double t2 = alignZero((-b + sqrtDisc) / (2 * a));
+        double sqrtDiscriminant = Math.sqrt(discriminant);
+        double t1 = alignZero((-b - sqrtDiscriminant) / (2 * a));
+        double t2 = alignZero((-b + sqrtDiscriminant) / (2 * a));
 
-        if (t1 > 0 && t2 > 0) return List.of(ray.getPoint(t1), ray.getPoint(t2));
+        if (t1 > 0 && t2 > 0) {
+            return t1 < t2
+                    ? List.of(ray.getPoint(t1), ray.getPoint(t2))
+                    : List.of(ray.getPoint(t2), ray.getPoint(t1));
+        }
         if (t1 > 0) return List.of(ray.getPoint(t1));
         if (t2 > 0) return List.of(ray.getPoint(t2));
 
@@ -119,6 +122,6 @@ public class Tube extends RadialGeometry {
 
     @Override
     public String toString() {
-        return "Tube: axis=" + _axis + ", " + super.toString();
+        return "Tube: axis=" + _axis + ", radius=" + _radius;
     }
 }

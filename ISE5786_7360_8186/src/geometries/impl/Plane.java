@@ -56,12 +56,6 @@ public final class Plane extends Geometry {
         return _normal;
     }
 
-    /**
-     * Finds intersections of a ray with the plane.
-     *
-     * @param ray the ray to intersect with the plane
-     * @return list of intersection points, or null if there are no intersections
-     */
     @Override
     public List<Point> findIntersections(Ray ray) {
         Point p0 = ray.origin();
