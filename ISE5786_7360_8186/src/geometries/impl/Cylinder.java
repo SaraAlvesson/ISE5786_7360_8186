@@ -3,9 +3,9 @@ package geometries.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 import primitives.Point;
 import primitives.Ray;
-import primitives.Util;
 import primitives.Vector;
 
 import static primitives.Util.alignZero;
@@ -14,6 +14,7 @@ import static primitives.Util.isZero;
 /**
  * Class Cylinder represents a finite cylinder in 3D space, defined by a radius,
  * an axis ray, and a height.
+ *
  * @author Sara
  */
 public final class Cylinder extends Tube {
@@ -39,85 +40,143 @@ public final class Cylinder extends Tube {
         Point p0 = _axis.origin();
         Vector v = _axis.direction();
 
-        // If the point is at the center of the bottom base
         if (point.equals(p0)) {
             return v.scale(-1);
         }
 
         double t = alignZero(v.dotProduct(point.subtract(p0)));
 
-        // If the point is on the bottom base
         if (isZero(t)) {
             return v.scale(-1);
         }
 
-        // If the point is on the top base
         if (isZero(t - _height)) {
             return v;
         }
 
-        // Otherwise, it's on the side surface (using Tube logic)
-        Point o = _axis.getPoint(t); // Using getPoint refactoring
+        Point o = _axis.getPoint(t);
         return point.subtract(o).normalize();
     }
 
     @Override
     public List<Point> findIntersections(Ray ray) {
-        List<Point> result = new ArrayList<>();
-        Vector v = ray.direction();
-        Point p0 = ray.origin();
+        List<Point> result = null;
 
-        Point p1 = _axis.origin();
-        Point p2 = _axis.getPoint(_height); // Refactoring: using getPoint() [cite: 1, 81]
-        Vector va = _axis.direction();
+        Point baseCenter1 = _axis.origin();
+        Point baseCenter2 = _axis.getPoint(_height);
+        Vector axisDir = _axis.direction();
 
-        // 1. Check intersections with the two bases
-        double nv = va.dotProduct(v);
-        if (!isZero(nv)) {
-            // Lower base intersection
-            double t1 = alignZero(va.dotProduct(p1.subtract(p0)) / nv);
-            if (t1 > 0) {
-                Point p = ray.getPoint(t1);
-                if (alignZero(p.distanceSquared(p1) - _radiusSquared) <= 0) {
-                    result.add(p);
+        Point rayP0 = ray.origin();
+        Vector rayDir = ray.direction();
+
+        // Special case: ray parallel to cylinder axis
+        double dirDotAxis = alignZero(rayDir.dotProduct(axisDir));
+        if (isZero(Math.abs(dirDotAxis) - 1)) {
+            double dist2;
+            try {
+                Vector delta = rayP0.subtract(baseCenter1);
+                Vector radial = delta.subtract(axisDir.scale(delta.dotProduct(axisDir)));
+                dist2 = radial.lengthSquared();
+            } catch (IllegalArgumentException ex) {
+                dist2 = 0;
+            }
+
+            // Outside or tangent to side -> no intersections
+            if (alignZero(dist2 - _radiusSquared) >= 0) {
+                return null;
+            }
+
+            double tBottom = alignZero(axisDir.dotProduct(baseCenter1.subtract(rayP0)) / dirDotAxis);
+            double tTop = alignZero(axisDir.dotProduct(baseCenter2.subtract(rayP0)) / dirDotAxis);
+
+            if (tBottom > 0) {
+                result = new ArrayList<>();
+                result.add(ray.getPoint(tBottom));
+            }
+            if (tTop > 0) {
+                if (result == null) result = new ArrayList<>();
+                result.add(ray.getPoint(tTop));
+            }
+
+            if (result != null && result.size() == 2) {
+                if (rayP0.distanceSquared(result.get(0)) > rayP0.distanceSquared(result.get(1))) {
+                    Point temp = result.get(0);
+                    result.set(0, result.get(1));
+                    result.set(1, temp);
                 }
             }
 
-            // Upper base intersection
-            double t2 = alignZero(va.dotProduct(p2.subtract(p0)) / nv);
-            if (t2 > 0) {
-                Point p = ray.getPoint(t2);
-                if (alignZero(p.distanceSquared(p2) - _radiusSquared) <= 0) {
-                    result.add(p);
-                }
-            }
+            return result;
         }
 
-        // 2. Check intersections with the side surface (delegating to Tube)
-        // Only if we haven't already found 2 points on the bases
-        if (result.size() < 2) {
-            List<Point> tubeIntersections = super.findIntersections(ray);
-            if (tubeIntersections != null) {
-                for (Point p : tubeIntersections) {
-                    double t = alignZero(va.dotProduct(p.subtract(p1)));
-                    // Check if the intersection point is within the cylinder height range
-                    if (t > 0 && t < _height) {
-                        result.add(p);
+        // Intersections with the two bases
+        double nv = alignZero(axisDir.dotProduct(rayDir));
+
+        if (!isZero(nv)) {
+            // Bottom base
+            double t1 = alignZero(axisDir.dotProduct(baseCenter1.subtract(rayP0)) / nv);
+            if (t1 > 0) {
+                Point p1 = ray.getPoint(t1);
+                if (alignZero(p1.distanceSquared(baseCenter1) - _radiusSquared) <= 0) {
+                    result = new ArrayList<>();
+                    result.add(p1);
+                }
+            }
+
+            // Top base
+            double t2 = alignZero(axisDir.dotProduct(baseCenter2.subtract(rayP0)) / nv);
+            if (t2 > 0) {
+                Point p2 = ray.getPoint(t2);
+                if (alignZero(p2.distanceSquared(baseCenter2) - _radiusSquared) <= 0) {
+                    if (result == null) {
+                        result = new ArrayList<>();
+                        result.add(p2);
+                    } else if (!result.contains(p2)) {
+                        result.add(p2);
                     }
                 }
             }
         }
 
-        return result.isEmpty() ? null : result; // Return null if no intersections found [cite: 1, 27]
+        // Intersections with the side surface
+        if (result == null || result.size() < 2) {
+            List<Point> tubeIntersections = super.findIntersections(ray);
+            if (tubeIntersections != null) {
+                for (Point p : tubeIntersections) {
+                    double projection = alignZero(axisDir.dotProduct(p.subtract(baseCenter1)));
+
+                    // Include joint points with bases as valid intersections
+                    if (projection >= 0 && projection <= _height) {
+                        if (result == null) {
+                            result = new ArrayList<>();
+                        }
+                        if (!result.contains(p)) {
+                            result.add(p);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (result == null || result.isEmpty()) {
+            return null;
+        }
+
+        if (result.size() == 2 &&
+                rayP0.distanceSquared(result.get(0)) > rayP0.distanceSquared(result.get(1))) {
+            Point temp = result.get(0);
+            result.set(0, result.get(1));
+            result.set(1, temp);
+        }
+
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj instanceof Cylinder other) {
-            return super.equals(obj) && isZero(_height - other._height);
-        }
-        return false;
+        if (!(obj instanceof Cylinder other)) return false;
+        return super.equals(other) && isZero(_height - other._height);
     }
 
     @Override

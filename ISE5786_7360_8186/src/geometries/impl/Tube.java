@@ -56,40 +56,44 @@ public class Tube extends RadialGeometry {
         double vVa = alignZero(v.dotProduct(va));
 
         Vector vOrth;
-        try {
-            vOrth = v.subtract(va.scale(vVa));
-        } catch (IllegalArgumentException e) {
-            // Ray is parallel to the tube axis
-            return null;
+        if (isZero(vVa)) {
+            vOrth = v;
+        } else {
+            try {
+                vOrth = v.subtract(va.scale(vVa));
+            } catch (IllegalArgumentException e) {
+                // v parallel to axis
+                return null;
+            }
         }
 
         double a = alignZero(vOrth.lengthSquared());
         if (isZero(a)) return null;
 
-        Vector deltaP;
-        try {
-            deltaP = p0.subtract(pa);
-        } catch (IllegalArgumentException e) {
-            // Ray starts on the tube axis origin
-            double t = alignZero(Math.sqrt(_radiusSquared / a));
+        if (p0.equals(pa)) {
+            double t = alignZero(_radius / Math.sqrt(a));
             return t > 0 ? List.of(ray.getPoint(t)) : null;
         }
 
+        Vector deltaP = p0.subtract(pa);
         double dpVa = alignZero(deltaP.dotProduct(va));
 
-        Vector dpOrth;
-        try {
-            dpOrth = deltaP.subtract(va.scale(dpVa));
-        } catch (IllegalArgumentException e) {
-            // deltaP is parallel to axis => orthogonal component is zero
-            dpOrth = null;
+        Vector dpOrth = null;
+
+        if (isZero(dpVa)) {
+            dpOrth = deltaP;
+        } else {
+            Point o = _axis.getPoint(dpVa); // point on axis closest in projection to p0
+            if (!p0.equals(o)) {
+                dpOrth = p0.subtract(o);
+            }
         }
 
         double b = dpOrth == null ? 0 : alignZero(2 * vOrth.dotProduct(dpOrth));
         double c = alignZero((dpOrth == null ? 0 : dpOrth.lengthSquared()) - _radiusSquared);
 
         double discriminant = alignZero(b * b - 4 * a * c);
-        if (discriminant <= 0) return null; // no intersections or tangent
+        if (discriminant <= 0) return null;
 
         double sqrtDiscriminant = Math.sqrt(discriminant);
         double t1 = alignZero((-b - sqrtDiscriminant) / (2 * a));
@@ -100,12 +104,12 @@ public class Tube extends RadialGeometry {
                     ? List.of(ray.getPoint(t1), ray.getPoint(t2))
                     : List.of(ray.getPoint(t2), ray.getPoint(t1));
         }
+
         if (t1 > 0) return List.of(ray.getPoint(t1));
         if (t2 > 0) return List.of(ray.getPoint(t2));
 
         return null;
     }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

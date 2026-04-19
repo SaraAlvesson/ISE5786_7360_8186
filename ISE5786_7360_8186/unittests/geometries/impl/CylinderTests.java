@@ -12,7 +12,6 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit tests for {@link geometries.impl.Cylinder} class.
  */
 class CylinderTests {
-    private static final double DELTA = 1e-6;
     private static final String ERROR_SIDE = "ERROR: getNormal() wrong result on side";
     private static final String ERROR_LOW_BASE = "ERROR: getNormal() wrong result on lower base";
     private static final String ERROR_UP_BASE = "ERROR: getNormal() wrong result on upper base";
@@ -58,10 +57,10 @@ class CylinderTests {
         assertNotNull(result, ERROR_FIND_INTERSECTIONS);
         assertEquals(2, result.size(), ERROR_FIND_INTERSECTIONS);
 
-        // EP02: Ray hits one base and the side (2 points)
+        // EP02: Ray hits the cylinder at the joint point of base and side (1 point)
         result = cylinder.findIntersections(new Ray(new Point(0.5, 0, -1), new Vector(1, 0, 2)));
         assertNotNull(result, ERROR_FIND_INTERSECTIONS);
-        assertEquals(2, result.size(), ERROR_FIND_INTERSECTIONS);
+        assertEquals(1, result.size(), ERROR_FIND_INTERSECTIONS);
 
         // EP03: Ray hits both bases (2 points)
         result = cylinder.findIntersections(new Ray(new Point(0.5, 0, -1), new Vector(0, 0, 1)));
@@ -71,15 +70,21 @@ class CylinderTests {
         // =============== Boundary Values Tests ==================
 
         // BV01: Ray is parallel to axis and outside (0 points)
-        assertNull(cylinder.findIntersections(new Ray(new Point(2, 0, -1), new Vector(0, 0, 1))),
-                "Parallel ray outside");
+        assertNull(
+                cylinder.findIntersections(new Ray(new Point(2, 0, -1), new Vector(0, 0, 1))),
+                "Parallel ray outside"
+        );
 
         // BV02: Ray is tangent to the cylinder side (0 points)
-        assertNull(cylinder.findIntersections(new Ray(new Point(1, 0, -1), new Vector(0, 0, 1))),
-                "Tangent ray to side");
+        assertNull(
+                cylinder.findIntersections(new Ray(new Point(1, 0, -1), new Vector(0, 0, 1))),
+                "Tangent ray to side"
+        );
 
         // BV03: Ray starts at the top base and goes out (0 points)
-        assertNull(cylinder.findIntersections(new Ray(new Point(0.5, 0, 2), new Vector(0, 0, 1))),
-                "Ray starts at top base heading out");
+        assertNull(
+                cylinder.findIntersections(new Ray(new Point(0.5, 0, 2), new Vector(0, 0, 1))),
+                "Ray starts at top base heading out"
+        );
     }
 }

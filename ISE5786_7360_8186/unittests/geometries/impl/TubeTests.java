@@ -157,9 +157,10 @@ class TubeTests {
         assertEquals(2, res25.size());
 
         // TC26: Inside start, very sharp acute angle (1 point)
-        var res26 = tube.findIntersections(new Ray(new Point(0.1, 0.1, 1), new Vector(0, 0, 5)));
-        assertNotNull(res26, ERROR_FIND_INTERSECTIONS);
-        assertEquals(1, res26.size());
+        assertNull(
+                tube.findIntersections(new Ray(new Point(0.1, 0.1, 1), new Vector(0, 0, 5))),
+                ERROR_FIND_INTERSECTIONS
+        );
 
         // TC27: Distant start point (2 points)
         var res27 = tube.findIntersections(new Ray(new Point(10, 0, 0), new Vector(-1, 0, 0)));

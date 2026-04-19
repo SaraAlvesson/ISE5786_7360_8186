@@ -4,32 +4,59 @@ import primitives.*;
 import java.util.MissingResourceException;
 import static primitives.Util.*;
 
-public class Camera {
+/**
+ * Camera class representing a camera in a 3D scene.
+ * The camera is built using a Builder pattern and generates rays through a View Plane.
+ */
+public class Camera implements Cloneable {
     private Point p0;
     private Vector vUp, vTo, vRight;
     private double width, height, distance;
     private int nX, nY;
 
+    // Auxiliary calculated fields for efficiency [cite: 44, 217]
+    private Point vpCenter;
+    private double pixelWidth, pixelHeight;
+
+    /** Default private constructor for Builder [cite: 46] */
     private Camera() {}
 
+    /**
+     * Constructs a ray through the center of a pixel (j, i) in the View Plane.
+     *
+     * @param j column index (x index) [cite: 90]
+     * @param i row index (y index) [cite: 90]
+     * @return Ray starting from camera location through pixel center
+     */
     public Ray constructRay(int j, int i) {
-        Point pc = p0.add(vTo.scale(distance));
-        double rX = width / nX;
-        double rY = height / nY;
+        // Pixel coordinates calculation [cite: 317-318, 325]
+        double xJ = (j - (nX - 1) / 2.0) * pixelWidth;
+        double yI = -(i - (nY - 1) / 2.0) * pixelHeight;
 
-        double xJ = (j - (nX - 1) / 2.0) * rX;
-        double yI = -(i - (nY - 1) / 2.0) * rY;
+        Point pIJ = vpCenter;
 
-        Point pIJ = pc;
+        // Add displacement only if non-zero to avoid Vector Zero exception [cite: 324, 331]
         if (!isZero(xJ)) pIJ = pIJ.add(vRight.scale(xJ));
         if (!isZero(yI)) pIJ = pIJ.add(vUp.scale(yI));
 
         return new Ray(p0, pIJ.subtract(p0));
     }
 
+    @Override
+    public Camera clone() {
+        try {
+            return (Camera) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
+
+    /** Builder static nested class for Camera [cite: 33, 38] */
     public static class Builder {
         private final Camera camera = new Camera();
-        private double angle = 0; // שדה לשמירת זווית הסיבוב (בונוס)
+        private Vector tempUp = null;
+        private Point tempTarget = null;
+        private double rotationAngle = 0;
 
         public Builder() {
             camera.nX = 1;
@@ -43,21 +70,18 @@ public class Camera {
 
         public Builder setDirection(Vector vTo, Vector vUp) {
             camera.vTo = vTo;
-            camera.vUp = vUp;
-            return this;
-        }
-
-        public Builder setDirection(Point target) {
-            if (camera.p0 == null) throw new MissingResourceException("p0 missing", "Camera", "p0");
-            camera.vTo = target.subtract(camera.p0);
-            camera.vUp = new Vector(0, 1, 0);
+            this.tempUp = vUp;
             return this;
         }
 
         public Builder setDirection(Point target, Vector vUp) {
-            if (camera.p0 == null) throw new MissingResourceException("p0 missing", "Camera", "p0");
-            camera.vTo = target.subtract(camera.p0);
-            camera.vUp = vUp;
+            this.tempTarget = target;
+            this.tempUp = vUp;
+            return this;
+        }
+
+        public Builder setDirection(Point target) {
+            this.tempTarget = target;
             return this;
         }
 
@@ -78,66 +102,68 @@ public class Camera {
             return this;
         }
 
-        /**
-         * Rotates the camera around its viewing direction (Bonus)
-         *
-         * @param angle Rotation angle in degrees (clockwise)
-         * @return The builder instance
-         */
+        /** Bonus: Rotation around viewing direction in degrees clockwise [cite: 237-238] */
         public Builder rotate(double angle) {
-            this.angle = angle;
+            this.rotationAngle = angle;
             return this;
         }
 
+        /** Build the camera and return its clone [cite: 65-73, 220] */
         public Camera build() {
-            // 1. בדיקת חוסרים קריטיים [cite: 121, 156]
-            if (camera.p0 == null) throw new MissingResourceException("Missing location", "Camera", "p0");
-            if (camera.vTo == null) throw new MissingResourceException("Missing vTo", "Camera", "vTo");
-            if (camera.vUp == null) throw new MissingResourceException("Missing vUp", "Camera", "vUp");
+            checkResolution();
+            checkLocationAndDirection();
+            checkViewPlane();
 
-            // 2. בדיקת ערכי View Plane - חייבים להיות חיוביים ומוגדרים [cite: 122, 152]
-            // אם width או height הם 0, זה אומר שהם לא הוגדרו או הוגדרו לא תקין
-            if (isZero(camera.width) || camera.width < 0)
-                throw new IllegalArgumentException("View Plane width must be set and positive");
-            if (isZero(camera.height) || camera.height < 0)
-                throw new IllegalArgumentException("View Plane height must be set and positive");
-            if (isZero(camera.distance) || camera.distance < 0)
-                throw new IllegalArgumentException("View Plane distance must be set and positive");
+            Camera builtCamera = camera.clone();
+            if (builtCamera == null) throw new RuntimeException("Clone failed");
+            return builtCamera;
+        }
 
-            // 3. בדיקת רזולוציה [cite: 122, 123]
+        private void checkResolution() {
             if (camera.nX <= 0 || camera.nY <= 0)
-                throw new IllegalArgumentException("Resolution must be positive");
+                throw new IllegalArgumentException("Resolution must be positive [cite: 74-75]");
+        }
 
-            // 4. בדיקת אורתוגונליות [cite: 122]
-            if (!isZero(camera.vTo.dotProduct(camera.vUp))) {
-                throw new IllegalArgumentException("vTo and vUp must be perpendicular");
+        private void checkLocationAndDirection() {
+            if (camera.p0 == null)
+                throw new MissingResourceException("Missing location", "Camera", "p0");
+
+            if (camera.vTo == null) {
+                if (tempTarget == null) throw new MissingResourceException("Missing direction", "Camera", "vTo");
+                camera.vTo = tempTarget.subtract(camera.p0);
             }
-
-            // 5. נרמול וחישוב וקטורים [cite: 72]
             camera.vTo = camera.vTo.normalize();
-            camera.vUp = camera.vUp.normalize();
-            camera.vRight = camera.vTo.crossProduct(camera.vUp).normalize();
 
-            // 6. מימוש סיבוב (בונוס) עם הגנה מוקטור אפס
-            if (!isZero(angle)) {
-                double radians = Math.toRadians(angle);
-                double cos = Math.cos(radians);
-                double sin = Math.sin(radians);
+            Vector vUpGeneral = (tempUp == null) ? new Vector(0, 1, 0) : tempUp;
 
-                Vector newVup;
-                if (isZero(cos)) {
-                    newVup = camera.vRight.scale(sin);
-                } else if (isZero(sin)) {
-                    newVup = camera.vUp.scale(cos);
-                } else {
-                    newVup = camera.vUp.scale(cos).add(camera.vRight.scale(sin));
-                }
-
-                camera.vUp = newVup.normalize();
-                camera.vRight = camera.vTo.crossProduct(camera.vUp).normalize();
+            try {
+                camera.vRight = camera.vTo.crossProduct(vUpGeneral).normalize();
+                camera.vUp = camera.vRight.crossProduct(camera.vTo).normalize();
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("vTo and vUp cannot be parallel [cite: 78]");
             }
 
-            return camera;
+            // Bonus rotation implementation
+            if (!isZero(rotationAngle)) {
+                double rad = Math.toRadians(rotationAngle);
+                double cos = Math.cos(rad);
+                double sin = Math.sin(rad);
+                Vector vRightOld = camera.vRight;
+                Vector vUpOld = camera.vUp;
+                camera.vRight = vRightOld.scale(cos).add(vUpOld.scale(sin)).normalize();
+                camera.vUp = camera.vRight.crossProduct(camera.vTo).normalize();
+            }
+        }
+
+        private void checkViewPlane() {
+            if (isZero(camera.distance) || camera.distance < 0)
+                throw new IllegalArgumentException("Distance must be positive [cite: 79]");
+            if (isZero(camera.width) || isZero(camera.height) || camera.width < 0 || camera.height < 0)
+                throw new IllegalArgumentException("VP Size must be positive [cite: 79]");
+
+            camera.pixelWidth = camera.width / camera.nX;
+            camera.pixelHeight = camera.height / camera.nY;
+            camera.vpCenter = camera.p0.add(camera.vTo.scale(camera.distance));
         }
     }
 
