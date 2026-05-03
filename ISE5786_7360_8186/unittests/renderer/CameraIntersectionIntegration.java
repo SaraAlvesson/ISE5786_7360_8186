@@ -8,7 +8,7 @@ import geometries.impl.*;
 
 /**
  * Integration tests for Camera and Geometries intersections.
- * Based on the requirements for Stage 4 [cite: 94-95].
+ * Based on the 3requirements for Stage 4 [cite: 94-95].
  */
 public class CameraIntersectionIntegration {
 

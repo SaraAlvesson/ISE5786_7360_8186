@@ -1,8 +1,13 @@
 package renderer;
 
-import primitives.*;
 import java.util.MissingResourceException;
-import static primitives.Util.*;
+import primitives.Color;
+import primitives.Point;
+import primitives.Ray;
+import primitives.Vector;
+import scene.Scene;
+
+import static primitives.Util.isZero;
 
 /**
  * Camera class representing a camera in a 3D scene.
@@ -14,28 +19,88 @@ public class Camera implements Cloneable {
     private double width, height, distance;
     private int nX, nY;
 
-    // Auxiliary calculated fields for efficiency [cite: 44, 217]
+    // Auxiliary calculated fields for efficiency
     private Point vpCenter;
     private double pixelWidth, pixelHeight;
 
-    /** Default private constructor for Builder [cite: 46] */
-    private Camera() {}
+    // New fields for Stage 5
+    private ImageWriter imageWriter;
+    private RayTracerBase rayTracer;
+
+    /**
+     * Default private constructor for Builder
+     */
+    private Camera() {
+    }
+
+    /**
+     * Renders the image by casting rays through all pixels[cite: 2, 3]
+     *
+     * @return current camera object
+     */
+    public Camera renderImage() {
+        for (int i = 0; i < nY; i++) {
+            for (int j = 0; j < nX; j++) {
+                castRay(j, i);
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Private helper method to cast a ray through a specific pixel[cite: 2, 3]
+     *
+     * @param j column index
+     * @param i row index
+     */
+    private void castRay(int j, int i) {
+        Ray ray = constructRay(j, i);
+        Color color = rayTracer.traceRay(ray);
+        imageWriter.writePixel(j, i, color);
+    }
+
+    /**
+     * Adds a grid to the existing image
+     *
+     * @param interval grid square size
+     * @param color    grid line color
+     * @return current camera object
+     */
+    public Camera printGrid(int interval, Color color) {
+        for (int i = 0; i < nY; i++) {
+            for (int j = 0; j < nX; j++) {
+                if (i % interval == 0 || j % interval == 0) {
+                    imageWriter.writePixel(j, i, color);
+                }
+            }
+        }
+        return this;
+    }
+
+    /**
+     * Delegates image writing to the ImageWriter
+     *
+     * @param fileName name of the output file
+     */
+    public void writeToImage(String fileName) {
+        imageWriter.writeToImage(fileName);
+    }
 
     /**
      * Constructs a ray through the center of a pixel (j, i) in the View Plane.
      *
-     * @param j column index (x index) [cite: 90]
-     * @param i row index (y index) [cite: 90]
+     * @param j column index (x index)
+     * @param i row index (y index)
      * @return Ray starting from camera location through pixel center
      */
     public Ray constructRay(int j, int i) {
-        // Pixel coordinates calculation [cite: 317-318, 325]
+        // Pixel coordinates calculation
         double xJ = (j - (nX - 1) / 2.0) * pixelWidth;
         double yI = -(i - (nY - 1) / 2.0) * pixelHeight;
 
         Point pIJ = vpCenter;
 
-        // Add displacement only if non-zero to avoid Vector Zero exception [cite: 324, 331]
+        // Add displacement only if non-zero to avoid Vector Zero exception
         if (!isZero(xJ)) pIJ = pIJ.add(vRight.scale(xJ));
         if (!isZero(yI)) pIJ = pIJ.add(vUp.scale(yI));
 
@@ -51,7 +116,9 @@ public class Camera implements Cloneable {
         }
     }
 
-    /** Builder static nested class for Camera [cite: 33, 38] */
+    /**
+     * Builder static nested class for Camera
+     */
     public static class Builder {
         private final Camera camera = new Camera();
         private Vector tempUp = null;
@@ -102,15 +169,40 @@ public class Camera implements Cloneable {
             return this;
         }
 
-        /** Bonus: Rotation around viewing direction in degrees clockwise [cite: 237-238] */
+        /**
+         * Sets the ray tracer for the camera
+         *
+         * @param scene the scene to render
+         * @param type  the type of ray tracer to use
+         * @return current builder
+         */
+        public Builder setRayTracer(Scene scene, RayTracerType type) {
+            if (type == RayTracerType.SIMPLE) {
+                camera.rayTracer = new SimpleRayTracer(scene);
+            } else {
+                throw new IllegalArgumentException("Unsupported ray tracer type");
+            }
+            return this;
+        }
+
+        /**
+         * Bonus: Rotation around viewing direction in degrees clockwise
+         */
         public Builder rotate(double angle) {
             this.rotationAngle = angle;
             return this;
         }
 
-        /** Build the camera and return its clone [cite: 65-73, 220] */
+        /**
+         * Build the camera and return its clone
+         */
         public Camera build() {
-            checkResolution();
+            // Updated build check for Stage 5[cite: 3]
+            if (camera.rayTracer == null) {
+                setRayTracer(new Scene("test"), RayTracerType.SIMPLE);
+            }
+
+            checkResolution(); // Includes ImageWriter creation[cite: 3]
             checkLocationAndDirection();
             checkViewPlane();
 
@@ -121,7 +213,10 @@ public class Camera implements Cloneable {
 
         private void checkResolution() {
             if (camera.nX <= 0 || camera.nY <= 0)
-                throw new IllegalArgumentException("Resolution must be positive [cite: 74-75]");
+                throw new IllegalArgumentException("Resolution must be positive");
+
+            // Create ImageWriter after resolution check[cite: 3]
+            camera.imageWriter = new ImageWriter(camera.nX, camera.nY);
         }
 
         private void checkLocationAndDirection() {
@@ -140,7 +235,7 @@ public class Camera implements Cloneable {
                 camera.vRight = camera.vTo.crossProduct(vUpGeneral).normalize();
                 camera.vUp = camera.vRight.crossProduct(camera.vTo).normalize();
             } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("vTo and vUp cannot be parallel [cite: 78]");
+                throw new IllegalArgumentException("vTo and vUp cannot be parallel");
             }
 
             // Bonus rotation implementation
@@ -157,9 +252,9 @@ public class Camera implements Cloneable {
 
         private void checkViewPlane() {
             if (isZero(camera.distance) || camera.distance < 0)
-                throw new IllegalArgumentException("Distance must be positive [cite: 79]");
+                throw new IllegalArgumentException("Distance must be positive");
             if (isZero(camera.width) || isZero(camera.height) || camera.width < 0 || camera.height < 0)
-                throw new IllegalArgumentException("VP Size must be positive [cite: 79]");
+                throw new IllegalArgumentException("VP Size must be positive");
 
             camera.pixelWidth = camera.width / camera.nX;
             camera.pixelHeight = camera.height / camera.nY;

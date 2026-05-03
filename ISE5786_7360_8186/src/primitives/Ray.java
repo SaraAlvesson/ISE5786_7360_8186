@@ -1,6 +1,9 @@
 package primitives;
-import static primitives.Util.*;
+
+import java.util.List;
 import java.util.Objects;
+
+import static primitives.Util.isZero;
 
 /**
  * Class Ray represents a line segment starting from a point in a specific direction.
@@ -29,8 +32,6 @@ public final class Ray {
     }
 
     /**
-     * Getter for the direction vector.
-     *
      * @return the normalized direction vector
      */
     public Vector direction() {
@@ -38,33 +39,52 @@ public final class Ray {
     }
 
     /**
-     * Getter for the origin point of the ray.
-     *
      * @return the starting point (origin) of the ray
      */
     public Point origin() {
         return _origin;
     }
+
     /**
      * Calculates a point on the ray at distance t from the origin.
-     * @param t distance from origin (positive, negative or zero)
+     *
+     * @param t distance from origin
      * @return the point P = P0 + t*v
      */
     public Point getPoint(double t) {
         if (isZero(t)) return _origin;
-        try {
-            return _origin.add(_direction.scale(t));
-        } catch (IllegalArgumentException ignore) {
-            return _origin; // מחזיר את ראשית הקרן אם נוצר וקטור אפס
-        }
+        return _origin.add(_direction.scale(t));
     }
+
+    /**
+     * Finds the closest point to the ray origin from a list of points.
+     *
+     * @param points list of points to check
+     * @return the closest point, or null if the list is empty
+     */
+    public Point findClosestPoint(List<Point> points) {
+        if (points == null || points.isEmpty()) return null; //
+
+        Point result = null;
+        double closestDistance = Double.POSITIVE_INFINITY; //[cite: 3]
+
+        for (Point p : points) {
+            // Using distanceSquared for better performance[cite: 3]
+            double distanceSq = _origin.distanceSquared(p);
+            if (distanceSq < closestDistance) {
+                closestDistance = distanceSq;
+                result = p;
+            }
+        }
+        return result;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
-        if (obj instanceof Ray other) {
-            return _origin.equals(other._origin) && _direction.equals(other._direction);
-        }
-        return false;
+        return (obj instanceof Ray other)
+                && _origin.equals(other._origin)
+                && _direction.equals(other._direction);
     }
 
     @Override

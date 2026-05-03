@@ -20,8 +20,8 @@ public class Geometries extends Intersectable {
     /**
      * Default constructor, initializes an empty list of geometries.
      */
-    public Geometries() {
-    }
+   // public Geometries() {
+    //}
 
     /**
      * Constructor with varargs to initialize the list with geometries.
@@ -36,23 +36,22 @@ public class Geometries extends Intersectable {
      * @param geometries list of geometries to add
      */
     public void add(Intersectable... geometries) {
-        if (geometries != null) {
             _geometries.addAll(List.of(geometries));
-        }
+
     }
 
     @Override
     public List<Point> findIntersections(Ray ray) {
         List<Point> result = null;
 
-        for (Intersectable item : _geometries) {
-            List<Point> itemIntersections = item.findIntersections(ray);
+        for (Intersectable geometry : _geometries) {
+            List<Point> intersections = geometry.findIntersections(ray);
 
-            if (itemIntersections != null) {
+            if (intersections != null) {
                 if (result == null) {
                     result = new ArrayList<>();
                 }
-                result.addAll(itemIntersections);
+                result.addAll(intersections);
             }
         }
         return result;
