@@ -8,6 +8,11 @@ package primitives;
 public final class Vector extends Point {
 
     /**
+     * Static Y axis vector for tests
+     */
+    public static final Vector AXIS_Y = new Vector(0, 1, 0);
+
+    /**
      * Static Z axis vector for tests
      */
     public static final Vector AXIS_Z = new Vector(0, 0, 1);

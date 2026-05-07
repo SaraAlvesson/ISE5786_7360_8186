@@ -2,7 +2,6 @@ package geometries.impl;
 
 import java.util.List;
 import java.util.Objects;
-
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -12,6 +11,7 @@ import static primitives.Util.isZero;
 
 /**
  * Class Tube represents an infinite tube in 3D space, defined by an axis ray and a radius.
+ *
  * @author Sara
  */
 public class Tube extends RadialGeometry {
@@ -22,6 +22,7 @@ public class Tube extends RadialGeometry {
 
     /**
      * Constructor to initialize Tube with radius and axis ray.
+     *
      * @param radius the radius of the tube
      * @param axis   the axis ray of the tube
      */
@@ -47,7 +48,7 @@ public class Tube extends RadialGeometry {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
         Vector v = ray.direction();
         Vector va = _axis.direction();
         Point p0 = ray.origin();
@@ -72,7 +73,7 @@ public class Tube extends RadialGeometry {
 
         if (p0.equals(pa)) {
             double t = alignZero(_radius / Math.sqrt(a));
-            return t > 0 ? List.of(ray.getPoint(t)) : null;
+            return t > 0 ? List.of(new Intersection(this, ray.getPoint(t))) : null;
         }
 
         Vector deltaP = p0.subtract(pa);
@@ -101,15 +102,16 @@ public class Tube extends RadialGeometry {
 
         if (t1 > 0 && t2 > 0) {
             return t1 < t2
-                    ? List.of(ray.getPoint(t1), ray.getPoint(t2))
-                    : List.of(ray.getPoint(t2), ray.getPoint(t1));
+                    ? List.of(new Intersection(this, ray.getPoint(t1)), new Intersection(this, ray.getPoint(t2)))
+                    : List.of(new Intersection(this, ray.getPoint(t2)), new Intersection(this, ray.getPoint(t1)));
         }
 
-        if (t1 > 0) return List.of(ray.getPoint(t1));
-        if (t2 > 0) return List.of(ray.getPoint(t2));
+        if (t1 > 0) return List.of(new Intersection(this, ray.getPoint(t1)));
+        if (t2 > 0) return List.of(new Intersection(this, ray.getPoint(t2)));
 
         return null;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

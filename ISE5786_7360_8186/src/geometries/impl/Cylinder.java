@@ -3,7 +3,6 @@ package geometries.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
@@ -59,8 +58,8 @@ public final class Cylinder extends Tube {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        List<Point> result = null;
+    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
+        List<Intersection> result = null;
 
         Point baseCenter1 = _axis.origin();
         Point baseCenter2 = _axis.getPoint(_height);
@@ -91,16 +90,16 @@ public final class Cylinder extends Tube {
 
             if (tBottom > 0) {
                 result = new ArrayList<>();
-                result.add(ray.getPoint(tBottom));
+                result.add(new Intersection(this, ray.getPoint(tBottom)));
             }
             if (tTop > 0) {
                 if (result == null) result = new ArrayList<>();
-                result.add(ray.getPoint(tTop));
+                result.add(new Intersection(this, ray.getPoint(tTop)));
             }
 
             if (result != null && result.size() == 2) {
-                if (rayP0.distanceSquared(result.get(0)) > rayP0.distanceSquared(result.get(1))) {
-                    Point temp = result.get(0);
+                if (rayP0.distanceSquared(result.get(0).point) > rayP0.distanceSquared(result.get(1).point)) {
+                    Intersection temp = result.get(0);
                     result.set(0, result.get(1));
                     result.set(1, temp);
                 }
@@ -119,7 +118,7 @@ public final class Cylinder extends Tube {
                 Point p1 = ray.getPoint(t1);
                 if (alignZero(p1.distanceSquared(baseCenter1) - _radiusSquared) <= 0) {
                     result = new ArrayList<>();
-                    result.add(p1);
+                    result.add(new Intersection(this, p1));
                 }
             }
 
@@ -128,11 +127,12 @@ public final class Cylinder extends Tube {
             if (t2 > 0) {
                 Point p2 = ray.getPoint(t2);
                 if (alignZero(p2.distanceSquared(baseCenter2) - _radiusSquared) <= 0) {
+                    Intersection inter2 = new Intersection(this, p2);
                     if (result == null) {
                         result = new ArrayList<>();
-                        result.add(p2);
-                    } else if (!result.contains(p2)) {
-                        result.add(p2);
+                        result.add(inter2);
+                    } else if (!result.contains(inter2)) {
+                        result.add(inter2);
                     }
                 }
             }
@@ -140,9 +140,10 @@ public final class Cylinder extends Tube {
 
         // Intersections with the side surface
         if (result == null || result.size() < 2) {
-            List<Point> tubeIntersections = super.findIntersections(ray);
+            var tubeIntersections = super.calcIntersectionsHelper(ray);
             if (tubeIntersections != null) {
-                for (Point p : tubeIntersections) {
+                for (var inter : tubeIntersections) {
+                    Point p = inter.point;
                     double projection = alignZero(axisDir.dotProduct(p.subtract(baseCenter1)));
 
                     // Include joint points with bases as valid intersections
@@ -150,8 +151,9 @@ public final class Cylinder extends Tube {
                         if (result == null) {
                             result = new ArrayList<>();
                         }
-                        if (!result.contains(p)) {
-                            result.add(p);
+                        Intersection newInter = new Intersection(this, p);
+                        if (!result.contains(newInter)) {
+                            result.add(newInter);
                         }
                     }
                 }
@@ -163,8 +165,8 @@ public final class Cylinder extends Tube {
         }
 
         if (result.size() == 2 &&
-                rayP0.distanceSquared(result.get(0)) > rayP0.distanceSquared(result.get(1))) {
-            Point temp = result.get(0);
+                rayP0.distanceSquared(result.get(0).point) > rayP0.distanceSquared(result.get(1).point)) {
+            Intersection temp = result.get(0);
             result.set(0, result.get(1));
             result.set(1, temp);
         }

@@ -22,8 +22,8 @@ public final class Triangle extends Polygon {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        return super.findIntersections(ray);
+    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
+        return super.calcIntersectionsHelper(ray);
     }
 
     @Override

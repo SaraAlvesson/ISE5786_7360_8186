@@ -13,16 +13,23 @@ import static primitives.Util.isZero;
  * * @author Dan Zilberstein
  */
 public class Polygon extends Geometry {
-    /** Ordered list of polygon vertices */
+    /**
+     * Ordered list of polygon vertices
+     */
     protected final List<Point> _vertices;
-    /** Plane containing the polygon */
+    /**
+     * Plane containing the polygon
+     */
     protected final Plane _plane;
-    /** Number of vertices */
+    /**
+     * Number of vertices
+     */
     private final int _size;
 
     /**
      * Constructs a convex polygon from ordered vertices.
      * * @param vertices polygon vertices in edge order
+     *
      * @throws IllegalArgumentException if the vertices do not form a valid convex polygon
      */
     public Polygon(Point... vertices) {
@@ -56,9 +63,9 @@ public class Polygon extends Geometry {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        // Step 1: Find intersection with the plane
-        var intersections = _plane.findIntersections(ray);
+    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
+        // Step 1: Find intersection with the plane using NVI
+        var intersections = _plane.calcIntersections(ray);
         if (intersections == null) return null;
 
         Point p0 = ray.origin();
@@ -83,7 +90,11 @@ public class Polygon extends Geometry {
             if ((s > 0) != positive) return null; // Point is outside
         }
 
-        return intersections;
+        // Return the intersections, but re-wrap them to refer to this Polygon
+        // instead of the internal Plane.
+        return intersections.stream()
+                .map(intersection -> new Intersection(this, intersection.point))
+                .toList();
     }
 
     @Override

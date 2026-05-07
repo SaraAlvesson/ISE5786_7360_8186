@@ -7,6 +7,7 @@ import primitives.Ray;
 import primitives.Vector;
 import scene.Scene;
 
+import static primitives.Util.alignZero;
 import static primitives.Util.isZero;
 
 /**
@@ -34,7 +35,7 @@ public class Camera implements Cloneable {
     }
 
     /**
-     * Renders the image by casting rays through all pixels[cite: 2, 3]
+     * Renders the image by casting rays through all pixels
      *
      * @return current camera object
      */
@@ -48,7 +49,7 @@ public class Camera implements Cloneable {
     }
 
     /**
-     * Private helper method to cast a ray through a specific pixel[cite: 2, 3]
+     * Private helper method to cast a ray through a specific pixel
      *
      * @param j column index
      * @param i row index
@@ -197,12 +198,11 @@ public class Camera implements Cloneable {
          * Build the camera and return its clone
          */
         public Camera build() {
-            // Updated build check for Stage 5[cite: 3]
             if (camera.rayTracer == null) {
                 setRayTracer(new Scene("test"), RayTracerType.SIMPLE);
             }
 
-            checkResolution(); // Includes ImageWriter creation[cite: 3]
+            checkResolution();
             checkLocationAndDirection();
             checkViewPlane();
 
@@ -215,7 +215,6 @@ public class Camera implements Cloneable {
             if (camera.nX <= 0 || camera.nY <= 0)
                 throw new IllegalArgumentException("Resolution must be positive");
 
-            // Create ImageWriter after resolution check[cite: 3]
             camera.imageWriter = new ImageWriter(camera.nX, camera.nY);
         }
 
@@ -229,7 +228,8 @@ public class Camera implements Cloneable {
             }
             camera.vTo = camera.vTo.normalize();
 
-            Vector vUpGeneral = (tempUp == null) ? new Vector(0, 1, 0) : tempUp;
+            // Use the AXIS_Y constant if available, otherwise new Vector(0,1,0)
+            Vector vUpGeneral = (tempUp == null) ? Vector.AXIS_Y : tempUp;
 
             try {
                 camera.vRight = camera.vTo.crossProduct(vUpGeneral).normalize();
@@ -238,14 +238,23 @@ public class Camera implements Cloneable {
                 throw new IllegalArgumentException("vTo and vUp cannot be parallel");
             }
 
-            // Bonus rotation implementation
+            // Fixed Bonus rotation implementation to be Clockwise (subtract instead of add)
             if (!isZero(rotationAngle)) {
                 double rad = Math.toRadians(rotationAngle);
-                double cos = Math.cos(rad);
-                double sin = Math.sin(rad);
+                double cos = alignZero(Math.cos(rad));
+                double sin = alignZero(Math.sin(rad));
+
                 Vector vRightOld = camera.vRight;
                 Vector vUpOld = camera.vUp;
-                camera.vRight = vRightOld.scale(cos).add(vUpOld.scale(sin)).normalize();
+
+                if (isZero(cos)) {
+                    camera.vRight = vUpOld.scale(-sin).normalize();
+                } else if (isZero(sin)) {
+                    camera.vRight = vRightOld.scale(cos).normalize();
+                } else {
+                    camera.vRight = vRightOld.scale(cos).subtract(vUpOld.scale(sin)).normalize();
+                }
+
                 camera.vUp = camera.vRight.crossProduct(camera.vTo).normalize();
             }
         }

@@ -3,12 +3,12 @@ package geometries.impl;
 import geometries.api.Intersectable;
 import java.util.ArrayList;
 import java.util.List;
-import primitives.Point;
 import primitives.Ray;
 
 /**
  * Composite class for all geometries in the scene.
  * This class implements the Composite design pattern.
+ *
  * @author Sara
  */
 public class Geometries extends Intersectable {
@@ -18,13 +18,8 @@ public class Geometries extends Intersectable {
     private final List<Intersectable> _geometries = new ArrayList<>();
 
     /**
-     * Default constructor, initializes an empty list of geometries.
-     */
-   // public Geometries() {
-    //}
-
-    /**
      * Constructor with varargs to initialize the list with geometries.
+     *
      * @param geometries list of geometries to add
      */
     public Geometries(Intersectable... geometries) {
@@ -33,19 +28,20 @@ public class Geometries extends Intersectable {
 
     /**
      * Adds geometries to the existing list.
+     *
      * @param geometries list of geometries to add
      */
     public void add(Intersectable... geometries) {
-            _geometries.addAll(List.of(geometries));
-
+        _geometries.addAll(List.of(geometries));
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
-        List<Point> result = null;
+    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
+        List<Intersection> result = null;
 
         for (Intersectable geometry : _geometries) {
-            List<Point> intersections = geometry.findIntersections(ray);
+            // Calling the public NVI method for each geometry [cite: 229]
+            var intersections = geometry.calcIntersections(ray);
 
             if (intersections != null) {
                 if (result == null) {
