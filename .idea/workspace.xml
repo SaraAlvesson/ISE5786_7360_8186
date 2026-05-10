@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3f23cdba-42a2-494c-a300-83fa17f67ee9" name="Changes" comment="PR06- Implemented Emission light and Material properties (kA) using NVI and Builder patterns.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/Camera.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/CameraIntersectionIntegration.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/CameraIntersectionIntegration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/Geometry.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/Geometry.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,53 +62,53 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Application.PayRoll.executor": "Run",
-    "Application.Payroll.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.All in ISE5786_7360_8186.executor": "Run",
-    "JUnit.CameraIntersectionIntegration.executor": "Run",
-    "JUnit.CameraTests.executor": "Run",
-    "JUnit.CylinderTests.executor": "Run",
-    "JUnit.ImageWriterTests.executor": "Run",
-    "JUnit.PlaneTests.executor": "Run",
-    "JUnit.PlaneTests.testPlanePointPointPoint.executor": "Run",
-    "JUnit.PointTests.executor": "Run",
-    "JUnit.PointTests.testDistance.executor": "Run",
-    "JUnit.PointTests.testDistanceSquared.executor": "Run",
-    "JUnit.PointTests.testSubtract.executor": "Run",
-    "JUnit.PolygonTests.executor": "Run",
-    "JUnit.RayTests.executor": "Run",
-    "JUnit.RayTests.testRay.executor": "Run",
-    "JUnit.RenderTests.executor": "Run",
-    "JUnit.RenderTests.testBasicRenderXml.executor": "Run",
-    "JUnit.SphereTests.executor": "Run",
-    "JUnit.TriangleTests.executor": "Run",
-    "JUnit.TriangleTests.testConstructor.executor": "Run",
-    "JUnit.TriangleTests.testGetNormal.executor": "Run",
-    "JUnit.TubeTests.executor": "Run",
-    "JUnit.TubeTests.testGetNormal.executor": "Run",
-    "JUnit.VectorTests.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/User/Desktop/tal/ISE_minip/ISE5786_7360_8186",
-    "onboarding.tips.debug.path": "C:/Users/saraa/IdeaProjects/Homework1/src/Main.java",
-    "project.structure.last.edited": "Libraries",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "File.Encoding"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.PayRoll.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Payroll.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.All in ISE5786_7360_8186.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CameraIntersectionIntegration.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CameraTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.CylinderTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.ImageWriterTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PlaneTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PlaneTests.testPlanePointPointPoint.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PointTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PointTests.testDistance.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PointTests.testDistanceSquared.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PointTests.testSubtract.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PolygonTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.RayTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.RayTests.testRay.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.RenderTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.RenderTests.testBasicRenderXml.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SphereTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TriangleTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TriangleTests.testConstructor.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TriangleTests.testGetNormal.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TubeTests.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TubeTests.testGetNormal.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.VectorTests.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/Desktop/tal/ISE_minip/ISE5786_7360_8186&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/saraa/IdeaProjects/Homework1/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="Point" />
