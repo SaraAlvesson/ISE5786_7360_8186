@@ -102,8 +102,12 @@ public class Camera implements Cloneable {
         Point pIJ = vpCenter;
 
         // Add displacement only if non-zero to avoid Vector Zero exception
-        if (!isZero(xJ)) pIJ = pIJ.add(vRight.scale(xJ));
-        if (!isZero(yI)) pIJ = pIJ.add(vUp.scale(yI));
+        if (!isZero(xJ)) {
+            pIJ = pIJ.add(vRight.scale(xJ));
+        }
+        if (!isZero(yI)) {
+            pIJ = pIJ.add(vUp.scale(yI));
+        }
 
         return new Ray(p0, pIJ.subtract(p0));
     }
