@@ -5,6 +5,7 @@ import java.util.Objects;
 import primitives.Material;
 import primitives.Point;
 import primitives.Ray;
+import primitives.Vector;
 
 /**
  * Abstract class representing a geometry that can be intersected by a ray.
@@ -30,6 +31,31 @@ public abstract class Intersectable {
         public final Material material;
 
         /**
+         * The normal vector at the intersection point
+         */
+        public Vector normal;
+
+        /**
+         * The vector from the camera to the point
+         */
+        public Vector v;
+
+        /**
+         * The vector from the light source to the point
+         */
+        public Vector l;
+
+        /**
+         * The dot product of the normal and the light vector (n dot l)
+         */
+        public double nl;
+
+        /**
+         * The dot product of the normal and the view vector (n dot v)
+         */
+        public double nv;
+
+        /**
          * Constructor for Intersection.
          *
          * @param geometry the intersected geometry
@@ -38,7 +64,6 @@ public abstract class Intersectable {
         public Intersection(Geometry geometry, Point point) {
             this.geometry = geometry;
             this.point = point;
-            // If geometry is null (for backward compatibility), use default material
             this.material = geometry == null ? new Material() : geometry.getMaterial();
         }
 
@@ -66,7 +91,6 @@ public abstract class Intersectable {
 
     /**
      * Finds all intersection points between a given ray and the geometry.
-     * This method is final to implement the NVI pattern and maintain backward compatibility.
      *
      * @param ray the ray to intersect with the geometry
      * @return a list of intersection points, or null if there are no intersections
@@ -81,7 +105,6 @@ public abstract class Intersectable {
 
     /**
      * Public method to calculate intersections, returning Intersection objects.
-     * Part of the NVI pattern.
      *
      * @param ray the ray
      * @return list of Intersections

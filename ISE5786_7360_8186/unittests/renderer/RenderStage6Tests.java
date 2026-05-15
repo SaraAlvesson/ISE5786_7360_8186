@@ -169,23 +169,23 @@ class RenderStage6Tests {
      */
     @Test
     void testRenderAmbientColor() {
-        // Scene initialization with White Ambient Light [cite: 335]
+        // Scene initialization with White Ambient Light
         Scene scene = new Scene("Ambient colors")
                 .setAmbientLight(new AmbientLight(new Color(WHITE)));
 
         scene.geometries.add(
-                // Sphere with kA = 0.4 [cite: 337]
+                // Sphere with kA = 0.4
                 _sphere.setMaterial(new Material().setKa(0.4)),
 
-                // Green triangle with Green kA [cite: 339]
+                // Green triangle with Green kA
                 _triangleLeftTop.setEmission(new Color(GREEN))
                         .setMaterial(new Material().setKa(new Double3(0, 0.8, 0))),
 
-                // Red triangle with Red kA [cite: 338]
+                // Red triangle with Red kA
                 _triangleLeftBottom.setEmission(new Color(RED))
                         .setMaterial(new Material().setKa(new Double3(0.8, 0, 0))),
 
-                // Blue triangle with Blue kA [cite: 340]
+                // Blue triangle with Blue kA
                 _triangleRightBottom.setEmission(new Color(BLUE))
                         .setMaterial(new Material().setKa(new Double3(0, 0, 0.8)))
         );

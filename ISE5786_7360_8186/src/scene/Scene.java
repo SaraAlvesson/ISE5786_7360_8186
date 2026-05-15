@@ -1,7 +1,10 @@
 package scene;
 
 import geometries.impl.Geometries;
+import java.util.LinkedList;
+import java.util.List;
 import lighting.AmbientLight;
+import lighting.LightSource;
 import primitives.Color;
 
 /**
@@ -25,6 +28,11 @@ public class Scene {
      * Geometries in the scene, initialized to an empty collection
      */
     public Geometries geometries = new Geometries();
+
+    /**
+     * List of light sources in the scene
+     */
+    public List<LightSource> lights = new LinkedList<>();
 
     /**
      * Constructor for Scene.

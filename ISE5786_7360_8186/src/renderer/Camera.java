@@ -12,32 +12,64 @@ import static primitives.Util.isZero;
 
 /**
  * Camera class representing a camera in a 3D scene.
- * The camera is built using a Builder pattern and generates rays through a View Plane.
+ * The camera is responsible for generating rays through a View Plane and rendering the image.
+ * Built using a Builder pattern to ensure proper initialization.
  */
 public class Camera implements Cloneable {
+    /**
+     * Camera location point (P0)
+     */
     private Point p0;
+    /**
+     * Up vector (Vup), Direction vector (Vto), and Right vector (Vright)
+     */
     private Vector vUp, vTo, vRight;
-    private double width, height, distance;
+    /**
+     * View Plane width and height
+     */
+    private double width, height;
+    /**
+     * Distance from camera to View Plane
+     */
+    private double distance;
+    /**
+     * Resolution of the image (Number of pixels in X and Y axes)
+     */
     private int nX, nY;
 
-    // Auxiliary calculated fields for efficiency
+    /**
+     * Auxiliary calculated field: Center point of the View Plane
+     */
     private Point vpCenter;
-    private double pixelWidth, pixelHeight;
+    /**
+     * Auxiliary calculated field: Width of a single pixel
+     */
+    private double pixelWidth;
+    /**
+     * Auxiliary calculated field: Height of a single pixel
+     */
+    private double pixelHeight;
 
-    // New fields for Stage 5
+    /**
+     * ImageWriter component for pixel management and file output
+     */
     private ImageWriter imageWriter;
+    /**
+     * RayTracer component for calculating color for each ray
+     */
     private RayTracerBase rayTracer;
 
     /**
-     * Default private constructor for Builder
+     * Default private constructor for Builder use only.
      */
     private Camera() {
     }
 
     /**
-     * Renders the image by casting rays through all pixels
+     * Renders the image by iterating through all pixels in the resolution,
+     * constructing a ray for each pixel and tracing its color.
      *
-     * @return current camera object
+     * @return current camera object for chaining
      */
     public Camera renderImage() {
         for (int i = 0; i < nY; i++) {
@@ -49,10 +81,11 @@ public class Camera implements Cloneable {
     }
 
     /**
-     * Private helper method to cast a ray through a specific pixel
+     * Private helper method to cast a ray through a specific pixel,
+     * trace its color, and write it to the ImageWriter.
      *
-     * @param j column index
-     * @param i row index
+     * @param j column index in the pixel grid
+     * @param i row index in the pixel grid
      */
     private void castRay(int j, int i) {
         Ray ray = constructRay(j, i);
@@ -61,11 +94,11 @@ public class Camera implements Cloneable {
     }
 
     /**
-     * Adds a grid to the existing image
+     * Adds a grid of lines to the existing image buffer.
      *
-     * @param interval grid square size
-     * @param color    grid line color
-     * @return current camera object
+     * @param interval the distance between grid lines (in pixels)
+     * @param color    the color of the grid lines
+     * @return current camera object for chaining
      */
     public Camera printGrid(int interval, Color color) {
         for (int i = 0; i < nY; i++) {
@@ -79,36 +112,39 @@ public class Camera implements Cloneable {
     }
 
     /**
-     * Delegates image writing to the ImageWriter
+     * Delegates the final image file creation to the ImageWriter.
      *
-     * @param fileName name of the output file
+     * @param fileName name of the output image file (without extension)
      */
     public void writeToImage(String fileName) {
         imageWriter.writeToImage(fileName);
     }
 
     /**
-     * Constructs a ray through the center of a pixel (j, i) in the View Plane.
+     * Constructs a ray from the camera location (P0) through the center
+     * of a specific pixel (j, i) on the View Plane.
      *
      * @param j column index (x index)
      * @param i row index (y index)
      * @return Ray starting from camera location through pixel center
      */
     public Ray constructRay(int j, int i) {
-        // Pixel coordinates calculation
+        // Pixel coordinates calculation relative to View Plane center
         double xJ = (j - (nX - 1) / 2.0) * pixelWidth;
         double yI = -(i - (nY - 1) / 2.0) * pixelHeight;
 
         Point pIJ = vpCenter;
 
-        // Add displacement only if non-zero to avoid Vector Zero exception
+        // Apply horizontal displacement
         if (!isZero(xJ)) {
             pIJ = pIJ.add(vRight.scale(xJ));
         }
+        // Apply vertical displacement
         if (!isZero(yI)) {
             pIJ = pIJ.add(vUp.scale(yI));
         }
 
+        // Ray starts from camera location P0 and goes towards calculated point pIJ
         return new Ray(p0, pIJ.subtract(p0));
     }
 
@@ -122,52 +158,114 @@ public class Camera implements Cloneable {
     }
 
     /**
-     * Builder static nested class for Camera
+     * Builder static nested class for the Camera.
+     * Implements the Builder Pattern for safe and flexible Camera creation.
      */
     public static class Builder {
+        /**
+         * Camera instance being built
+         */
         private final Camera camera = new Camera();
+        /**
+         * Temporary storage for Up vector during construction
+         */
         private Vector tempUp = null;
+        /**
+         * Temporary storage for Target point during construction
+         */
         private Point tempTarget = null;
+        /**
+         * Rotation angle for bonus implementation
+         */
         private double rotationAngle = 0;
 
+        /**
+         * Builder constructor, initializes default resolution to 1x1.
+         */
         public Builder() {
             camera.nX = 1;
             camera.nY = 1;
         }
 
+        /**
+         * Sets the camera's location.
+         *
+         * @param p0 origin point
+         * @return current builder
+         */
         public Builder setLocation(Point p0) {
             camera.p0 = p0;
             return this;
         }
 
+        /**
+         * Sets the camera's viewing direction and up vector.
+         *
+         * @param vTo direction vector
+         * @param vUp up vector
+         * @return current builder
+         */
         public Builder setDirection(Vector vTo, Vector vUp) {
             camera.vTo = vTo;
             this.tempUp = vUp;
             return this;
         }
 
+        /**
+         * Sets the camera's direction by pointing at a target and setting an up vector.
+         *
+         * @param target point to look at
+         * @param vUp    up vector
+         * @return current builder
+         */
         public Builder setDirection(Point target, Vector vUp) {
             this.tempTarget = target;
             this.tempUp = vUp;
             return this;
         }
 
+        /**
+         * Sets the camera's direction by pointing at a target point.
+         *
+         * @param target point to look at
+         * @return current builder
+         */
         public Builder setDirection(Point target) {
             this.tempTarget = target;
             return this;
         }
 
+        /**
+         * Sets the View Plane dimensions.
+         *
+         * @param width  total width
+         * @param height total height
+         * @return current builder
+         */
         public Builder setVpSize(double width, double height) {
             camera.width = width;
             camera.height = height;
             return this;
         }
 
+        /**
+         * Sets the distance between the camera and the View Plane.
+         *
+         * @param distance distance from P0
+         * @return current builder
+         */
         public Builder setVpDistance(double distance) {
             camera.distance = distance;
             return this;
         }
 
+        /**
+         * Sets the resolution of the generated image.
+         *
+         * @param nX number of pixels in the width
+         * @param nY number of pixels in the height
+         * @return current builder
+         */
         public Builder setResolution(int nX, int nY) {
             camera.nX = nX;
             camera.nY = nY;
@@ -175,10 +273,10 @@ public class Camera implements Cloneable {
         }
 
         /**
-         * Sets the ray tracer for the camera
+         * Sets the ray tracer component for the camera.
          *
-         * @param scene the scene to render
-         * @param type  the type of ray tracer to use
+         * @param scene the scene to be rendered
+         * @param type  the algorithm type for ray tracing
          * @return current builder
          */
         public Builder setRayTracer(Scene scene, RayTracerType type) {
@@ -191,7 +289,10 @@ public class Camera implements Cloneable {
         }
 
         /**
-         * Bonus: Rotation around viewing direction in degrees clockwise
+         * Rotates the camera coordinate system around the viewing direction.
+         *
+         * @param angle rotation angle in degrees (clockwise)
+         * @return current builder
          */
         public Builder rotate(double angle) {
             this.rotationAngle = angle;
@@ -199,7 +300,10 @@ public class Camera implements Cloneable {
         }
 
         /**
-         * Build the camera and return its clone
+         * Validates all parameters, calculates auxiliary fields, and builds the Camera object.
+         *
+         * @return a fully initialized clone of the camera
+         * @throws RuntimeException if building or cloning fails
          */
         public Camera build() {
             if (camera.rayTracer == null) {
@@ -215,6 +319,9 @@ public class Camera implements Cloneable {
             return builtCamera;
         }
 
+        /**
+         * Validates resolution and initializes the ImageWriter.
+         */
         private void checkResolution() {
             if (camera.nX <= 0 || camera.nY <= 0)
                 throw new IllegalArgumentException("Resolution must be positive");
@@ -222,6 +329,10 @@ public class Camera implements Cloneable {
             camera.imageWriter = new ImageWriter(camera.nX, camera.nY);
         }
 
+        /**
+         * Validates location, calculates the camera's coordinate system (Vto, Vright, Vup),
+         * and applies rotation if necessary.
+         */
         private void checkLocationAndDirection() {
             if (camera.p0 == null)
                 throw new MissingResourceException("Missing location", "Camera", "p0");
@@ -232,7 +343,6 @@ public class Camera implements Cloneable {
             }
             camera.vTo = camera.vTo.normalize();
 
-            // Use the AXIS_Y constant if available, otherwise new Vector(0,1,0)
             Vector vUpGeneral = (tempUp == null) ? Vector.AXIS_Y : tempUp;
 
             try {
@@ -242,7 +352,7 @@ public class Camera implements Cloneable {
                 throw new IllegalArgumentException("vTo and vUp cannot be parallel");
             }
 
-            // Fixed Bonus rotation implementation to be Clockwise (subtract instead of add)
+            // Apply clockwise rotation bonus
             if (!isZero(rotationAngle)) {
                 double rad = Math.toRadians(rotationAngle);
                 double cos = alignZero(Math.cos(rad));
@@ -263,6 +373,9 @@ public class Camera implements Cloneable {
             }
         }
 
+        /**
+         * Validates View Plane parameters and calculates pixel dimensions and VP center.
+         */
         private void checkViewPlane() {
             if (isZero(camera.distance) || camera.distance < 0)
                 throw new IllegalArgumentException("Distance must be positive");
@@ -275,6 +388,11 @@ public class Camera implements Cloneable {
         }
     }
 
+    /**
+     * Factory method for creating a new Camera Builder.
+     *
+     * @return a new Builder instance
+     */
     public static Builder getBuilder() {
         return new Builder();
     }
