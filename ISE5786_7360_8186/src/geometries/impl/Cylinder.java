@@ -58,7 +58,7 @@ public final class Cylinder extends Tube {
     }
 
     @Override
-    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
+    protected List<Intersection> calcIntersectionsHelper(Ray ray, double maxDistance) {
         List<Intersection> result = null;
 
         Point baseCenter1 = _axis.origin();
@@ -88,11 +88,11 @@ public final class Cylinder extends Tube {
             double tBottom = alignZero(axisDir.dotProduct(baseCenter1.subtract(rayP0)) / dirDotAxis);
             double tTop = alignZero(axisDir.dotProduct(baseCenter2.subtract(rayP0)) / dirDotAxis);
 
-            if (tBottom > 0) {
+            if (tBottom > 0 && alignZero(tBottom - maxDistance) <= 0) {
                 result = new ArrayList<>();
                 result.add(new Intersection(this, ray.getPoint(tBottom)));
             }
-            if (tTop > 0) {
+            if (tTop > 0 && alignZero(tTop - maxDistance) <= 0) {
                 if (result == null) result = new ArrayList<>();
                 result.add(new Intersection(this, ray.getPoint(tTop)));
             }
@@ -114,7 +114,7 @@ public final class Cylinder extends Tube {
         if (!isZero(nv)) {
             // Bottom base
             double t1 = alignZero(axisDir.dotProduct(baseCenter1.subtract(rayP0)) / nv);
-            if (t1 > 0) {
+            if (t1 > 0 && alignZero(t1 - maxDistance) <= 0) {
                 Point p1 = ray.getPoint(t1);
                 if (alignZero(p1.distanceSquared(baseCenter1) - _radiusSquared) <= 0) {
                     result = new ArrayList<>();
@@ -124,7 +124,7 @@ public final class Cylinder extends Tube {
 
             // Top base
             double t2 = alignZero(axisDir.dotProduct(baseCenter2.subtract(rayP0)) / nv);
-            if (t2 > 0) {
+            if (t2 > 0 && alignZero(t2 - maxDistance) <= 0) {
                 Point p2 = ray.getPoint(t2);
                 if (alignZero(p2.distanceSquared(baseCenter2) - _radiusSquared) <= 0) {
                     Intersection inter2 = new Intersection(this, p2);
@@ -140,7 +140,7 @@ public final class Cylinder extends Tube {
 
         // Intersections with the side surface
         if (result == null || result.size() < 2) {
-            var tubeIntersections = super.calcIntersectionsHelper(ray);
+            var tubeIntersections = super.calcIntersectionsHelper(ray, maxDistance);
             if (tubeIntersections != null) {
                 for (var inter : tubeIntersections) {
                     Point p = inter.point;

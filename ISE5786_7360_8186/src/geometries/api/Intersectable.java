@@ -105,19 +105,33 @@ public abstract class Intersectable {
 
     /**
      * Public method to calculate intersections, returning Intersection objects.
+     * Delegates to the maxDistance version with POSITIVE_INFINITY.
      *
      * @param ray the ray
      * @return list of Intersections
      */
     public final List<Intersection> calcIntersections(Ray ray) {
-        return calcIntersectionsHelper(ray);
+        return calcIntersections(ray, Double.POSITIVE_INFINITY);
+    }
+
+    /**
+     * Public overloaded method to calculate intersections within a maximum distance.
+     *
+     * @param ray         the ray
+     * @param maxDistance the maximum allowed distance from the ray origin
+     * @return list of Intersections within the maximum distance
+     */
+    public final List<Intersection> calcIntersections(Ray ray, double maxDistance) {
+        return calcIntersectionsHelper(ray, maxDistance);
     }
 
     /**
      * Internal helper method for intersection calculation to be implemented by geometries.
+     * Refactored for Bonus 3 to include maxDistance constraint.
      *
-     * @param ray the ray
+     * @param ray         the ray
+     * @param maxDistance the maximum allowed distance from the ray origin
      * @return list of Intersections
      */
-    protected abstract List<Intersection> calcIntersectionsHelper(Ray ray);
+    protected abstract List<Intersection> calcIntersectionsHelper(Ray ray, double maxDistance);
 }

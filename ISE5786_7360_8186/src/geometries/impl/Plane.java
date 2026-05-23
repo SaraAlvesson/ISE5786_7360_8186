@@ -57,7 +57,7 @@ public final class Plane extends Geometry {
     }
 
     @Override
-    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
+    protected List<Intersection> calcIntersectionsHelper(Ray ray, double maxDistance) {
         Point p0 = ray.origin();
         Vector v = ray.direction();
         Vector n = _normal;
@@ -81,8 +81,8 @@ public final class Plane extends Geometry {
         // t = Numerator / Denominator
         double t = alignZero(nQMinusP0 / nv);
 
-        // Intersection must be in the ray's direction (t > 0)
-        if (t <= 0) {
+        // Intersection must be in the ray's direction (t > 0) and within maxDistance
+        if (t <= 0 || alignZero(t - maxDistance) > 0) {
             return null;
         }
 

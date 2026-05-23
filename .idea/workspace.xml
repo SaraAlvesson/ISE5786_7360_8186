@@ -4,15 +4,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f23cdba-42a2-494c-a300-83fa17f67ee9" name="Changes" comment="Update workspace.xml to reflect changes for DirectionalLight and PointLight classes; enhance SceneXmlParser support">
+    <list default="true" id="3f23cdba-42a2-494c-a300-83fa17f67ee9" name="Changes" comment="Implement getDistance method for DirectionalLight and PointLight classes; enhance shadow ray calculations in SimpleRayTracer">
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/ShadowTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/TransparencyReflectionTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/DirectionalLight.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/DirectionalLight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/LightSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/LightSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/PointLight.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/PointLight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/Intersectable.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/Intersectable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Cylinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Cylinder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Geometries.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Geometries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Plane.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Plane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Polygon.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Polygon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Sphere.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Sphere.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Triangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Triangle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Tube.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Tube.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Double3.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Double3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Material.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Material.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Ray.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Ray.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/SimpleRayTracer.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/SimpleRayTracer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/lighting/DirectionalLight.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/lighting/DirectionalLight.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/lighting/LightSource.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/lighting/LightSource.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/lighting/PointLight.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/lighting/PointLight.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/api/Intersectable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/api/Intersectable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Cylinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Cylinder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Geometries.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Geometries.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Plane.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Plane.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Polygon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Polygon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Sphere.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Sphere.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Triangle.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Triangle.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Tube.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Tube.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/primitives/Double3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/primitives/Double3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/primitives/Material.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/primitives/Material.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/primitives/Ray.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/primitives/Ray.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/SimpleRayTracer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/SimpleRayTracer.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -94,6 +112,7 @@
     "JUnit.RenderTests.testBasicRenderXml.executor": "Run",
     "JUnit.ShadowTests.executor": "Run",
     "JUnit.SphereTests.executor": "Run",
+    "JUnit.TransparencyReflectionTests.executor": "Run",
     "JUnit.TriangleTests.executor": "Run",
     "JUnit.TriangleTests.testConstructor.executor": "Run",
     "JUnit.TriangleTests.testGetNormal.executor": "Run",
@@ -151,21 +170,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RenderTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ISE5786_7360_8186" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="renderer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="renderer" />
-      <option name="MAIN_CLASS_NAME" value="renderer.RenderTests" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="RenderTests.testBasicRenderXml" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE5786_7360_8186" />
       <extension name="coverage">
@@ -197,13 +201,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TransparencyReflectionTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ISE5786_7360_8186" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="renderer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="renderer" />
+      <option name="MAIN_CLASS_NAME" value="renderer.TransparencyReflectionTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in ISE5786_7360_8186" />
+        <item itemvalue="JUnit.TransparencyReflectionTests" />
         <item itemvalue="JUnit.ShadowTests" />
         <item itemvalue="JUnit.LightsTests" />
         <item itemvalue="JUnit.RenderTests.testBasicRenderXml" />
-        <item itemvalue="JUnit.RenderTests" />
       </list>
     </recent_temporary>
   </component>
@@ -327,7 +346,15 @@
       <option name="project" value="LOCAL‎" />
       <updated>1779563112211</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL‎-00015" summary="Implement getDistance method for DirectionalLight and PointLight classes; enhance shadow ray calculations in SimpleRayTracer">
+      <option name="closed" value="true" />
+      <created>1779566554706</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL‎-00015" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1779566554706</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -356,7 +383,8 @@
     <MESSAGE value="Refactor Geometry class: change _emission visibility to private" />
     <MESSAGE value="PR07-Implement DirectionalLight and PointLight classes; update SceneXmlParser for light source support" />
     <MESSAGE value="Update workspace.xml to reflect changes for DirectionalLight and PointLight classes; enhance SceneXmlParser support" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update workspace.xml to reflect changes for DirectionalLight and PointLight classes; enhance SceneXmlParser support" />
+    <MESSAGE value="Implement getDistance method for DirectionalLight and PointLight classes; enhance shadow ray calculations in SimpleRayTracer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement getDistance method for DirectionalLight and PointLight classes; enhance shadow ray calculations in SimpleRayTracer" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

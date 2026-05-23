@@ -21,6 +21,16 @@ public class Material {
     public Double3 kS = Double3.ZERO;
 
     /**
+     * Transparency attenuation factor (kT).
+     */
+    public Double3 kT = Double3.ZERO;
+
+    /**
+     * Reflection attenuation factor (kR).
+     */
+    public Double3 kR = Double3.ZERO;
+
+    /**
      * Shininess factor.
      */
     public int nShininess = 0;
@@ -88,6 +98,50 @@ public class Material {
      */
     public Material setKS(double kS) {
         this.kS = new Double3(kS);
+        return this;
+    }
+
+    /**
+     * Setter for kT using a Double3 value - Method Chaining.
+     *
+     * @param kT the transparency attenuation factor
+     * @return the material object itself
+     */
+    public Material setKT(Double3 kT) {
+        this.kT = kT;
+        return this;
+    }
+
+    /**
+     * Setter for kT using a double value - Method Chaining.
+     *
+     * @param kT the transparency attenuation factor as a double
+     * @return the material object itself
+     */
+    public Material setKT(double kT) {
+        this.kT = new Double3(kT);
+        return this;
+    }
+
+    /**
+     * Setter for kR using a Double3 value - Method Chaining.
+     *
+     * @param kR the reflection attenuation factor
+     * @return the material object itself
+     */
+    public Material setKR(Double3 kR) {
+        this.kR = kR;
+        return this;
+    }
+
+    /**
+     * Setter for kR using a double value - Method Chaining.
+     *
+     * @param kR the reflection attenuation factor as a double
+     * @return the material object itself
+     */
+    public Material setKR(double kR) {
+        this.kR = new Double3(kR);
         return this;
     }
 

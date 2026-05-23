@@ -22,8 +22,8 @@ public final class Triangle extends Polygon {
     }
 
     @Override
-    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
-        return super.calcIntersectionsHelper(ray);
+    protected List<Intersection> calcIntersectionsHelper(Ray ray, double maxDistance) {
+        return super.calcIntersectionsHelper(ray, maxDistance);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package geometries.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import primitives.Point;
@@ -48,7 +49,7 @@ public class Tube extends RadialGeometry {
     }
 
     @Override
-    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
+    protected List<Intersection> calcIntersectionsHelper(Ray ray, double maxDistance) {
         Vector v = ray.direction();
         Vector va = _axis.direction();
         Point p0 = ray.origin();
@@ -73,7 +74,10 @@ public class Tube extends RadialGeometry {
 
         if (p0.equals(pa)) {
             double t = alignZero(_radius / Math.sqrt(a));
-            return t > 0 ? List.of(new Intersection(this, ray.getPoint(t))) : null;
+            if (t > 0 && alignZero(t - maxDistance) <= 0) {
+                return List.of(new Intersection(this, ray.getPoint(t)));
+            }
+            return null;
         }
 
         Vector deltaP = p0.subtract(pa);
@@ -100,16 +104,26 @@ public class Tube extends RadialGeometry {
         double t1 = alignZero((-b - sqrtDiscriminant) / (2 * a));
         double t2 = alignZero((-b + sqrtDiscriminant) / (2 * a));
 
-        if (t1 > 0 && t2 > 0) {
-            return t1 < t2
-                    ? List.of(new Intersection(this, ray.getPoint(t1)), new Intersection(this, ray.getPoint(t2)))
-                    : List.of(new Intersection(this, ray.getPoint(t2)), new Intersection(this, ray.getPoint(t1)));
+        List<Intersection> result = null;
+
+        // Check first intersection point t1
+        if (t1 > 0 && alignZero(t1 - maxDistance) <= 0) {
+            if (result == null) result = new ArrayList<>();
+            result.add(new Intersection(this, ray.getPoint(t1)));
         }
 
-        if (t1 > 0) return List.of(new Intersection(this, ray.getPoint(t1)));
-        if (t2 > 0) return List.of(new Intersection(this, ray.getPoint(t2)));
+        // Check second intersection point t2
+        if (t2 > 0 && alignZero(t2 - maxDistance) <= 0) {
+            if (result == null) result = new ArrayList<>();
+            result.add(new Intersection(this, ray.getPoint(t2)));
+        }
 
-        return null;
+        // Sorting: points must be ordered by distance from ray origin
+        if (result != null && result.size() == 2 && t2 < t1) {
+            return List.of(result.get(1), result.get(0));
+        }
+
+        return result;
     }
 
     @Override

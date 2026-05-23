@@ -36,12 +36,12 @@ public class Geometries extends Intersectable {
     }
 
     @Override
-    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
+    protected List<Intersection> calcIntersectionsHelper(Ray ray, double maxDistance) {
         List<Intersection> result = null;
 
         for (Intersectable geometry : _geometries) {
-            // Calling the public NVI method for each geometry [cite: 229]
-            var intersections = geometry.calcIntersections(ray);
+            // Passing maxDistance down to each component in the composite structure
+            var intersections = geometry.calcIntersections(ray, maxDistance);
 
             if (intersections != null) {
                 if (result == null) {

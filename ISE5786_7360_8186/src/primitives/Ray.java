@@ -12,6 +12,11 @@ import static primitives.Util.isZero;
  */
 public final class Ray {
     /**
+     * Constant for shifting the ray origin to prevent self-intersections.
+     */
+    private static final double DELTA = 0.1;
+
+    /**
      * The origin point of the ray
      */
     private final Point _origin;
@@ -30,6 +35,29 @@ public final class Ray {
     public Ray(Point origin, Vector direction) {
         _origin = origin;
         _direction = direction.normalize();
+    }
+
+    /**
+     * Constructor for generating a shifted ray to avoid self-intersection (Refactoring via RDD).
+     * The origin point is moved slightly along the normal vector by DELTA,
+     * in the direction of the new ray.
+     *
+     * @param origin    the original intersection point
+     * @param direction the direction of the secondary ray
+     * @param normal    the normal vector at the intersection point
+     */
+    public Ray(Point origin, Vector direction, Vector normal) {
+        _direction = direction.normalize();
+
+        // Check the sign of the displacement by looking at the dot product of direction and normal
+        double nv = normal.dotProduct(_direction);
+
+        if (isZero(nv)) {
+            _origin = origin;
+        } else {
+            Vector deltaVector = normal.scale(nv > 0 ? DELTA : -DELTA);
+            _origin = origin.add(deltaVector);
+        }
     }
 
     /**

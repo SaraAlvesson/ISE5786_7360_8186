@@ -10,7 +10,8 @@ import static primitives.Util.isZero;
 
 /**
  * Represents a convex polygon in a 3D Cartesian coordinate system.
- * * @author Dan Zilberstein
+ *
+ * @author Dan Zilberstein
  */
 public class Polygon extends Geometry {
     /**
@@ -28,8 +29,8 @@ public class Polygon extends Geometry {
 
     /**
      * Constructs a convex polygon from ordered vertices.
-     * * @param vertices polygon vertices in edge order
      *
+     * @param vertices polygon vertices in edge order
      * @throws IllegalArgumentException if the vertices do not form a valid convex polygon
      */
     public Polygon(Point... vertices) {
@@ -63,9 +64,9 @@ public class Polygon extends Geometry {
     }
 
     @Override
-    protected List<Intersection> calcIntersectionsHelper(Ray ray) {
-        // Step 1: Find intersection with the plane using NVI
-        var intersections = _plane.calcIntersections(ray);
+    protected List<Intersection> calcIntersectionsHelper(Ray ray, double maxDistance) {
+        // Step 1: Find intersection with the plane using NVI supporting maxDistance
+        var intersections = _plane.calcIntersections(ray, maxDistance);
         if (intersections == null) return null;
 
         Point p0 = ray.origin();
