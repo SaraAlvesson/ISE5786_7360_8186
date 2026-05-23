@@ -4,6 +4,7 @@ import geometries.api.Intersectable.Intersection;
 import lighting.LightSource;
 import primitives.Color;
 import primitives.Double3;
+import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 import scene.Scene;
@@ -14,6 +15,11 @@ import static primitives.Util.alignZero;
  * A simple implementation of a ray tracer.
  */
 public class SimpleRayTracer extends RayTracerBase {
+
+    /**
+     * Constant for shifting the origin of the shadow ray to prevent self-shadowing.
+     */
+    private static final double DELTA = 0.1;
 
     /**
      * Constructor for SimpleRayTracer.
@@ -57,14 +63,49 @@ public class SimpleRayTracer extends RayTracerBase {
         Color color = Color.BLACK;
         for (LightSource lightSource : _scene.lights) {
             if (preprocessLightSource(intersection, lightSource)) {
-                Color intensity = lightSource.getIntensity(intersection.point);
-                color = color.add(
-                        intensity.scale(calcDiffuse(intersection.material.kD, intersection.nl)),
-                        intensity.scale(calcSpecular(intersection.material.kS, intersection.l, intersection.normal, intersection.nl, intersection.v, intersection.material.nShininess))
-                );
+                // Check if the point is unshaded by this light source
+                if (unshaded(intersection, lightSource)) {
+                    Color intensity = lightSource.getIntensity(intersection.point);
+                    color = color.add(
+                            intensity.scale(calcDiffuse(intersection.material.kD, intersection.nl)),
+                            intensity.scale(calcSpecular(intersection.material.kS, intersection.l, intersection.normal, intersection.nl, intersection.v, intersection.material.nShininess))
+                    );
+                }
             }
         }
         return color;
+    }
+
+    /**
+     * Checks if a point is unshaded by a specific light source.
+     *
+     * @param intersection the intersection point data
+     * @param lightSource  the light source
+     * @return true if the point is unshaded, false otherwise
+     */
+    private boolean unshaded(Intersection intersection, LightSource lightSource) {
+        // The shadow ray direction is opposite to the vector from light source to point (getL)
+        Vector shadowDirection = lightSource.getL(intersection.point).scale(-1);
+
+        // Determine the sign of the shift along the normal based on the direction towards the light
+        double cosTheta = shadowDirection.dotProduct(intersection.normal);
+
+        Vector delta = intersection.normal.scale(cosTheta > 0 ? DELTA : -DELTA);
+        Point shadowOrigin = intersection.point.add(delta);
+        Ray shadowRay = new Ray(shadowOrigin, shadowDirection);
+
+        // Find all intersections of the shadow ray with the scene geometries
+        var intersections = _scene.geometries.calcIntersections(shadowRay);
+        if (intersections == null) return true;
+
+        // Filter intersections that are closer than the light source distance
+        double lightDistance = lightSource.getDistance(intersection.point);
+        for (Intersection intersect : intersections) {
+            if (alignZero(intersect.point.distance(intersection.point) - lightDistance) < 0) {
+                return false; // Found an object blocking the light source
+            }
+        }
+        return true;
     }
 
     /**

@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f23cdba-42a2-494c-a300-83fa17f67ee9" name="Changes" comment="Update workspace.xml to reflect changes for DirectionalLight and PointLight classes; enhance SceneXmlParser support" />
+    <list default="true" id="3f23cdba-42a2-494c-a300-83fa17f67ee9" name="Changes" comment="Update workspace.xml to reflect changes for DirectionalLight and PointLight classes; enhance SceneXmlParser support">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/DirectionalLight.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/DirectionalLight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/LightSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/LightSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/PointLight.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/PointLight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/SimpleRayTracer.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/SimpleRayTracer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/lighting/DirectionalLight.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/lighting/DirectionalLight.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/lighting/LightSource.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/lighting/LightSource.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/lighting/PointLight.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/lighting/PointLight.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/SimpleRayTracer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/SimpleRayTracer.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -59,54 +69,55 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.PayRoll.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Payroll.executor&quot;: &quot;Run&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;JUnit.All in ISE5786_7360_8186.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.CameraIntersectionIntegration.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.CameraTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.CylinderTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ImageWriterTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.LightsTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.PlaneTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.PlaneTests.testPlanePointPointPoint.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.PointTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.PointTests.testDistance.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.PointTests.testDistanceSquared.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.PointTests.testSubtract.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.PolygonTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.RayTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.RayTests.testRay.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.RenderTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.RenderTests.testBasicRenderXml.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.SphereTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TriangleTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TriangleTests.testConstructor.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TriangleTests.testGetNormal.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TubeTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TubeTests.testGetNormal.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.VectorTests.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/saraa/source/repos/ISE5786_7360_8186&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/saraa/IdeaProjects/Homework1/src/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.PayRoll.executor": "Run",
+    "Application.Payroll.executor": "Run",
+    "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.All in ISE5786_7360_8186.executor": "Run",
+    "JUnit.CameraIntersectionIntegration.executor": "Run",
+    "JUnit.CameraTests.executor": "Run",
+    "JUnit.CylinderTests.executor": "Run",
+    "JUnit.ImageWriterTests.executor": "Run",
+    "JUnit.LightsTests.executor": "Run",
+    "JUnit.PlaneTests.executor": "Run",
+    "JUnit.PlaneTests.testPlanePointPointPoint.executor": "Run",
+    "JUnit.PointTests.executor": "Run",
+    "JUnit.PointTests.testDistance.executor": "Run",
+    "JUnit.PointTests.testDistanceSquared.executor": "Run",
+    "JUnit.PointTests.testSubtract.executor": "Run",
+    "JUnit.PolygonTests.executor": "Run",
+    "JUnit.RayTests.executor": "Run",
+    "JUnit.RayTests.testRay.executor": "Run",
+    "JUnit.RenderTests.executor": "Run",
+    "JUnit.RenderTests.testBasicRenderXml.executor": "Run",
+    "JUnit.ShadowTests.executor": "Run",
+    "JUnit.SphereTests.executor": "Run",
+    "JUnit.TriangleTests.executor": "Run",
+    "JUnit.TriangleTests.testConstructor.executor": "Run",
+    "JUnit.TriangleTests.testGetNormal.executor": "Run",
+    "JUnit.TubeTests.executor": "Run",
+    "JUnit.TubeTests.testGetNormal.executor": "Run",
+    "JUnit.VectorTests.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/saraa/source/repos/ISE5786_7360_8186",
+    "onboarding.tips.debug.path": "C:/Users/saraa/IdeaProjects/Homework1/src/Main.java",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "File.Encoding"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="Point" />
@@ -121,21 +132,6 @@
       <module name="ISE5786_7360_8186" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ImageWriterTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ISE5786_7360_8186" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="renderer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="renderer" />
-      <option name="MAIN_CLASS_NAME" value="renderer.ImageWriterTests" />
-      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -186,13 +182,28 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ShadowTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ISE5786_7360_8186" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="renderer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="renderer" />
+      <option name="MAIN_CLASS_NAME" value="renderer.ShadowTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in ISE5786_7360_8186" />
+        <item itemvalue="JUnit.ShadowTests" />
         <item itemvalue="JUnit.LightsTests" />
         <item itemvalue="JUnit.RenderTests.testBasicRenderXml" />
         <item itemvalue="JUnit.RenderTests" />
-        <item itemvalue="JUnit.ImageWriterTests" />
       </list>
     </recent_temporary>
   </component>
@@ -308,7 +319,15 @@
       <option name="project" value="LOCAL‎" />
       <updated>1779562820170</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL‎-00014" summary="Update workspace.xml to reflect changes for DirectionalLight and PointLight classes; enhance SceneXmlParser support">
+      <option name="closed" value="true" />
+      <created>1779563112211</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL‎-00014" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1779563112211</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
