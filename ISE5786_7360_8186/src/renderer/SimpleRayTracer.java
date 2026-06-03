@@ -1,6 +1,7 @@
 package renderer;
 
 import geometries.api.Intersectable.Intersection;
+import java.util.List;
 import lighting.LightSource;
 import primitives.Color;
 import primitives.Double3;
@@ -14,6 +15,7 @@ import static primitives.Util.alignZero;
  * A simple implementation of a ray tracer supporting shading, shadows,
  * reflections, and partial transparency.
  * Optimized with maxDistance constraint for shadow ray intersections (Bonus 3).
+ * Upgraded to support Soft Shadows via beam ray tracing from area light sources.
  */
 public class SimpleRayTracer extends RayTracerBase {
 
@@ -38,12 +40,32 @@ public class SimpleRayTracer extends RayTracerBase {
     private static final Double3 INITIAL_K = Double3.ONE;
 
     /**
+     * Number of samples across one dimension (NxN grid) for Soft Shadows.
+     * Default value is 1, which means a single central shadow ray is used (feature disabled).
+     */
+    private int softShadowsSamples = 1;
+
+    /**
      * Constructor for SimpleRayTracer.
      *
      * @param scene the scene
      */
     public SimpleRayTracer(Scene scene) {
         super(scene);
+    }
+
+    /**
+     * Setter for the number of soft shadow samples (NxN grid).
+     *
+     * @param samples number of samples per row/column. 1 means disabled.
+     * @return the SimpleRayTracer object itself for method chaining
+     */
+    public SimpleRayTracer setSoftShadowsSamples(int samples) {
+        if (samples < 1) {
+            throw new IllegalArgumentException("Number of samples must be at least 1");
+        }
+        this.softShadowsSamples = samples;
+        return this;
     }
 
     @Override
@@ -96,7 +118,7 @@ public class SimpleRayTracer extends RayTracerBase {
         Color color = Color.BLACK;
         for (LightSource lightSource : _scene.lights) {
             if (preprocessLightSource(intersection, lightSource)) {
-                // Calculate the partial transparency factor from objects blocking this light source
+                // Calculate the partial transparency factor from objects blocking this light source area
                 Double3 ktr = transparency(intersection, lightSource);
 
                 // Check if the total light contribution (global k * shadow ktr) is significant
@@ -171,7 +193,8 @@ public class SimpleRayTracer extends RayTracerBase {
     }
 
     /**
-     * Calculates the cumulative light transparency coefficient factor between a point and a light source.
+     * Calculates the cumulative light transparency coefficient factor between a point and a light source area.
+     * Supports Soft Shadows by checking light blocking for a beam of rays.
      * Optimized for Bonus 3 by passing the max distance directly to the composite geometries.
      *
      * @param intersection the intersection point data
@@ -179,30 +202,44 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return the cumulative transparency factor (Double3)
      */
     private Double3 transparency(Intersection intersection, LightSource lightSource) {
-        Vector shadowDirection = lightSource.getL(intersection.point).scale(-1);
+        // Fetch the beam of vectors from the light source area towards the geometry intersection point
+        List<Vector> beamL = lightSource.getBeamL(intersection.point, softShadowsSamples);
 
-        // Construct the shifted shadow ray to avoid self-shadowing
-        Ray shadowRay = new Ray(intersection.point, shadowDirection, intersection.normal);
-        double lightDistance = lightSource.getDistance(shadowRay.origin());
+        Double3 ktrSum = Double3.ZERO;
 
-        // BONUS 3 OPTIMIZATION: Pass lightDistance as maxDistance directly to calcIntersections!
-        var intersections = _scene.geometries.calcIntersections(shadowRay, lightDistance);
-        if (intersections == null) return Double3.ONE;
+        // Trace shadow rays for each direction vector in the beam
+        for (Vector l : beamL) {
+            // FIX: The vector 'l' from getBeamL points from the light sample towards the object point.
+            // Therefore, the shadow ray direction from the object point back to the light source is exactly -l.
+            Vector shadowDirection = l.scale(-1);
 
-        Double3 ktr = Double3.ONE;
+            // Construct the shifted shadow ray to avoid self-shadowing
+            Ray shadowRay = new Ray(intersection.point, shadowDirection, intersection.normal);
+            double lightDistance = lightSource.getDistance(shadowRay.origin());
 
-        for (Intersection intersect : intersections) {
-            // Re-verifying within the loop to correctly accumulate coefficients
-            if (alignZero(intersect.point.distance(shadowRay.origin()) - lightDistance) < 0) {
-                ktr = ktr.product(intersect.material.kT);
+            // BONUS 3 OPTIMIZATION: Pass lightDistance as maxDistance directly to calcIntersections!
+            var intersections = _scene.geometries.calcIntersections(shadowRay, lightDistance);
 
-                // Optimization: Stop if the shadow becomes completely opaque
-                if (ktr.isLowerThan(MIN_CALC_COLOR_K)) {
-                    return Double3.ZERO;
+            if (intersections == null) {
+                // No objects block this light beam ray, full transparency contribution
+                ktrSum = ktrSum.add(Double3.ONE);
+            } else {
+                Double3 currentRayKtr = Double3.ONE;
+                for (Intersection intersect : intersections) {
+                    if (alignZero(intersect.point.distance(shadowRay.origin()) - lightDistance) < 0) {
+                        currentRayKtr = currentRayKtr.product(intersect.material.kT);
+                        if (currentRayKtr.isLowerThan(MIN_CALC_COLOR_K)) {
+                            currentRayKtr = Double3.ZERO;
+                            break;
+                        }
+                    }
                 }
+                ktrSum = ktrSum.add(currentRayKtr);
             }
         }
-        return ktr;
+
+        // Return the average transparency factor across all rays in the shadow beam using divide
+        return ktrSum.divide(beamL.size());
     }
 
     /**

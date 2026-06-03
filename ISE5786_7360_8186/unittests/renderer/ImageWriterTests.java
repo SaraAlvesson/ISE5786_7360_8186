@@ -3,6 +3,9 @@ package renderer;
 import org.junit.jupiter.api.Test;
 import primitives.Color;
 
+import static java.awt.Color.RED;
+import static java.awt.Color.YELLOW;
+
 /**
  * Unit tests for ImageWriter class.
  * Demonstrates basic image creation with a grid pattern.
@@ -21,8 +24,8 @@ class ImageWriterTests {
         final int step = 50;
 
         // Colors for background and grid lines (high contrast)
-        Color background = new Color(255, 255, 0); // Yellow
-        Color gridColor = new Color(255, 0, 0);    // Red
+        Color background = new Color(YELLOW);
+        Color gridColor = new Color(RED);
 
         // Create the ImageWriter object
         ImageWriter imageWriter = new ImageWriter(nX, nY);

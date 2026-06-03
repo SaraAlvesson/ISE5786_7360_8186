@@ -8,6 +8,8 @@ import static primitives.Util.alignZero;
 
 /**
  * Class representing a spotlight source (like a flashlight).
+ * Extends PointLight to incorporate directionality and beam focusing,
+ * while inheriting support for Soft Shadows via its area radius properties.
  */
 public class SpotLight extends PointLight {
     private final Vector direction;
@@ -16,6 +18,13 @@ public class SpotLight extends PointLight {
      */
     private double _narrowBeam = 1;
 
+    /**
+     * Constructor for SpotLight.
+     *
+     * @param intensity the initial intensity (color) of the light source
+     * @param position  the position of the light source in the scene
+     * @param direction the direction vector of the spotlight cone
+     */
     public SpotLight(Color intensity, Point position, Vector direction) {
         super(intensity, position);
         this.direction = direction.normalize();
@@ -23,12 +32,18 @@ public class SpotLight extends PointLight {
 
     /**
      * Setter for narrow beam focus factor.
-     * * @param narrowBeam exponent for narrow beam focus
      *
+     * @param narrowBeam exponent for narrow beam focus
      * @return the spotlight object itself
      */
     public SpotLight setNarrowBeam(double narrowBeam) {
         this._narrowBeam = narrowBeam;
+        return this;
+    }
+
+    @Override
+    public SpotLight setRadius(double radius) {
+        super.setRadius(radius);
         return this;
     }
 

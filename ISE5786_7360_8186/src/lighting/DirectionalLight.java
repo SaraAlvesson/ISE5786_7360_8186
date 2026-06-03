@@ -36,4 +36,11 @@ public class DirectionalLight extends Light implements LightSource {
     public double getDistance(Point point) {
         return Double.POSITIVE_INFINITY;
     }
+
+    @Override
+    public java.util.List<Vector> getBeamL(Point p, int numSamples) {
+        java.util.List<Vector> singleBeam = new java.util.ArrayList<>(1);
+        singleBeam.add(getL(p));
+        return singleBeam;
+    }
 }

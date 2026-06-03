@@ -103,6 +103,43 @@ class RenderTests {
     }
 
     /**
+     * Produce the same scene with basic 3D model using Anti-Aliasing (Super-Sampling)
+     * to visually compare image smoothing quality.
+     */
+    @Test
+    void testBasicRenderAntiAliasing() {
+        Scene scene = new Scene("Two colors Anti-Aliasing")                   //
+                .setBackground(new Color(75, 127, 90))                       //
+                .setAmbientLight(new AmbientLight(new Color(255, 191, 191)));
+
+        final double Z = -100D;
+        Point pLM = new Point(-100, 0, Z);
+        Point pMT = new Point(0, 100, Z);
+        Point pLT = new Point(-100, 100, Z);
+        Point pMB = new Point(0, -100, Z);
+        Point pLB = new Point(-100, -100, Z);
+        Point pRM = new Point(100, 0, Z);
+        Point pRB = new Point(100, -100, Z);
+        Point o = new Point(0, 0, Z);
+        double radius = 50D;
+
+        scene.geometries //
+                .add(
+                        new Sphere(o, radius),
+                        new Triangle(pLM, pMT, pLT),
+                        new Triangle(pLM, pMB, pLB),
+                        new Triangle(pRM, pMB, pRB));
+
+        baseCameraBuilder() //
+                .setRayTracer(scene, RayTracerType.SIMPLE) //
+                .setAntiAliasingSamples(3) // Enabling Super-Sampling with a 9x9 sub-pixel grid
+                .build() //
+                .renderImage() //
+                .printGrid(100, new Color(YELLOW)) //
+                .writeToImage("Two colors anti-aliasing render test");
+    }
+
+    /**
      * Renders a scene loaded from an XML file.
      *
      * @param builder the camera builder to use

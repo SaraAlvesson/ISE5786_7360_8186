@@ -5,33 +5,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f23cdba-42a2-494c-a300-83fa17f67ee9" name="Changes" comment="Implement getDistance method for DirectionalLight and PointLight classes; enhance shadow ray calculations in SimpleRayTracer">
-      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/ShadowTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/TransparencyReflectionTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/PixelManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/sampling/Blackboard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/sampling/TargetArea.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/PerformanceTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/Intersectable.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/Intersectable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Cylinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Cylinder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Geometries.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Geometries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Plane.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Plane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Polygon.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Polygon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Sphere.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Sphere.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Triangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Triangle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Tube.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Tube.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Double3.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Double3.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Material.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Material.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Ray.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/primitives/Ray.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/DirectionalLight.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/DirectionalLight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/LightSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/LightSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/PointLight.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/PointLight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/SpotLight.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/lighting/SpotLight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/Camera.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/SimpleRayTracer.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/SimpleRayTracer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/api/Intersectable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/api/Intersectable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Cylinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Cylinder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Geometries.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Geometries.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Plane.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Plane.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Polygon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Polygon.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Sphere.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Sphere.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Triangle.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Triangle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Tube.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Tube.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/primitives/Double3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/primitives/Double3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/primitives/Material.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/primitives/Material.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/primitives/Ray.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/primitives/Ray.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/SimpleRayTracer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/SimpleRayTracer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/ImageWriterTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/ImageWriterTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/LightsTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/LightsTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/RenderTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/RenderTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/Camera$Builder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/Camera$Builder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/Camera.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/Camera.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/BasePlusCommissionEmployee.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/BasePlusCommissionEmployee.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/CommissionEmployee.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/CommissionEmployee.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/Employee.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/Employee.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/HourlyEmployee.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/HourlyEmployee.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/Main.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/Main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/Payroll.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/Payroll.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/allclasses-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/allclasses-index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/allpackages-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/allpackages-index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/help-doc.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/help-doc.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-1.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-2.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-3.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-3.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-4.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-5.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-5.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-6.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-6.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-7.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-7.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-8.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-8.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-9.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index-files/index-9.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/overview-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/overview-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ex0_SarahAlvesson/javadoc/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/renderer/ImageWriterTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/renderer/ImageWriterTests.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/renderer/RenderTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/renderer/RenderTests.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,6 +114,10 @@
     "JUnit.CylinderTests.executor": "Run",
     "JUnit.ImageWriterTests.executor": "Run",
     "JUnit.LightsTests.executor": "Run",
+    "JUnit.PerformanceTests.executor": "Run",
+    "JUnit.PerformanceTests.testMultiThreadPerformance.executor": "Run",
+    "JUnit.PerformanceTests.testSingleThreadPerformance.executor": "Run",
+    "JUnit.PerformanceTests.testSoftShadows.executor": "Run",
     "JUnit.PlaneTests.executor": "Run",
     "JUnit.PlaneTests.testPlanePointPointPoint.executor": "Run",
     "JUnit.PointTests.executor": "Run",
@@ -109,6 +128,7 @@
     "JUnit.RayTests.executor": "Run",
     "JUnit.RayTests.testRay.executor": "Run",
     "JUnit.RenderTests.executor": "Run",
+    "JUnit.RenderTests.testBasicRenderAntiAliasing.executor": "Run",
     "JUnit.RenderTests.testBasicRenderXml.executor": "Run",
     "JUnit.ShadowTests.executor": "Run",
     "JUnit.SphereTests.executor": "Run",
@@ -155,7 +175,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LightsTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PerformanceTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE5786_7360_8186" />
       <extension name="coverage">
         <pattern>
@@ -164,13 +184,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="renderer" />
-      <option name="MAIN_CLASS_NAME" value="renderer.LightsTests" />
+      <option name="MAIN_CLASS_NAME" value="renderer.PerformanceTests" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RenderTests.testBasicRenderXml" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PerformanceTests.testMultiThreadPerformance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE5786_7360_8186" />
       <extension name="coverage">
         <pattern>
@@ -179,14 +199,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="renderer" />
-      <option name="MAIN_CLASS_NAME" value="renderer.RenderTests" />
-      <option name="METHOD_NAME" value="testBasicRenderXml" />
+      <option name="MAIN_CLASS_NAME" value="renderer.PerformanceTests" />
+      <option name="METHOD_NAME" value="testMultiThreadPerformance" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ShadowTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PerformanceTests.testSingleThreadPerformance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE5786_7360_8186" />
       <extension name="coverage">
         <pattern>
@@ -195,13 +215,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="renderer" />
-      <option name="MAIN_CLASS_NAME" value="renderer.ShadowTests" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="MAIN_CLASS_NAME" value="renderer.PerformanceTests" />
+      <option name="METHOD_NAME" value="testSingleThreadPerformance" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TransparencyReflectionTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="PerformanceTests.testSoftShadows" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE5786_7360_8186" />
       <extension name="coverage">
         <pattern>
@@ -210,8 +231,9 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="renderer" />
-      <option name="MAIN_CLASS_NAME" value="renderer.TransparencyReflectionTests" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="MAIN_CLASS_NAME" value="renderer.PerformanceTests" />
+      <option name="METHOD_NAME" value="testSoftShadows" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -219,10 +241,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.All in ISE5786_7360_8186" />
-        <item itemvalue="JUnit.TransparencyReflectionTests" />
-        <item itemvalue="JUnit.ShadowTests" />
-        <item itemvalue="JUnit.LightsTests" />
-        <item itemvalue="JUnit.RenderTests.testBasicRenderXml" />
+        <item itemvalue="JUnit.PerformanceTests" />
+        <item itemvalue="JUnit.PerformanceTests.testSoftShadows" />
+        <item itemvalue="JUnit.PerformanceTests.testMultiThreadPerformance" />
+        <item itemvalue="JUnit.PerformanceTests.testSingleThreadPerformance" />
       </list>
     </recent_temporary>
   </component>
@@ -354,7 +376,15 @@
       <option name="project" value="LOCAL‎" />
       <updated>1779566554706</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL‎-00016" summary="Implement getDistance method for DirectionalLight and PointLight classes; enhance shadow ray calculations in SimpleRayTracer">
+      <option name="closed" value="true" />
+      <created>1779568629322</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL‎-00016" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1779568629322</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

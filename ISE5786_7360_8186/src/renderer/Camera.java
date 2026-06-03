@@ -1,10 +1,14 @@
 package renderer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.MissingResourceException;
 import primitives.Color;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import renderer.sampling.Blackboard;
+import renderer.sampling.TargetArea;
 import scene.Scene;
 
 import static primitives.Util.alignZero;
@@ -60,37 +64,132 @@ public class Camera implements Cloneable {
     private RayTracerBase rayTracer;
 
     /**
+     * Super-Sampling (Anti-Aliasing) number of samples per dimension (NxN grid).
+     * Default value is 1, which means a single central ray is used (feature disabled).
+     */
+    private int antiAliasingSamples = 1;
+
+    /**
+     * Multi-threading: number of threads to use for rendering.
+     * Default value is 1, which means single-threaded synchronous execution.
+     */
+    private int threadsCount = 1;
+
+    /**
+     * Multi-threading: progress print interval in seconds.
+     * Default value is 0, meaning progress printing is disabled.
+     */
+    private double printInterval = 0.0;
+
+    /**
      * Default private constructor for Builder use only.
      */
     private Camera() {
     }
 
     /**
-     * Renders the image by iterating through all pixels in the resolution,
-     * constructing a ray for each pixel and tracing its color.
+     * Renders the image by iterating through all pixels in the resolution.
+     * Supports both single-threaded execution and multi-threaded parallel execution
+     * via the PixelManager helper component.
      *
      * @return current camera object for chaining
      */
     public Camera renderImage() {
-        for (int i = 0; i < nY; i++) {
-            for (int j = 0; j < nX; j++) {
-                castRay(j, i);
+        // If single thread is requested, run synchronously without manager overhead
+        if (threadsCount == 1) {
+            for (int i = 0; i < nY; i++) {
+                for (int j = 0; j < nX; j++) {
+                    castRay(j, i);
+                }
             }
+            return this;
         }
+
+        // Initialize the PixelManager for thread-safe work allocation
+        PixelManager pixelManager = new PixelManager(nY, nX, printInterval);
+
+        // Create and populate the list of workers/threads
+        List<Thread> threads = new ArrayList<>();
+        for (int t = 0; t < threadsCount; t++) {
+            threads.add(new Thread(() -> {
+                PixelManager.Pixel pixel;
+                // Keep asking for the next available pixel until none are left
+                while ((pixel = pixelManager.nextPixel()) != null) {
+                    castRay(pixel.col(), pixel.row());
+                    pixelManager.pixelDone();
+                }
+            }));
+        }
+
+        // Start execution for all created threads
+        for (Thread thread : threads) {
+            thread.start();
+        }
+
+        // Main thread waits for all rendering threads to complete their work
+        try {
+            for (Thread thread : threads) {
+                thread.join();
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Rendering execution was interrupted", e);
+        }
+
         return this;
     }
 
     /**
-     * Private helper method to cast a ray through a specific pixel,
-     * trace its color, and write it to the ImageWriter.
+     * Private helper method to cast a ray (or a beam of rays if Anti-Aliasing is enabled)
+     * through a specific pixel, trace its color, and write it to the ImageWriter.
      *
      * @param j column index in the pixel grid
      * @param i row index in the pixel grid
      */
     private void castRay(int j, int i) {
-        Ray ray = constructRay(j, i);
-        Color color = rayTracer.traceRay(ray);
-        imageWriter.writePixel(j, i, color);
+        // If Anti-Aliasing is disabled (samples == 1), perform standard single ray tracing
+        if (antiAliasingSamples == 1) {
+            Ray ray = constructRay(j, i);
+            Color color = rayTracer.traceRay(ray);
+            imageWriter.writePixel(j, i, color);
+            return;
+        }
+
+        // Calculate the physical center point of the current pixel on the View Plane
+        double xJ = (j - (nX - 1) / 2.0) * pixelWidth;
+        double yI = -(i - (nY - 1) / 2.0) * pixelHeight;
+        Point pixelCenter = vpCenter;
+        if (!isZero(xJ)) {
+            pixelCenter = pixelCenter.add(vRight.scale(xJ));
+        }
+        if (!isZero(yI)) {
+            pixelCenter = pixelCenter.add(vUp.scale(yI));
+        }
+
+        // Initialize Blackboard to generate 2D offsets inside a SQUARE (the pixel shape)
+        Blackboard blackboard = new Blackboard()
+                .setShape(Blackboard.AreaShape.SQUARE)
+                .setNumOfSamples(antiAliasingSamples);
+
+        // Map the 2D grid offsets into 3D points on the View Plane across the single pixel area
+        List<Point> targetPoints = TargetArea.convertTo3DPoints(
+                pixelCenter,
+                vTo,
+                pixelWidth, // Using pixel width as the size of the target area bounding box
+                blackboard.generate2DPoints()
+        );
+
+        // Generate a beam of rays from the camera's eye position (P0) to all pixel target points
+        List<Ray> beam = TargetArea.generateBeam(p0, targetPoints);
+
+        // Accumulate and average the colors traced by all rays in the beam
+        Color colorSum = Color.BLACK;
+        for (Ray beamRay : beam) {
+            colorSum = colorSum.add(rayTracer.traceRay(beamRay));
+        }
+
+        Color finalColor = colorSum.reduce(beam.size());
+        imageWriter.writePixel(j, i, finalColor);
     }
 
     /**
@@ -178,6 +277,10 @@ public class Camera implements Cloneable {
          * Rotation angle for bonus implementation
          */
         private double rotationAngle = 0;
+        /**
+         * Soft shadows samples across one dimension (NxN grid)
+         */
+        private int softShadowsSamples = 1;
 
         /**
          * Builder constructor, initializes default resolution to 1x1.
@@ -281,10 +384,58 @@ public class Camera implements Cloneable {
          */
         public Builder setRayTracer(Scene scene, RayTracerType type) {
             if (type == RayTracerType.SIMPLE) {
-                camera.rayTracer = new SimpleRayTracer(scene);
+                SimpleRayTracer tracer = new SimpleRayTracer(scene);
+                tracer.setSoftShadowsSamples(this.softShadowsSamples); // Inject soft shadow samples automatically!
+                camera.rayTracer = tracer;
             } else {
                 throw new IllegalArgumentException("Unsupported ray tracer type");
             }
+            return this;
+        }
+
+        /**
+         * Sets the number of samples across one dimension (NxN grid) for Anti-Aliasing.
+         * A value of 1 signifies that the feature is turned off.
+         *
+         * @param samples number of samples per row/column
+         * @return current builder
+         */
+        public Builder setAntiAliasingSamples(int samples) {
+            if (samples < 1) {
+                throw new IllegalArgumentException("Number of samples must be at least 1");
+            }
+            camera.antiAliasingSamples = samples;
+            return this;
+        }
+
+        /**
+         * Sets the number of soft shadow samples (NxN grid).
+         * A value of 1 signifies that the feature is turned off.
+         *
+         * @param samples number of samples per row/column
+         * @return current builder
+         */
+        public Builder setSoftShadowsSamples(int samples) {
+            if (samples < 1) {
+                throw new IllegalArgumentException("Number of samples must be at least 1");
+            }
+            this.softShadowsSamples = samples;
+            return this;
+        }
+
+        /**
+         * Sets the multi-threading configuration.
+         *
+         * @param threads  number of concurrent threads to spawn. 1 means disabled.
+         * @param interval progress updates print interval in seconds (0 means disabled).
+         * @return current builder
+         */
+        public Builder setMultiThreading(int threads, double interval) {
+            if (threads < 1) {
+                throw new IllegalArgumentException("Number of threads must be at least 1");
+            }
+            camera.threadsCount = threads;
+            camera.printInterval = interval;
             return this;
         }
 

@@ -1,5 +1,6 @@
 package lighting;
 
+import java.util.List;
 import primitives.Color;
 import primitives.Point;
 import primitives.Vector;
@@ -31,4 +32,14 @@ public interface LightSource {
      * @return the distance to the light source
      */
     public double getDistance(Point point);
+
+    /**
+     * Generates a beam of normalized direction vectors from the light source area
+     * to a specific point on a geometry for soft shadows calculations.
+     *
+     * @param p          the point on the geometry
+     * @param numSamples the number of samples across one dimension for the grid (NxN)
+     * @return list of normalized direction vectors forming the beam
+     */
+    public List<Vector> getBeamL(Point p, int numSamples);
 }
