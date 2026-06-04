@@ -3,6 +3,7 @@ package renderer;
 import geometries.api.Intersectable.Intersection;
 import java.util.List;
 import lighting.LightSource;
+import lighting.PointLight;
 import primitives.Color;
 import primitives.Double3;
 import primitives.Ray;
@@ -202,29 +203,31 @@ public class SimpleRayTracer extends RayTracerBase {
      * @return the cumulative transparency factor (Double3)
      */
     private Double3 transparency(Intersection intersection, LightSource lightSource) {
-        // Fetch the beam of vectors from the light source area towards the geometry intersection point
-        List<Vector> beamL = lightSource.getBeamL(intersection.point, softShadowsSamples);
+        /*
+         * Soft shadows must test visibility toward the actual sampled points on the
+         * light source. The previous implementation only received direction vectors,
+         * so it still used the distance to the center of the light for every sample.
+         * That makes the soft-shadow test too close to the hard-shadow test.
+         */
+        List<primitives.Point> lightSamples;
+        if (lightSource instanceof PointLight pointLight) {
+            lightSamples = pointLight.getSamplePoints(intersection.point, softShadowsSamples);
+        } else {
+            // Fallback for other light types: regular single shadow ray.
+            lightSamples = List.of(intersection.point.add(lightSource.getL(intersection.point).scale(-lightSource.getDistance(intersection.point))));
+        }
 
         Double3 ktrSum = Double3.ZERO;
 
-        // Trace shadow rays for each direction vector in the beam
-        for (Vector l : beamL) {
-            // FIX: The vector 'l' from getBeamL points from the light sample towards the object point.
-            // Therefore, the shadow ray direction from the object point back to the light source is exactly -l.
-            Vector shadowDirection = l.scale(-1);
-
-            // Construct the shifted shadow ray to avoid self-shadowing
+        for (primitives.Point lightPoint : lightSamples) {
+            Vector shadowDirection = lightPoint.subtract(intersection.point).normalize();
             Ray shadowRay = new Ray(intersection.point, shadowDirection, intersection.normal);
-            double lightDistance = lightSource.getDistance(shadowRay.origin());
+            double lightDistance = lightPoint.distance(shadowRay.origin());
 
-            // BONUS 3 OPTIMIZATION: Pass lightDistance as maxDistance directly to calcIntersections!
             var intersections = _scene.geometries.calcIntersections(shadowRay, lightDistance);
 
-            if (intersections == null) {
-                // No objects block this light beam ray, full transparency contribution
-                ktrSum = ktrSum.add(Double3.ONE);
-            } else {
-                Double3 currentRayKtr = Double3.ONE;
+            Double3 currentRayKtr = Double3.ONE;
+            if (intersections != null) {
                 for (Intersection intersect : intersections) {
                     if (alignZero(intersect.point.distance(shadowRay.origin()) - lightDistance) < 0) {
                         currentRayKtr = currentRayKtr.product(intersect.material.kT);
@@ -234,12 +237,11 @@ public class SimpleRayTracer extends RayTracerBase {
                         }
                     }
                 }
-                ktrSum = ktrSum.add(currentRayKtr);
             }
+            ktrSum = ktrSum.add(currentRayKtr);
         }
 
-        // Return the average transparency factor across all rays in the shadow beam using divide
-        return ktrSum.divide(beamL.size());
+        return ktrSum.divide(lightSamples.size());
     }
 
     /**

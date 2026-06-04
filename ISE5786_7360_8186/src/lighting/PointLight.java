@@ -118,37 +118,45 @@ public class PointLight extends Light implements LightSource {
         return position.distance(point);
     }
 
-    @Override
-    public List<Vector> getBeamL(Point p, int numSamples) {
-        // If Soft Shadows is disabled (radius is 0 or samples == 1), return a single directional vector
+
+    /**
+     * Returns the actual 3D sample points on the light area for soft shadows.
+     * If radius is zero or samples <= 1, this returns only the center of the light.
+     * This is important because the ray tracer needs the real sample point distance,
+     * not only the direction vector.
+     *
+     * @param p point on the geometry that receives light
+     * @param numSamples number of samples per row/column
+     * @return list of 3D sample points on the light source area
+     */
+    public List<Point> getSamplePoints(Point p, int numSamples) {
         if (isZero(radius) || numSamples <= 1) {
-            List<Vector> singleBeam = new ArrayList<>(1);
-            singleBeam.add(getL(p));
-            return singleBeam;
+            List<Point> single = new ArrayList<>(1);
+            single.add(position);
+            return single;
         }
 
-        // Vector from light center to the target point on geometry
         Vector vToPoint = p.subtract(position);
 
-        // Initialize Blackboard to generate 2D offsets inside a CIRCLE area (representing a sphere light source projection)
         Blackboard blackboard = new Blackboard()
                 .setShape(Blackboard.AreaShape.CIRCLE)
                 .setNumOfSamples(numSamples);
 
-        // Map the 2D sample points into 3D points on the plane of the light source facing the target point
-        List<Point> lightSamples = TargetArea.convertTo3DPoints(
+        return TargetArea.convertTo3DPoints(
                 position,
                 vToPoint,
-                radius * 2, // The bounding box size is the diameter of the circular area
+                radius * 2,
                 blackboard.generate2DPoints()
         );
+    }
 
-        // Create normalized direction vectors from each point on the light source area towards the geometry point p
+    @Override
+    public List<Vector> getBeamL(Point p, int numSamples) {
+        List<Point> lightSamples = getSamplePoints(p, numSamples);
         List<Vector> beam = new ArrayList<>(lightSamples.size());
         for (Point samplePoint : lightSamples) {
             beam.add(p.subtract(samplePoint).normalize());
         }
-
         return beam;
     }
 }

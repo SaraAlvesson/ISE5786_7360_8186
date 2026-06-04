@@ -21,7 +21,8 @@ import static java.awt.Color.YELLOW;
  * The first test produces a simple scene intended as a reference image
  * for validating Camera and Renderer implementations.
  */
-@SuppressWarnings("java:S109")
+
+
 class RenderTests {
     /**
      * Default constructor to satisfy JavaDoc generator
