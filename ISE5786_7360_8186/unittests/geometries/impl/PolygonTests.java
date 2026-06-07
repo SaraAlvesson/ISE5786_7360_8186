@@ -171,4 +171,55 @@ class PolygonTests {
         ray = new Ray(new Point(3, 0, 0), new Vector(0, 0, 1));
         assertNull(poly.findIntersections(ray), "Point on edge continuation should return null");
     }
+    /**
+     * Test method for {@link geometries.impl.Polygon#calcIntersections(primitives.Ray, double)}.
+     * Checks maxDistance filtering for polygon intersections.
+     */
+    @Test
+    void testCalcIntersectionsMaxDistance() {
+        Polygon polygon = new Polygon(
+                new Point(0, 0, 1),
+                new Point(2, 0, 1),
+                new Point(2, 2, 1),
+                new Point(0, 2, 1)
+        );
+
+        Ray ray = new Ray(new Point(1, 1, 0), new Vector(0, 0, 1));
+
+        // The ray intersects the polygon at (1,1,1),
+        // distance 1 from ray origin.
+
+        // BV01: maxDistance is before the intersection -> 0 points
+        assertNull(polygon.calcIntersections(ray, 0.5),
+                "Polygon maxDistance: should not return intersection beyond maxDistance");
+
+        // BV02: maxDistance is exactly at the intersection -> 1 point
+        var result1 = polygon.calcIntersections(ray, 1);
+        assertNotNull(result1, "Polygon maxDistance: expected one intersection");
+        assertEquals(1, result1.size(), "Polygon maxDistance: wrong number of intersections");
+        assertEquals(new Point(1, 1, 1), result1.get(0).point,
+                "Polygon maxDistance: wrong intersection point");
+
+        // EP01: maxDistance is after the intersection -> 1 point
+        var result2 = polygon.calcIntersections(ray, 2);
+        assertNotNull(result2, "Polygon maxDistance: expected one intersection");
+        assertEquals(1, result2.size(), "Polygon maxDistance: wrong number of intersections");
+        assertEquals(new Point(1, 1, 1), result2.get(0).point,
+                "Polygon maxDistance: wrong intersection point");
+
+        // EP02: intersection with the plane but outside the polygon -> 0 points
+        assertNull(polygon.calcIntersections(
+                        new Ray(new Point(3, 1, 0), new Vector(0, 0, 1)), 2),
+                "Polygon maxDistance: point outside polygon should return null");
+
+        // BV03: intersection point is on polygon edge -> 0 points
+        assertNull(polygon.calcIntersections(
+                        new Ray(new Point(1, 0, 0), new Vector(0, 0, 1)), 2),
+                "Polygon maxDistance: point on edge should return null");
+
+        // BV04: ray starts on the polygon plane -> 0 points
+        assertNull(polygon.calcIntersections(
+                        new Ray(new Point(1, 1, 1), new Vector(0, 0, 1)), 2),
+                "Polygon maxDistance: ray starting on polygon plane should return null");
+    }
 }

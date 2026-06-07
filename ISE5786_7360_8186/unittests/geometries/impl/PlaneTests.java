@@ -115,4 +115,48 @@ class PlaneTests {
         assertNull(plane.findIntersections(new Ray(new Point(0, 0, 1), new Vector(1, 1, 1))),
                 ERROR_FIND_INTERSECTIONS);
     }
+    /**
+     * Test method for {@link geometries.impl.Plane#calcIntersections(primitives.Ray, double)}.
+     * Checks maxDistance filtering for plane intersections.
+     */
+    @Test
+    void testCalcIntersectionsMaxDistance() {
+        Plane plane = new Plane(new Point(0, 0, 1), new Vector(0, 0, 1));
+        Ray ray = new Ray(new Point(0, 0, 0), new Vector(0, 0, 1));
+
+        // The ray intersects the plane at (0,0,1), distance 1 from ray origin.
+
+        // BV01: maxDistance is before the intersection -> 0 points
+        assertNull(plane.calcIntersections(ray, 0.5),
+                "Plane maxDistance: should not return intersection beyond maxDistance");
+
+        // BV02: maxDistance is exactly at the intersection -> 1 point
+        var result1 = plane.calcIntersections(ray, 1);
+        assertNotNull(result1, "Plane maxDistance: expected one intersection");
+        assertEquals(1, result1.size(), "Plane maxDistance: wrong number of intersections");
+        assertEquals(new Point(0, 0, 1), result1.get(0).point,
+                "Plane maxDistance: wrong intersection point");
+
+        // EP01: maxDistance is after the intersection -> 1 point
+        var result2 = plane.calcIntersections(ray, 2);
+        assertNotNull(result2, "Plane maxDistance: expected one intersection");
+        assertEquals(1, result2.size(), "Plane maxDistance: wrong number of intersections");
+        assertEquals(new Point(0, 0, 1), result2.get(0).point,
+                "Plane maxDistance: wrong intersection point");
+
+        // EP02: ray intersects the plane behind the ray origin -> 0 points
+        assertNull(plane.calcIntersections(
+                        new Ray(new Point(0, 0, 2), new Vector(0, 0, 1)), 10),
+                "Plane maxDistance: should not return intersection behind ray origin");
+
+        // BV03: ray starts on the plane -> 0 points
+        assertNull(plane.calcIntersections(
+                        new Ray(new Point(0, 0, 1), new Vector(0, 0, 1)), 10),
+                "Plane maxDistance: ray starting on plane should not return intersection");
+
+        // BV04: ray is parallel to the plane -> 0 points
+        assertNull(plane.calcIntersections(
+                        new Ray(new Point(0, 0, 0), new Vector(1, 0, 0)), 10),
+                "Plane maxDistance: parallel ray should not return intersection");
+    }
 }

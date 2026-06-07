@@ -7,6 +7,7 @@ import lighting.AmbientLight;
 import org.junit.jupiter.api.Test;
 import primitives.Color;
 import primitives.Point;
+import renderer.sampling.Blackboard;
 import scene.Scene;
 import scene.SceneXmlParser;
 
@@ -21,8 +22,6 @@ import static java.awt.Color.YELLOW;
  * The first test produces a simple scene intended as a reference image
  * for validating Camera and Renderer implementations.
  */
-
-
 class RenderTests {
     /**
      * Default constructor to satisfy JavaDoc generator
@@ -133,7 +132,12 @@ class RenderTests {
 
         baseCameraBuilder() //
                 .setRayTracer(scene, RayTracerType.SIMPLE) //
-                .setAntiAliasingSamples(3) // Enabling Super-Sampling with a 9x9 sub-pixel grid
+
+                // השינוי הנקודתי והיחיד: הזרקת האפשרויות החדשות לטסט של החלקת עקומות בלבד
+                .setAntiAliasingSamples(3)
+                .setAntiAliasingShape(Blackboard.AreaShape.CIRCLE)
+                .setAntiAliasingPattern(Blackboard.SamplePattern.JITTERED)
+
                 .build() //
                 .renderImage() //
                 .printGrid(100, new Color(YELLOW)) //

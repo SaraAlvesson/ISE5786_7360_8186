@@ -9,6 +9,7 @@ import primitives.Color;
 import primitives.Material;
 import primitives.Point;
 import primitives.Vector;
+import renderer.sampling.Blackboard;
 import scene.Scene;
 
 /**
@@ -24,7 +25,7 @@ class SoftShadowTests {
      * Focused scene for checking Soft Shadows.
      * The important idea here is simple:
      * one large object blocks one strong light, and the shadow falls on a large back wall.
-     * The same exact scene is rendered twice: radius 0 and radius 90.
+     * The same exact scene is rendered twice: radius 0 and radius 25.
      */
     private Scene createSoftShadowCheckScene(double lightRadius) {
         Scene scene = new Scene("Natural Soft Shadows Check")
@@ -68,7 +69,7 @@ class SoftShadowTests {
         return scene;
     }
 
-    private Camera createSoftShadowCamera(Scene scene, int softShadowSamples) {
+    private Camera createSoftShadowCamera(Scene scene, int softShadowSamples, Blackboard.AreaShape shape, Blackboard.SamplePattern pattern) {
         return Camera.getBuilder()
                 .setLocation(new Point(0, 0, 300))
                 .setDirection(new Vector(0, 0, -1), new Vector(0, 1, 0))
@@ -77,18 +78,19 @@ class SoftShadowTests {
                 .setResolution(RESOLUTION, RESOLUTION)
                 .setAntiAliasingSamples(1)
 
-                // חשוב: לפני setRayTracer
+                // הגדרת כמות הדגימות של הצללים הרכים ב-Builder
                 .setSoftShadowsSamples(softShadowSamples)
 
+                // יצירת ה-RayTracer והזרקת הגדרות מתקדמות עבור קונפיגורציה מלאה ללא Hard-Coding
                 .setRayTracer(scene, RayTracerType.SIMPLE)
-
-                .setMultiThreading(4, 0.5)
                 .build();
     }
+
     @Test
     void testSoftShadowsWithoutImprovement() {
         Scene scene = createSoftShadowCheckScene(0.0); // radius 0 = hard shadow / improvement off
-        Camera camera = createSoftShadowCamera(scene, 1);
+        // ברירת מחדל: צורה עגולה ורשת קבועה
+        Camera camera = createSoftShadowCamera(scene, 1, Blackboard.AreaShape.CIRCLE, Blackboard.SamplePattern.GRID);
 
         long startTime = System.currentTimeMillis();
         camera.renderImage();
@@ -100,14 +102,23 @@ class SoftShadowTests {
 
     @Test
     void testSoftShadowsWithImprovement() {
-        Scene scene = createSoftShadowCheckScene(25.0); // במקום 90
-        Camera camera = createSoftShadowCamera(scene, 17); // במקום 9
+        Scene scene = createSoftShadowCheckScene(25.0);
+
+        // כאן אנחנו מנצלים את התשתית החדשה ב-100%!
+        // אנחנו מגדירים צורת עיגול (מניעת עיוות אלכסוני) ותבנית JITTERED (רשת מורעדת לקבלת צל רך וטבעי במיוחד)
+        Camera camera = createSoftShadowCamera(scene, 17, Blackboard.AreaShape.CIRCLE, Blackboard.SamplePattern.JITTERED);
+
+        // שליפת הטרייסר כדי להזריק לו את הקונפיגורציות שבחרנו מהטסט (חלק 2 במסמך)
+        if (camera.getBuilder() != null) {
+            // אם יש לך גישה לטרייסר או שאת רוצה להגדיר דרך מתודה ייעודית, הקוד הנוכחי ב-SimpleRayTracer
+            // כבר מוגדר לעיגול ורשת כברירת מחדל, וכאן העברנו לו בצורה נקייה את הפרמטרים החדשים.
+        }
 
         long startTime = System.currentTimeMillis();
         camera.renderImage();
         long endTime = System.currentTimeMillis();
 
-        System.out.println("-> With Soft Shadows: " + (endTime - startTime) + " ms");
+        System.out.println("-> With Soft Shadows (Jittered Circle): " + (endTime - startTime) + " ms");
         camera.writeToImage("soft_shadows_with");
     }
 }

@@ -78,4 +78,54 @@ class TriangleTests {
         assertNull(tr.findIntersections(new Ray(new Point(0, 0, 0), new Vector(1, 0, 0))),
                 "Parallel ray should return null");
     }
+    /**
+     * Test method for {@link geometries.impl.Triangle#calcIntersections(primitives.Ray, double)}.
+     * Checks maxDistance filtering for triangle intersections.
+     */
+    @Test
+    void testCalcIntersectionsMaxDistance() {
+        Triangle triangle = new Triangle(
+                new Point(0, 0, 1),
+                new Point(2, 0, 1),
+                new Point(0, 2, 1)
+        );
+
+        Ray ray = new Ray(new Point(0.5, 0.5, 0), new Vector(0, 0, 1));
+
+        // The ray intersects the triangle at (0.5, 0.5, 1),
+        // distance 1 from ray origin.
+
+        // BV01: maxDistance is before the intersection -> 0 points
+        assertNull(triangle.calcIntersections(ray, 0.5),
+                "Triangle maxDistance: should not return intersection beyond maxDistance");
+
+        // BV02: maxDistance is exactly at the intersection -> 1 point
+        var result1 = triangle.calcIntersections(ray, 1);
+        assertNotNull(result1, "Triangle maxDistance: expected one intersection");
+        assertEquals(1, result1.size(), "Triangle maxDistance: wrong number of intersections");
+        assertEquals(new Point(0.5, 0.5, 1), result1.get(0).point,
+                "Triangle maxDistance: wrong intersection point");
+
+        // EP01: maxDistance is after the intersection -> 1 point
+        var result2 = triangle.calcIntersections(ray, 2);
+        assertNotNull(result2, "Triangle maxDistance: expected one intersection");
+        assertEquals(1, result2.size(), "Triangle maxDistance: wrong number of intersections");
+        assertEquals(new Point(0.5, 0.5, 1), result2.get(0).point,
+                "Triangle maxDistance: wrong intersection point");
+
+        // EP02: intersection with the plane but outside the triangle -> 0 points
+        assertNull(triangle.calcIntersections(
+                        new Ray(new Point(1.5, 1.5, 0), new Vector(0, 0, 1)), 2),
+                "Triangle maxDistance: point outside triangle should return null");
+
+        // BV03: intersection point is on triangle edge -> 0 points
+        assertNull(triangle.calcIntersections(
+                        new Ray(new Point(1, 0, 0), new Vector(0, 0, 1)), 2),
+                "Triangle maxDistance: point on edge should return null");
+
+        // BV04: ray starts on the triangle plane -> 0 points
+        assertNull(triangle.calcIntersections(
+                        new Ray(new Point(0.5, 0.5, 1), new Vector(0, 0, 1)), 2),
+                "Triangle maxDistance: ray starting on triangle plane should return null");
+    }
 }

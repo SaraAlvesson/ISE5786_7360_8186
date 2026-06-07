@@ -70,6 +70,16 @@ public class Camera implements Cloneable {
     private int antiAliasingSamples = 1;
 
     /**
+     * Anti-Aliasing Blackboard shape (SQUARE or CIRCLE)
+     */
+    private Blackboard.AreaShape antiAliasingShape = Blackboard.AreaShape.SQUARE;
+
+    /**
+     * Anti-Aliasing Blackboard sample pattern (GRID, STOCHASTIC, JITTERED)
+     */
+    private Blackboard.SamplePattern antiAliasingPattern = Blackboard.SamplePattern.GRID;
+
+    /**
      * Multi-threading: number of threads to use for rendering.
      * Default value is 1, which means single-threaded synchronous execution.
      */
@@ -166,9 +176,10 @@ public class Camera implements Cloneable {
             pixelCenter = pixelCenter.add(vUp.scale(yI));
         }
 
-        // Initialize Blackboard to generate 2D offsets inside a SQUARE (the pixel shape)
+        // Initialize Blackboard to generate 2D offsets inside the chosen shape and pattern
         Blackboard blackboard = new Blackboard()
-                .setShape(Blackboard.AreaShape.SQUARE)
+                .setShape(antiAliasingShape)
+                .setPattern(antiAliasingPattern)
                 .setNumOfSamples(antiAliasingSamples);
 
         // Map the 2D grid offsets into 3D points on the View Plane across the single pixel area
@@ -405,6 +416,28 @@ public class Camera implements Cloneable {
                 throw new IllegalArgumentException("Number of samples must be at least 1");
             }
             camera.antiAliasingSamples = samples;
+            return this;
+        }
+
+        /**
+         * Sets the shape of the target area for Anti-Aliasing.
+         *
+         * @param shape target area shape (SQUARE or CIRCLE)
+         * @return current builder
+         */
+        public Builder setAntiAliasingShape(Blackboard.AreaShape shape) {
+            camera.antiAliasingShape = shape;
+            return this;
+        }
+
+        /**
+         * Sets the sample pattern for Anti-Aliasing.
+         *
+         * @param pattern sample pattern (GRID, STOCHASTIC, JITTERED)
+         * @return current builder
+         */
+        public Builder setAntiAliasingPattern(Blackboard.SamplePattern pattern) {
+            camera.antiAliasingPattern = pattern;
             return this;
         }
 

@@ -181,4 +181,66 @@ class TubeTests {
             assertEquals(1, res.size());
         }
     }
+    /**
+     * Test method for {@link geometries.impl.Tube#calcIntersections(primitives.Ray, double)}.
+     * Checks maxDistance filtering for tube intersections.
+     */
+    @Test
+    void testCalcIntersectionsMaxDistance() {
+        Tube tube = new Tube(1.0, new Ray(new Point(0, 0, 0), new Vector(0, 0, 1)));
+        Ray ray = new Ray(new Point(2, 0, 1), new Vector(-1, 0, 0));
+
+        // The ray intersects the tube at:
+        // P1 = (1,0,1), distance 1 from ray origin
+        // P2 = (-1,0,1), distance 3 from ray origin
+
+        // BV01: maxDistance is before the first intersection -> 0 points
+        assertNull(tube.calcIntersections(ray, 0.5),
+                "Tube maxDistance: should not return intersections before maxDistance");
+
+        // BV02: maxDistance is exactly at the first intersection -> 1 point
+        var result1 = tube.calcIntersections(ray, 1);
+        assertNotNull(result1, "Tube maxDistance: expected one intersection");
+        assertEquals(1, result1.size(), "Tube maxDistance: wrong number of intersections");
+        assertEquals(new Point(1, 0, 1), result1.get(0).point,
+                "Tube maxDistance: wrong first intersection point");
+
+        // EP01: maxDistance is between the two intersections -> 1 point
+        var result2 = tube.calcIntersections(ray, 2);
+        assertNotNull(result2, "Tube maxDistance: expected one intersection");
+        assertEquals(1, result2.size(), "Tube maxDistance: wrong number of intersections");
+        assertEquals(new Point(1, 0, 1), result2.get(0).point,
+                "Tube maxDistance: wrong first intersection point");
+
+        // BV03: maxDistance is exactly at the second intersection -> 2 points
+        var result3 = tube.calcIntersections(ray, 3);
+        assertNotNull(result3, "Tube maxDistance: expected two intersections");
+        assertEquals(2, result3.size(), "Tube maxDistance: wrong number of intersections");
+        assertEquals(new Point(1, 0, 1), result3.get(0).point,
+                "Tube maxDistance: wrong first intersection point");
+        assertEquals(new Point(-1, 0, 1), result3.get(1).point,
+                "Tube maxDistance: wrong second intersection point");
+
+        // EP02: maxDistance is after both intersections -> 2 points
+        var result4 = tube.calcIntersections(ray, 5);
+        assertNotNull(result4, "Tube maxDistance: expected two intersections");
+        assertEquals(2, result4.size(), "Tube maxDistance: wrong number of intersections");
+        assertEquals(new Point(1, 0, 1), result4.get(0).point,
+                "Tube maxDistance: wrong first intersection point");
+        assertEquals(new Point(-1, 0, 1), result4.get(1).point,
+                "Tube maxDistance: wrong second intersection point");
+
+        // EP03: ray starts inside the tube, maxDistance before exit point -> 0 points
+        assertNull(tube.calcIntersections(
+                        new Ray(new Point(0.5, 0, 1), new Vector(1, 0, 0)), 0.4),
+                "Tube maxDistance: should not return exit point beyond maxDistance");
+
+        // EP04: ray starts inside the tube, maxDistance reaches exit point -> 1 point
+        var result5 = tube.calcIntersections(
+                new Ray(new Point(0.5, 0, 1), new Vector(1, 0, 0)), 0.5);
+        assertNotNull(result5, "Tube maxDistance: expected one exit intersection");
+        assertEquals(1, result5.size(), "Tube maxDistance: wrong number of exit intersections");
+        assertEquals(new Point(1, 0, 1), result5.get(0).point,
+                "Tube maxDistance: wrong exit intersection point");
+    }
 }

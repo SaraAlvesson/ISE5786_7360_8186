@@ -79,7 +79,10 @@ class PerformanceTests {
                 .setResolution(RESOLUTION, RESOLUTION)
                 .setRayTracer(scene, RayTracerType.SIMPLE)
                 .setAntiAliasingSamples(6)
-                .setMultiThreading(4, 0.5)
+
+                // תיקון: הגדרת מרווח הדפסה ל-0 על פי ההנחיות למניעת חסימת תהליכונים
+                .setMultiThreading(4, 0.0)
+
                 .build();
 
         long startTime = System.currentTimeMillis();
@@ -89,5 +92,4 @@ class PerformanceTests {
         System.out.println("\n-> Multi-threaded (4 threads) execution time: " + (endTime - startTime) + " ms");
         camera.writeToImage("performance_multi_thread");
     }
-
 }

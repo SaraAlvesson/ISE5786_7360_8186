@@ -147,7 +147,7 @@ public final class Cylinder extends Tube {
                     double projection = alignZero(axisDir.dotProduct(p.subtract(baseCenter1)));
 
                     // Include joint points with bases as valid intersections
-                    if (projection >= 0 && projection <= _height) {
+                    if (alignZero(projection) >= 0 && alignZero(projection - _height) <= 0) {
                         if (result == null) {
                             result = new ArrayList<>();
                         }

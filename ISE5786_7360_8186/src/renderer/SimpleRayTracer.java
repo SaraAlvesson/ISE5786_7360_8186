@@ -21,11 +21,6 @@ import static primitives.Util.alignZero;
 public class SimpleRayTracer extends RayTracerBase {
 
     /**
-     * Constant for shifting the origin of the shadow ray to prevent self-shadowing.
-     */
-    private static final double DELTA = 0.1;
-
-    /**
      * Recursion stop condition - maximum level of color calculations.
      */
     private static final int MAX_CALC_COLOR_LEVEL = 10;
@@ -117,6 +112,7 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Color calcLocalEffects(Intersection intersection, Double3 k) {
         Color color = Color.BLACK;
+
         for (LightSource lightSource : _scene.lights) {
             if (preprocessLightSource(intersection, lightSource)) {
                 // Calculate the partial transparency factor from objects blocking this light source area
@@ -125,13 +121,22 @@ public class SimpleRayTracer extends RayTracerBase {
                 // Check if the total light contribution (global k * shadow ktr) is significant
                 if (ktr.product(k).isGreaterThan(MIN_CALC_COLOR_K)) {
                     Color intensity = lightSource.getIntensity(intersection.point).scale(ktr);
+
                     color = color.add(
                             intensity.scale(calcDiffuse(intersection.material.kD, intersection.nl)),
-                            intensity.scale(calcSpecular(intersection.material.kS, intersection.l, intersection.normal, intersection.nl, intersection.v, intersection.material.nShininess))
+                            intensity.scale(calcSpecular(
+                                    intersection.material.kS,
+                                    intersection.l,
+                                    intersection.normal,
+                                    intersection.nl,
+                                    intersection.v,
+                                    intersection.material.nShininess
+                            ))
                     );
                 }
             }
         }
+
         return color;
     }
 
@@ -204,18 +209,23 @@ public class SimpleRayTracer extends RayTracerBase {
      */
     private Double3 transparency(Intersection intersection, LightSource lightSource) {
         /*
-         * Soft shadows must test visibility toward the actual sampled points on the
-         * light source. The previous implementation only received direction vectors,
-         * so it still used the distance to the center of the light for every sample.
-         * That makes the soft-shadow test too close to the hard-shadow test.
+         * For PointLight / SpotLight we keep the Stage 9 soft-shadow behavior:
+         * sample several points on the light area and average the transparency.
+         *
+         * For DirectionalLight there is no finite light position and no finite distance,
+         * so we must not create a fake light point using getDistance().
+         * Instead, we cast one shadow ray in the light direction with infinite distance.
          */
-        List<primitives.Point> lightSamples;
-        if (lightSource instanceof PointLight pointLight) {
-            lightSamples = pointLight.getSamplePoints(intersection.point, softShadowsSamples);
-        } else {
-            // Fallback for other light types: regular single shadow ray.
-            lightSamples = List.of(intersection.point.add(lightSource.getL(intersection.point).scale(-lightSource.getDistance(intersection.point))));
+        if (!(lightSource instanceof PointLight pointLight)) {
+            Vector shadowDirection = lightSource.getL(intersection.point).scale(-1);
+            Ray shadowRay = new Ray(intersection.point, shadowDirection, intersection.normal);
+            double lightDistance = lightSource.getDistance(intersection.point);
+
+            return calcShadowTransparency(shadowRay, lightDistance);
         }
+
+        List<primitives.Point> lightSamples =
+                pointLight.getSamplePoints(intersection.point, softShadowsSamples);
 
         Double3 ktrSum = Double3.ZERO;
 
@@ -224,24 +234,37 @@ public class SimpleRayTracer extends RayTracerBase {
             Ray shadowRay = new Ray(intersection.point, shadowDirection, intersection.normal);
             double lightDistance = lightPoint.distance(shadowRay.origin());
 
-            var intersections = _scene.geometries.calcIntersections(shadowRay, lightDistance);
-
-            Double3 currentRayKtr = Double3.ONE;
-            if (intersections != null) {
-                for (Intersection intersect : intersections) {
-                    if (alignZero(intersect.point.distance(shadowRay.origin()) - lightDistance) < 0) {
-                        currentRayKtr = currentRayKtr.product(intersect.material.kT);
-                        if (currentRayKtr.isLowerThan(MIN_CALC_COLOR_K)) {
-                            currentRayKtr = Double3.ZERO;
-                            break;
-                        }
-                    }
-                }
-            }
-            ktrSum = ktrSum.add(currentRayKtr);
+            ktrSum = ktrSum.add(calcShadowTransparency(shadowRay, lightDistance));
         }
 
         return ktrSum.divide(lightSamples.size());
+    }
+
+    /**
+     * Calculates the transparency factor along a single shadow ray.
+     *
+     * @param shadowRay     the shadow ray from the shaded point toward the light
+     * @param lightDistance the maximum relevant distance for shadow intersections
+     * @return the accumulated transparency factor along this ray
+     */
+    private Double3 calcShadowTransparency(Ray shadowRay, double lightDistance) {
+        var intersections = _scene.geometries.calcIntersections(shadowRay, lightDistance);
+
+        Double3 ktr = Double3.ONE;
+
+        if (intersections != null) {
+            for (Intersection intersect : intersections) {
+                if (alignZero(intersect.point.distance(shadowRay.origin()) - lightDistance) < 0) {
+                    ktr = ktr.product(intersect.material.kT);
+
+                    if (ktr.isLowerThan(MIN_CALC_COLOR_K)) {
+                        return Double3.ZERO;
+                    }
+                }
+            }
+        }
+
+        return ktr;
     }
 
     /**
