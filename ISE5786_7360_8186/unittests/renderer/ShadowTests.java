@@ -154,24 +154,32 @@ class ShadowTests {
         return new SpotLight(new Color(700, 400, 400), //
                 new Point(40, 40, 115), //
                 new Vector(-1, -1, -1)) //
-                .setKl(1E-6).setKq(1E-12);
+                // wider visible glow around the sphere, without changing location/direction
+                .setKl(4E-6).setKq(3E-8);
     }
 
     /**
      * Prepare the 3D model for the Sphere over a couple of Triangles test
      */
     private void setTrianglesSphereScene() {
-        Material triangleMaterial = new Material().setKD(0.2).setKS(0.4).setShininess(111);
+        Material triangleMaterial = new Material()
+                .setKD(0.004)
+                .setKS(0.20)
+                .setShininess(111);
+
         _scene.geometries //
                 .add( //
                         new Triangle(new Point(-150, -150, -115), new Point(150, -150, -135), new Point(75, 75, -150)) //
+                                .setEmission(new Color(30, 30, 30)) //
                                 .setMaterial(triangleMaterial), //
                         new Triangle(new Point(-150, -150, -115), new Point(-70, 70, -140), new Point(75, 75, -150)) //
+                                .setEmission(new Color(30, 30, 30)) //
                                 .setMaterial(triangleMaterial), //
                         new Sphere(new Point(0, 0, -11), 30D) //
                                 .setEmission(new Color(BLUE)) //
                                 .setMaterial(new Material().setKD(0.5).setKS(0.4).setShininess(111)) //
                 );
-        _scene.setAmbientLight(new AmbientLight(new Color(38, 38, 38)));
+
+        _scene.setAmbientLight(new AmbientLight(new Color(9, 9, 9)));
     }
 }
