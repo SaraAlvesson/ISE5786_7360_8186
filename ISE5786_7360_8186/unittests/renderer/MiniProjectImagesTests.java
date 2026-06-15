@@ -19,7 +19,7 @@ class MiniProjectImagesTests {
 
     static final double VP_SIZE = 360;
     static final double VP_DISTANCE = 220;
-    static final int RESOLUTION = 600;
+    static final int RESOLUTION = 1000; // 1. רזולוציה גבוהה שתתפוס את כל המסך
 
     private void addBox(Scene scene, double x1, double x2, double y1, double y2,
                         double z1, double z2, Color color, Material material) {
@@ -49,29 +49,47 @@ class MiniProjectImagesTests {
         Material glass = new Material().setKD(0.45).setKS(0.75).setShininess(250);
         Material metal = new Material().setKD(0.55).setKS(0.60).setShininess(200);
         Material paper = new Material().setKD(0.80).setKS(0.14).setShininess(55);
-        Material shade = new Material().setKD(0.76).setKS(0.14).setShininess(60);
+        Material shade = new Material().setKD(0.80).setKS(0.10).setShininess(40);
 
-        // Floor + back wall
+        // 1. בניית חדר סגור ומורחב (רצפה + 3 קירות) כדי להעלים לחלוטין את הרקע השחור מכל זווית
         scene.geometries.add(
+                // Floor
                 new Polygon(
-                        new Point(-450, -100, -120),
-                        new Point(450, -100, -120),
-                        new Point(450, -100, -760),
-                        new Point(-450, -100, -760)
+                        new Point(-2500, -100, 1000),
+                        new Point(2500, -100, 1000),
+                        new Point(2500, -100, -1500),
+                        new Point(-2500, -100, -1500)
                 ).setEmission(new Color(66, 56, 46)).setMaterial(wood),
 
+                // Back Wall
                 new Polygon(
-                        new Point(-450, -100, -760),
-                        new Point(450, -100, -760),
-                        new Point(450, 260, -760),
-                        new Point(-450, 260, -760)
-                ).setEmission(new Color(42, 37, 42)).setMaterial(wall)
+                        new Point(-2500, -100, -760),
+                        new Point(2500, -100, -760),
+                        new Point(2500, 1200, -760),
+                        new Point(-2500, 1200, -760)
+                ).setEmission(new Color(42, 37, 42)).setMaterial(wall),
+
+                // Left Wall
+                new Polygon(
+                        new Point(-650, -100, -1500),
+                        new Point(-650, -100, 1000),
+                        new Point(-650, 1200, 1000),
+                        new Point(-650, 1200, -1500)
+                ).setEmission(new Color(36, 31, 36)).setMaterial(wall),
+
+                // Right Wall
+                new Polygon(
+                        new Point(650, -100, -1500),
+                        new Point(650, -100, 1000),
+                        new Point(650, 1200, 1000),
+                        new Point(650, 1200, -1500)
+                ).setEmission(new Color(36, 31, 36)).setMaterial(wall)
         );
 
         // Table top
         addBox(scene, -170, 190, -55, -35, -310, -520, new Color(120, 78, 42), wood);
 
-        // Table legs moved slightly inward so their shadows merge better
+        // Table legs
         addBox(scene, -142, -124, -100, -55, -340, -360, new Color(70, 42, 24), wood);
         addBox(scene, 124, 142, -100, -55, -340, -360, new Color(70, 42, 24), wood);
         addBox(scene, -142, -124, -100, -55, -470, -490, new Color(70, 42, 24), wood);
@@ -87,21 +105,22 @@ class MiniProjectImagesTests {
                         .setEmission(new Color(205, 165, 85)).setMaterial(metal)
         );
 
-        // Lamp shade made a little smaller and calmer,
-        // so the shadow under/near the lamp looks natural
+        // נקודות מבנה האהיל
+        Point apex = new Point(-285, 94, -360);
+        Point p1 = new Point(-342, 44, -334); // קדמי-שמאל
+        Point p2 = new Point(-228, 44, -334); // קדמי-ימין
+        Point p3 = new Point(-342, 44, -386); // אחורי-שמאל
+        Point p4 = new Point(-228, 44, -386); // אחורי-ימין
+
+        // 3. יצירת מראה תלת-ממדי מובהק (פירמידה נפחית) ע"י הפרדת גוונים חדה ומכוונת בין פאות האהיל
         scene.geometries.add(
-                new Triangle(new Point(-342, 44, -334), new Point(-228, 44, -334), new Point(-285, 94, -360))
-                        .setEmission(new Color(236, 200, 128)).setMaterial(shade),
-                new Triangle(new Point(-342, 44, -386), new Point(-228, 44, -386), new Point(-285, 94, -360))
-                        .setEmission(new Color(205, 166, 98)).setMaterial(shade),
-                new Triangle(new Point(-342, 44, -334), new Point(-342, 44, -386), new Point(-285, 94, -360))
-                        .setEmission(new Color(220, 178, 105)).setMaterial(shade),
-                new Triangle(new Point(-228, 44, -334), new Point(-228, 44, -386), new Point(-285, 94, -360))
-                        .setEmission(new Color(242, 206, 132)).setMaterial(shade)
+                new Triangle(p1, p2, apex).setEmission(new Color(200, 160, 90)).setMaterial(shade), // פאה קדמית - בהירה ומוארת
+                new Triangle(p1, p3, apex).setEmission(new Color(110, 85, 45)).setMaterial(shade),  // פאה שמאלית - כהה ומוצלת (יוצר קו חיתוך תלת-ממדי מושלם ביניהן!)
+                new Triangle(p2, p4, apex).setEmission(new Color(160, 130, 70)).setMaterial(shade), // פאה ימנית
+                new Triangle(p3, p4, apex).setEmission(new Color(70, 50, 25)).setMaterial(shade)    // פאה אחורית
         );
 
-        // Books moved a bit left/back and lowered,
-        // to avoid the detached "book shadow" on the right floor
+        // Books
         addBox(scene, 0, 88, -32, -23, -338, -368, new Color(150, 45, 45), paper);
         addBox(scene, 10, 102, -21, -12, -345, -375, new Color(45, 115, 150), paper);
         addBox(scene, 22, 118, -10, -1, -352, -382, new Color(210, 175, 80), paper);
@@ -140,25 +159,15 @@ class MiniProjectImagesTests {
                 new Sphere(new Point(30, 130, -740), 16).setEmission(new Color(235, 120, 170)).setMaterial(paper)
         );
 
-        /*
-         * LIGHTING:
-         * 1) Main light is higher and a bit more centered than before:
-         *    - shorter, cleaner table shadow
-         *    - natural lamp grounding shadow
-         *    - soft shadows still visible
-         */
+        // 3. מיקום אסטרטגי של מקור האור הראשי משמאל ומלפנים כדי להטיל צל גלילי ארוך וברור ימינה-אחורה על פני הרצפה
         scene.lights.add(
-                new PointLight(new Color(900, 760, 610), new Point(-215, 285, -285))
+                new PointLight(new Color(900, 760, 610), new Point(-340, 320, -260))
                         .setRadius(mainLightRadius)
                         .setKc(1)
                         .setKl(0.00023)
                         .setKq(0.000012)
         );
 
-        /*
-         * 2) Weak right fill:
-         *    kept weak on purpose so it doesn't create a second obvious shadow system.
-         */
         scene.lights.add(
                 new SpotLight(
                         new Color(85, 62, 48),
@@ -170,31 +179,23 @@ class MiniProjectImagesTests {
                         .setKq(0.00007)
         );
 
-        /*
-         * 3) Very soft front/camera fill:
-         *    only to open dark areas a little, without creating visible extra shadows.
-         */
-        scene.lights.add(
-                new PointLight(new Color(32, 42, 62), new Point(10, 130, 140))
-                        .setKc(1)
-                        .setKl(0.0011)
-                        .setKq(0.00011)
-        );
-
         return scene;
     }
 
     private Camera buildCamera(Scene scene, int antiAliasingSamples, int softShadowSamples) {
         return Camera.getBuilder()
-                .setLocation(new Point(0, 35, 280))
-                .setDirection(new Point(0, -20, -460), new Vector(0, 1, 0))
+                // 2. מיקום מצלמה מדויק משמאל (X = -420), בגובה אנושי מאוזן וישר (Y = 70) ובמרחק פריים קרוב ומעולה (Z = -140)
+                .setLocation(new Point(-420, 70, -140))
+                // כיוון המבט באלכסונית ימינה פנימה שממרכזת בצורה מושלמת ויציבה את המנורה והחדר ללא עקמומיות
+                .setDirection(new Point(-150, -10, -420), new Vector(0, 1, 0))
                 .setVpDistance(VP_DISTANCE)
                 .setVpSize(VP_SIZE, VP_SIZE)
                 .setResolution(RESOLUTION, RESOLUTION)
                 .setAntiAliasingSamples(antiAliasingSamples)
                 .setSoftShadowsSamples(softShadowSamples)
                 .setRayTracer(scene, RayTracerType.SIMPLE)
-                .setMultiThreading(4, 0.5)
+                // 4. הגדלת כמות התהליכונים ל-8 (או 12/16 במחשב חזק) כדי להאיץ את הריצה בצורה דרסטית במקביל
+                .setMultiThreading(40, 0.5)
                 .build();
     }
 
