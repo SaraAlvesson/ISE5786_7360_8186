@@ -5,20 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3f23cdba-42a2-494c-a300-83fa17f67ee9" name="Changes" comment="Adjust SpotLight parameters for wider glow; refine triangle material properties and ambient light settings in ShadowTests">
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/BoundingBox.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/Stage10FinalTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/MiniProjectImagesTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/MiniProjectImagesTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/Intersectable.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/Intersectable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Cylinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Cylinder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Geometries.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Geometries.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Polygon.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Polygon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Sphere.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Sphere.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/Camera.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Cylinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Cylinder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/lighting/PointLight.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/lighting/PointLight.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/Camera$Builder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/Camera$Builder.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/Camera.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/Camera.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/SimpleRayTracer.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/SimpleRayTracer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/geometries/impl/CylinderTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/geometries/impl/CylinderTests.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/geometries/impl/PlaneTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/geometries/impl/PlaneTests.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/geometries/impl/PolygonTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/geometries/impl/PolygonTests.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/geometries/impl/SphereTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/geometries/impl/SphereTests.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/geometries/impl/TriangleTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/geometries/impl/TriangleTests.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/geometries/impl/TubeTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/geometries/impl/TubeTests.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/renderer/RenderTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/renderer/RenderTests.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,6 +107,10 @@
     "JUnit.RenderTests.testBasicRenderXml.executor": "Run",
     "JUnit.ShadowTests.executor": "Run",
     "JUnit.SphereTests.executor": "Run",
+    "JUnit.Stage10FinalTests.stage10_noAcceleration_noThreads.executor": "Run",
+    "JUnit.Stage10FinalTests.stage10_noAcceleration_withThreads.executor": "Run",
+    "JUnit.Stage10FinalTests.stage10_withAcceleration_noThreads.executor": "Run",
+    "JUnit.Stage10FinalTests.stage10_withAcceleration_withThreads.executor": "Run",
     "JUnit.TransparencyReflectionTests.executor": "Run",
     "JUnit.TriangleTests.executor": "Run",
     "JUnit.TriangleTests.testConstructor.executor": "Run",
@@ -143,70 +145,7 @@
       <recent name="C:\Users\saraa\source\repos\IdeaProjects\Homework1\ex0_SarahAlvesson" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.MiniProjectImagesTests.testLivingRoomWithBothImprovements">
-    <configuration name="MiniProjectImagesTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ISE5786_7360_8186" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="renderer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="renderer" />
-      <option name="MAIN_CLASS_NAME" value="renderer.MiniProjectImagesTests" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MiniProjectImagesTests.testLivingRoomWithAntiAliasing" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ISE5786_7360_8186" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="renderer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="renderer" />
-      <option name="MAIN_CLASS_NAME" value="renderer.MiniProjectImagesTests" />
-      <option name="METHOD_NAME" value="testLivingRoomWithAntiAliasing" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MiniProjectImagesTests.testLivingRoomWithBothImprovements" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ISE5786_7360_8186" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="renderer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="renderer" />
-      <option name="MAIN_CLASS_NAME" value="renderer.MiniProjectImagesTests" />
-      <option name="METHOD_NAME" value="testLivingRoomWithBothImprovements" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="MiniProjectImagesTests.testLivingRoomWithSoftShadows" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ISE5786_7360_8186" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="renderer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="renderer" />
-      <option name="MAIN_CLASS_NAME" value="renderer.MiniProjectImagesTests" />
-      <option name="METHOD_NAME" value="testLivingRoomWithSoftShadows" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="JUnit.Stage10FinalTests.stage10_withAcceleration_withThreads">
     <configuration name="MiniProjectImagesTests.testLivingRoomWithoutImprovements" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE5786_7360_8186" />
       <extension name="coverage">
@@ -223,13 +162,77 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Stage10FinalTests.stage10_noAcceleration_noThreads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ISE5786_7360_8186" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="renderer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="renderer" />
+      <option name="MAIN_CLASS_NAME" value="renderer.Stage10FinalTests" />
+      <option name="METHOD_NAME" value="stage10_noAcceleration_noThreads" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Stage10FinalTests.stage10_noAcceleration_withThreads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ISE5786_7360_8186" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="renderer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="renderer" />
+      <option name="MAIN_CLASS_NAME" value="renderer.Stage10FinalTests" />
+      <option name="METHOD_NAME" value="stage10_noAcceleration_withThreads" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Stage10FinalTests.stage10_withAcceleration_noThreads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ISE5786_7360_8186" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="renderer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="renderer" />
+      <option name="MAIN_CLASS_NAME" value="renderer.Stage10FinalTests" />
+      <option name="METHOD_NAME" value="stage10_withAcceleration_noThreads" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Stage10FinalTests.stage10_withAcceleration_withThreads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ISE5786_7360_8186" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="renderer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="renderer" />
+      <option name="MAIN_CLASS_NAME" value="renderer.Stage10FinalTests" />
+      <option name="METHOD_NAME" value="stage10_withAcceleration_withThreads" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.MiniProjectImagesTests.testLivingRoomWithBothImprovements" />
-        <item itemvalue="JUnit.MiniProjectImagesTests.testLivingRoomWithAntiAliasing" />
-        <item itemvalue="JUnit.MiniProjectImagesTests.testLivingRoomWithSoftShadows" />
+        <item itemvalue="JUnit.Stage10FinalTests.stage10_withAcceleration_withThreads" />
         <item itemvalue="JUnit.MiniProjectImagesTests.testLivingRoomWithoutImprovements" />
-        <item itemvalue="JUnit.MiniProjectImagesTests" />
+        <item itemvalue="JUnit.Stage10FinalTests.stage10_noAcceleration_noThreads" />
+        <item itemvalue="JUnit.Stage10FinalTests.stage10_withAcceleration_noThreads" />
+        <item itemvalue="JUnit.Stage10FinalTests.stage10_noAcceleration_withThreads" />
       </list>
     </recent_temporary>
   </component>
@@ -385,7 +388,15 @@
       <option name="project" value="LOCAL‎" />
       <updated>1781180074769</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL‎-00019" summary="Adjust SpotLight parameters for wider glow; refine triangle material properties and ambient light settings in ShadowTests">
+      <option name="closed" value="true" />
+      <created>1781531541465</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL‎-00019" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1781531541465</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -416,7 +427,8 @@
     <MESSAGE value="Update workspace.xml to reflect changes for DirectionalLight and PointLight classes; enhance SceneXmlParser support" />
     <MESSAGE value="Implement getDistance method for DirectionalLight and PointLight classes; enhance shadow ray calculations in SimpleRayTracer" />
     <MESSAGE value="Add Blackboard and TargetArea classes for 2D sampling and 3D mapping; enhance PointLight for soft shadows" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Blackboard and TargetArea classes for 2D sampling and 3D mapping; enhance PointLight for soft shadows" />
+    <MESSAGE value="Adjust SpotLight parameters for wider glow; refine triangle material properties and ambient light settings in ShadowTests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adjust SpotLight parameters for wider glow; refine triangle material properties and ambient light settings in ShadowTests" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

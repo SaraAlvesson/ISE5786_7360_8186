@@ -1,5 +1,6 @@
 package geometries.impl;
 
+import geometries.api.BoundingBox;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -18,7 +19,7 @@ import static primitives.Util.isZero;
  */
 public final class Cylinder extends Tube {
     /**
-     * The height of the cylinder
+     * The height of the cylinder.
      */
     private final double _height;
 
@@ -32,6 +33,31 @@ public final class Cylinder extends Tube {
     public Cylinder(double radius, Ray axisRay, double height) {
         super(radius, axisRay);
         _height = height;
+        updateBoundingBox();
+    }
+
+    /**
+     * Creates a conservative bounding box for the finite cylinder.
+     * The box contains both cylinder base centers, expanded by the radius on all axes.
+     * This is conservative and safe for BVH / CBR.
+     *
+     * @return bounding box of the cylinder
+     */
+    @Override
+    protected BoundingBox createBoundingBox() {
+        Point baseCenter1 = _axis.origin();
+        Point baseCenter2 = _axis.getPoint(_height);
+
+        return new BoundingBox(
+                Math.min(baseCenter1.getX(), baseCenter2.getX()) - _radius,
+                Math.max(baseCenter1.getX(), baseCenter2.getX()) + _radius,
+
+                Math.min(baseCenter1.getY(), baseCenter2.getY()) - _radius,
+                Math.max(baseCenter1.getY(), baseCenter2.getY()) + _radius,
+
+                Math.min(baseCenter1.getZ(), baseCenter2.getZ()) - _radius,
+                Math.max(baseCenter1.getZ(), baseCenter2.getZ()) + _radius
+        );
     }
 
     @Override
@@ -68,10 +94,11 @@ public final class Cylinder extends Tube {
         Point rayP0 = ray.origin();
         Vector rayDir = ray.direction();
 
-        // Special case: ray parallel to cylinder axis
         double dirDotAxis = alignZero(rayDir.dotProduct(axisDir));
+
         if (isZero(Math.abs(dirDotAxis) - 1)) {
             double dist2;
+
             try {
                 Vector delta = rayP0.subtract(baseCenter1);
                 Vector radial = delta.subtract(axisDir.scale(delta.dotProduct(axisDir)));
@@ -80,7 +107,6 @@ public final class Cylinder extends Tube {
                 dist2 = 0;
             }
 
-            // Outside or tangent to side -> no intersections
             if (alignZero(dist2 - _radiusSquared) >= 0) {
                 return null;
             }
@@ -92,8 +118,11 @@ public final class Cylinder extends Tube {
                 result = new ArrayList<>();
                 result.add(new Intersection(this, ray.getPoint(tBottom)));
             }
+
             if (tTop > 0 && alignZero(tTop - maxDistance) <= 0) {
-                if (result == null) result = new ArrayList<>();
+                if (result == null) {
+                    result = new ArrayList<>();
+                }
                 result.add(new Intersection(this, ray.getPoint(tTop)));
             }
 
@@ -108,26 +137,28 @@ public final class Cylinder extends Tube {
             return result;
         }
 
-        // Intersections with the two bases
         double nv = alignZero(axisDir.dotProduct(rayDir));
 
         if (!isZero(nv)) {
-            // Bottom base
             double t1 = alignZero(axisDir.dotProduct(baseCenter1.subtract(rayP0)) / nv);
+
             if (t1 > 0 && alignZero(t1 - maxDistance) <= 0) {
                 Point p1 = ray.getPoint(t1);
+
                 if (alignZero(p1.distanceSquared(baseCenter1) - _radiusSquared) <= 0) {
                     result = new ArrayList<>();
                     result.add(new Intersection(this, p1));
                 }
             }
 
-            // Top base
             double t2 = alignZero(axisDir.dotProduct(baseCenter2.subtract(rayP0)) / nv);
+
             if (t2 > 0 && alignZero(t2 - maxDistance) <= 0) {
                 Point p2 = ray.getPoint(t2);
+
                 if (alignZero(p2.distanceSquared(baseCenter2) - _radiusSquared) <= 0) {
                     Intersection inter2 = new Intersection(this, p2);
+
                     if (result == null) {
                         result = new ArrayList<>();
                         result.add(inter2);
@@ -138,20 +169,21 @@ public final class Cylinder extends Tube {
             }
         }
 
-        // Intersections with the side surface
         if (result == null || result.size() < 2) {
             var tubeIntersections = super.calcIntersectionsHelper(ray, maxDistance);
+
             if (tubeIntersections != null) {
                 for (var inter : tubeIntersections) {
                     Point p = inter.point;
                     double projection = alignZero(axisDir.dotProduct(p.subtract(baseCenter1)));
 
-                    // Include joint points with bases as valid intersections
                     if (alignZero(projection) >= 0 && alignZero(projection - _height) <= 0) {
                         if (result == null) {
                             result = new ArrayList<>();
                         }
+
                         Intersection newInter = new Intersection(this, p);
+
                         if (!result.contains(newInter)) {
                             result.add(newInter);
                         }
