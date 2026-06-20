@@ -47,7 +47,36 @@ public class Geometries extends Intersectable {
     public List<Intersectable> getGeometries() {
         return _geometries;
     }
+    /**
+     * Recursively flattens the composite structure into a single flat Geometries object
+     * containing only basic geometric primitives (leaves).
+     * * @return a new flat Geometries object
+     */
+    public Geometries flatten() {
+        List<Intersectable> flatList = new ArrayList<>();
+        flattenRecursive(this, flatList);
 
+        Geometries flatGeometries = new Geometries();
+        flatGeometries._geometries.addAll(flatList);
+        flatGeometries.updateBoundingBox(); // Update the global bounding box for the new flat scene
+
+        return flatGeometries;
+    }
+
+    /**
+     * Helper method to recursively traverse the composite structure and extract primitive geometries.
+     * * @param component the current intersectable component
+     * @param flatList  the list collecting flat primitive geometries
+     */
+    private void flattenRecursive(Intersectable component, List<Intersectable> flatList) {
+        if (component instanceof Geometries composite) {
+            for (Intersectable geo : composite.getGeometries()) {
+                flattenRecursive(geo, flatList);
+            }
+        } else {
+            flatList.add(component);
+        }
+    }
     /**
      * Creates a bounding box that contains all child geometries.
      * If a child has no finite bounding box, it is skipped.

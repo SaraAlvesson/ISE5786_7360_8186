@@ -4,19 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3f23cdba-42a2-494c-a300-83fa17f67ee9" name="Changes" comment="Adjust SpotLight parameters for wider glow; refine triangle material properties and ambient light settings in ShadowTests">
-      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/BoundingBox.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/Stage10FinalTests.java" afterDir="false" />
+    <list default="true" id="3f23cdba-42a2-494c-a300-83fa17f67ee9" name="Changes" comment="Add BoundingBox class for BVH/CBR acceleration; update geometries to utilize bounding boxes for intersection calculations">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/Intersectable.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/api/Intersectable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Cylinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Cylinder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Geometries.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Geometries.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Polygon.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Polygon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Sphere.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/geometries/impl/Sphere.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/Camera.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/src/renderer/Camera.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Cylinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Cylinder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/Camera$Builder.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/Camera$Builder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/Camera.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/Camera.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/Stage10FinalTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/Stage10FinalTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/api/Intersectable$Intersection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/api/Intersectable$Intersection.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/api/Intersectable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/api/Intersectable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Geometries.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Geometries.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Polygon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Polygon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Sphere.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Sphere.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,8 +224,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.Stage10FinalTests.stage10_withAcceleration_withThreads" />
-        <item itemvalue="JUnit.MiniProjectImagesTests.testLivingRoomWithoutImprovements" />
         <item itemvalue="JUnit.Stage10FinalTests.stage10_noAcceleration_noThreads" />
+        <item itemvalue="JUnit.MiniProjectImagesTests.testLivingRoomWithoutImprovements" />
         <item itemvalue="JUnit.Stage10FinalTests.stage10_withAcceleration_noThreads" />
         <item itemvalue="JUnit.Stage10FinalTests.stage10_noAcceleration_withThreads" />
       </list>
@@ -396,7 +391,15 @@
       <option name="project" value="LOCAL‎" />
       <updated>1781531541465</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL‎-00020" summary="Add BoundingBox class for BVH/CBR acceleration; update geometries to utilize bounding boxes for intersection calculations">
+      <option name="closed" value="true" />
+      <created>1781541338620</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL‎-00020" />
+      <option name="project" value="LOCAL‎" />
+      <updated>1781541338620</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -428,7 +431,8 @@
     <MESSAGE value="Implement getDistance method for DirectionalLight and PointLight classes; enhance shadow ray calculations in SimpleRayTracer" />
     <MESSAGE value="Add Blackboard and TargetArea classes for 2D sampling and 3D mapping; enhance PointLight for soft shadows" />
     <MESSAGE value="Adjust SpotLight parameters for wider glow; refine triangle material properties and ambient light settings in ShadowTests" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adjust SpotLight parameters for wider glow; refine triangle material properties and ambient light settings in ShadowTests" />
+    <MESSAGE value="Add BoundingBox class for BVH/CBR acceleration; update geometries to utilize bounding boxes for intersection calculations" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add BoundingBox class for BVH/CBR acceleration; update geometries to utilize bounding boxes for intersection calculations" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>
