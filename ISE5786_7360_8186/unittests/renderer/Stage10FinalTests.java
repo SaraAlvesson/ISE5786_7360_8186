@@ -4,6 +4,8 @@ import geometries.impl.Cylinder;
 import geometries.impl.Geometries;
 import geometries.impl.Polygon;
 import geometries.impl.Sphere;
+import geometries.impl.Triangle;
+import geometries.impl.Plane;
 import lighting.AmbientLight;
 import lighting.DirectionalLight;
 import lighting.PointLight;
@@ -241,7 +243,12 @@ public class Stage10FinalTests {
                 new Polygon(new Point(-980, -120, 560), new Point(980, -120, 560), new Point(980, -120, -1150), new Point(-980, -120, -1150)).setEmission(new Color(72, 49, 31)).setMaterial(floor),
                 new Polygon(new Point(-980, 410, 560), new Point(-980, 410, -1150), new Point(980, 410, -1150), new Point(980, 410, 560)).setEmission(new Color(84, 65, 54)).setMaterial(ceiling),
                 new Polygon(new Point(-980, -120, -880), new Point(980, -120, -880), new Point(980, 410, -880), new Point(-980, 410, -880)).setEmission(new Color(118, 104, 95)).setMaterial(wall),
-                new Polygon(new Point(-980, -120, 560), new Point(-980, -120, -1150), new Point(-980, 410, -1150), new Point(-980, 410, 560)).setEmission(new Color(45, 36, 31)).setMaterial(wall)
+                new Polygon(new Point(-980, -120, 560), new Point(-980, -120, -1150), new Point(-980, 410, -1150), new Point(-980, 410, 560)).setEmission(new Color(45, 36, 31)).setMaterial(wall),
+
+                // Hidden Plane behind the back wall, added only to include Plane geometry in the rich scene.
+                // It is fully covered by the opaque back wall, so it should not change the rendered image.
+                new Plane(new Point(0, 0, -910), new Vector(0, 0, 1))
+                        .setEmission(new Color(8, 7, 6)).setMaterial(matteDark)
         );
 
         addBox(container, -982, -972, -120, 410, -888, -872, new Color(28, 23, 20), matteDark);
@@ -378,6 +385,16 @@ public class Stage10FinalTests {
 
     private void addWallArt(Geometries container, Material metal, Material tvScreen, Material wood, Material matteDark) {
         addBox(container, -240, 140, 72, 228, -878, -870, new Color(14, 14, 14), metal);
+
+
+        container.add(
+                new Triangle(
+                        new Point(-210, 100, -879),
+                        new Point(110, 100, -879),
+                        new Point(-40, 205, -879)
+                ).setEmission(new Color(14, 14, 14)).setMaterial(matteDark)
+        );
+
         addBox(container, -224, 124, 86, 214, -869, -865, new Color(3, 3, 3), tvScreen);
         addBox(container, -84, -16, 56, 62, -872, -852, new Color(20, 18, 18), metal);
         addBox(container, -106, 6, 274, 282, -866, -850, new Color(42, 38, 34), metal);

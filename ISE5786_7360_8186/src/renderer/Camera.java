@@ -159,7 +159,7 @@ public class Camera implements Cloneable {
             threads.add(new Thread(() -> {
                 PixelManager.Pixel pixel;
                 while ((pixel = pixelManager.nextPixel()) != null) {
-                    castRay(pixel.col(), pixel.row());
+                    castRay(pixel.row(), pixel.col());
                 }
             }));
         }
