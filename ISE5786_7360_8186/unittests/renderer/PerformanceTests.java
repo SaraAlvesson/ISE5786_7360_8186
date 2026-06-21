@@ -38,16 +38,22 @@ class PerformanceTests {
                         .setMaterial(new Material().setKD(0.8).setKS(0.2).setShininess(30))
         );
 
-        scene.lights.add(new PointLight(new Color(800, 500, 500), new Point(60, 60, 100))
-                .setKc(1).setKl(0.0005).setKq(0.00005));
+        scene.lights.add(
+                new PointLight(new Color(800, 500, 500), new Point(60, 60, 100))
+                        .setKc(1)
+                        .setKl(0.0005)
+                        .setKq(0.00005)
+        );
 
         return scene;
     }
 
     @Test
     void testSingleThreadPerformance() {
+        // Create the test scene
         Scene scene = createPerformanceScene();
 
+        // Configure camera with a single rendering thread
         Camera camera = Camera.getBuilder()
                 .setLocation(new Point(0, 0, 250))
                 .setDirection(new Point(0, 0, 0))
@@ -59,6 +65,7 @@ class PerformanceTests {
                 .setMultiThreading(1, 0)
                 .build();
 
+        // Measure rendering time
         long startTime = System.currentTimeMillis();
         camera.renderImage();
         long endTime = System.currentTimeMillis();
@@ -69,8 +76,10 @@ class PerformanceTests {
 
     @Test
     void testMultiThreadPerformance() {
+        // Create the test scene
         Scene scene = createPerformanceScene();
 
+        // Configure camera with multiple rendering threads
         Camera camera = Camera.getBuilder()
                 .setLocation(new Point(0, 0, 250))
                 .setDirection(new Point(0, 0, 0))
@@ -80,11 +89,12 @@ class PerformanceTests {
                 .setRayTracer(scene, RayTracerType.SIMPLE)
                 .setAntiAliasingSamples(6)
 
-                // תיקון: הגדרת מרווח הדפסה ל-0 על פי ההנחיות למניעת חסימת תהליכונים
+                // Set print interval to 0 to avoid thread blocking during rendering
                 .setMultiThreading(4, 0.0)
 
                 .build();
 
+        // Measure rendering time
         long startTime = System.currentTimeMillis();
         camera.renderImage();
         long endTime = System.currentTimeMillis();

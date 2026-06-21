@@ -19,8 +19,9 @@ class MiniProjectImagesTests {
 
     static final double VP_SIZE = 360;
     static final double VP_DISTANCE = 220;
-    static final int RESOLUTION = 1000; // 1. רזולוציה גבוהה שתתפוס את כל המסך
+    static final int RESOLUTION = 1000; // High resolution for full-screen rendering
 
+    // Creates a box using six polygons
     private void addBox(Scene scene, double x1, double x2, double y1, double y2,
                         double z1, double z2, Color color, Material material) {
         scene.geometries.add(
@@ -39,6 +40,7 @@ class MiniProjectImagesTests {
         );
     }
 
+    // Builds the complete living room scene
     private Scene buildLivingRoomScene(double mainLightRadius) {
         Scene scene = new Scene("Elegant Living Room Scene")
                 .setBackground(new Color(8, 10, 16))
@@ -51,7 +53,7 @@ class MiniProjectImagesTests {
         Material paper = new Material().setKD(0.80).setKS(0.14).setShininess(55);
         Material shade = new Material().setKD(0.80).setKS(0.10).setShininess(40);
 
-        // 1. בניית חדר סגור ומורחב (רצפה + 3 קירות) כדי להעלים לחלוטין את הרקע השחור מכל זווית
+        // Build a large enclosed room (floor + 3 walls) to eliminate the black background from all viewing angles
         scene.geometries.add(
                 // Floor
                 new Polygon(
@@ -61,7 +63,7 @@ class MiniProjectImagesTests {
                         new Point(-2500, -100, -1500)
                 ).setEmission(new Color(66, 56, 46)).setMaterial(wood),
 
-                // Back Wall
+                // Back wall
                 new Polygon(
                         new Point(-2500, -100, -760),
                         new Point(2500, -100, -760),
@@ -69,7 +71,7 @@ class MiniProjectImagesTests {
                         new Point(-2500, 1200, -760)
                 ).setEmission(new Color(42, 37, 42)).setMaterial(wall),
 
-                // Left Wall
+                // Left wall
                 new Polygon(
                         new Point(-650, -100, -1500),
                         new Point(-650, -100, 1000),
@@ -77,7 +79,7 @@ class MiniProjectImagesTests {
                         new Point(-650, 1200, -1500)
                 ).setEmission(new Color(36, 31, 36)).setMaterial(wall),
 
-                // Right Wall
+                // Right wall
                 new Polygon(
                         new Point(650, -100, -1500),
                         new Point(650, -100, 1000),
@@ -105,19 +107,19 @@ class MiniProjectImagesTests {
                         .setEmission(new Color(205, 165, 85)).setMaterial(metal)
         );
 
-        // נקודות מבנה האהיל
+        // Lampshade structure points
         Point apex = new Point(-285, 94, -360);
-        Point p1 = new Point(-342, 44, -334); // קדמי-שמאל
-        Point p2 = new Point(-228, 44, -334); // קדמי-ימין
-        Point p3 = new Point(-342, 44, -386); // אחורי-שמאל
-        Point p4 = new Point(-228, 44, -386); // אחורי-ימין
+        Point p1 = new Point(-342, 44, -334); // Front-left
+        Point p2 = new Point(-228, 44, -334); // Front-right
+        Point p3 = new Point(-342, 44, -386); // Back-left
+        Point p4 = new Point(-228, 44, -386); // Back-right
 
-        // 3. יצירת מראה תלת-ממדי מובהק (פירמידה נפחית) ע"י הפרדת גוונים חדה ומכוונת בין פאות האהיל
+        // Create a clear 3D appearance by using strong color differences between the lampshade faces
         scene.geometries.add(
-                new Triangle(p1, p2, apex).setEmission(new Color(200, 160, 90)).setMaterial(shade), // פאה קדמית - בהירה ומוארת
-                new Triangle(p1, p3, apex).setEmission(new Color(110, 85, 45)).setMaterial(shade),  // פאה שמאלית - כהה ומוצלת (יוצר קו חיתוך תלת-ממדי מושלם ביניהן!)
-                new Triangle(p2, p4, apex).setEmission(new Color(160, 130, 70)).setMaterial(shade), // פאה ימנית
-                new Triangle(p3, p4, apex).setEmission(new Color(70, 50, 25)).setMaterial(shade)    // פאה אחורית
+                new Triangle(p1, p2, apex).setEmission(new Color(200, 160, 90)).setMaterial(shade), // Front face - bright
+                new Triangle(p1, p3, apex).setEmission(new Color(110, 85, 45)).setMaterial(shade),  // Left face - dark and shaded
+                new Triangle(p2, p4, apex).setEmission(new Color(160, 130, 70)).setMaterial(shade), // Right face
+                new Triangle(p3, p4, apex).setEmission(new Color(70, 50, 25)).setMaterial(shade)    // Back face
         );
 
         // Books
@@ -159,7 +161,7 @@ class MiniProjectImagesTests {
                 new Sphere(new Point(30, 130, -740), 16).setEmission(new Color(235, 120, 170)).setMaterial(paper)
         );
 
-        // 3. מיקום אסטרטגי של מקור האור הראשי משמאל ומלפנים כדי להטיל צל גלילי ארוך וברור ימינה-אחורה על פני הרצפה
+        // Position the main light source to cast a long and clear shadow across the floor
         scene.lights.add(
                 new PointLight(new Color(900, 760, 610), new Point(-340, 320, -260))
                         .setRadius(mainLightRadius)
@@ -168,6 +170,7 @@ class MiniProjectImagesTests {
                         .setKq(0.000012)
         );
 
+        // Add a secondary spotlight for warm ambient illumination
         scene.lights.add(
                 new SpotLight(
                         new Color(85, 62, 48),
@@ -182,11 +185,12 @@ class MiniProjectImagesTests {
         return scene;
     }
 
+    // Creates and configures the camera
     private Camera buildCamera(Scene scene, int antiAliasingSamples, int softShadowSamples) {
         return Camera.getBuilder()
-                // 2. מיקום מצלמה מדויק משמאל (X = -420), בגובה אנושי מאוזן וישר (Y = 70) ובמרחק פריים קרוב ומעולה (Z = -140)
+                // Position the camera on the left side at eye level for a natural viewpoint
                 .setLocation(new Point(-420, 70, -140))
-                // כיוון המבט באלכסונית ימינה פנימה שממרכזת בצורה מושלמת ויציבה את המנורה והחדר ללא עקמומיות
+                // Direct the camera diagonally toward the center of the room
                 .setDirection(new Point(-150, -10, -420), new Vector(0, 1, 0))
                 .setVpDistance(VP_DISTANCE)
                 .setVpSize(VP_SIZE, VP_SIZE)
@@ -194,11 +198,12 @@ class MiniProjectImagesTests {
                 .setAntiAliasingSamples(antiAliasingSamples)
                 .setSoftShadowsSamples(softShadowSamples)
                 .setRayTracer(scene, RayTracerType.SIMPLE)
-                // 4. הגדלת כמות התהליכונים ל-8 (או 12/16 במחשב חזק) כדי להאיץ את הריצה בצורה דרסטית במקביל
+                // Use multithreading to significantly reduce rendering time
                 .setMultiThreading(40, 0.5)
                 .build();
     }
 
+    // Measures rendering time and saves the output image
     private void renderWithTiming(Camera camera, String fileName) {
         long start = System.currentTimeMillis();
         camera.renderImage();

@@ -136,7 +136,7 @@ public class Stage10FinalTests {
         } else {
             scene.geometries.disableCBR();
         }
-
+        // Configure camera settings
         Camera.Builder builder = Camera.getBuilder()
                 .setResolution(RESOLUTION, RESOLUTION)
                 .setRayTracer(scene, RayTracerType.SIMPLE)
@@ -150,7 +150,7 @@ public class Stage10FinalTests {
                 .setSoftShadowsSamples(SOFT_SHADOW_SAMPLES)
                 .setMultithreading(multithreading)
                 .setDebugPrint(1.0);
-
+        // Measure rendering time
         long start = System.nanoTime();
 
         builder.build()
@@ -237,7 +237,10 @@ public class Stage10FinalTests {
 
         return scene;
     }
-
+    /**
+     * Creates the room geometry including floor, ceiling, walls,
+     * decorative floor planks, and a hidden plane.
+     */
     private void addRoom(Geometries container, Material wall, Material ceiling, Material floor, Material matteDark) {
         container.add(
                 new Polygon(new Point(-980, -120, 560), new Point(980, -120, 560), new Point(980, -120, -1150), new Point(-980, -120, -1150)).setEmission(new Color(72, 49, 31)).setMaterial(floor),
@@ -267,7 +270,10 @@ public class Stage10FinalTests {
 
         addBox(container, -980, 980, -102, -94, -876, -868, new Color(112, 86, 62), matteDark);
     }
-
+    /**
+     * Builds the left wall window and cabinet structure,
+     * including glass panels, frames, and decorative separators.
+     */
     private void addLeftWallWindowAndCabinet(Geometries container, Material glass, Material blackWood, Material matteDark) {
         container.add(
                 new Polygon(new Point(-1200, -500, 1000), new Point(-1200, -500, -1500), new Point(-1200, 800, -1500), new Point(-1200, 800, 1000)).setEmission(new Color(135, 206, 235)).setMaterial(matteDark)
@@ -286,7 +292,10 @@ public class Stage10FinalTests {
         addBox(container, -982, -966, 45, 57, -720, 380, new Color(58, 51, 44), matteDark);
         addBox(container, -982, -966, 180, 192, -720, 380, new Color(58, 51, 44), matteDark);
     }
-
+    /**
+     * Creates a floor lamp composed of support legs,
+     * a central hub, a lampshade, and a light bulb.
+     */
     private void addFloorLamp(Geometries container, Material metal, Material shade) {
         Color legColor = new Color(17, 15, 14);
         Point hub = new Point(-650, 166, -430);
@@ -300,7 +309,10 @@ public class Stage10FinalTests {
                 new Sphere(new Point(-650, 188, -430), 17).setEmission(new Color(255, 242, 186)).setMaterial(new Material().setKD(0.2).setKS(0.2).setShininess(10))
         );
     }
-
+    /**
+     * Builds a rotated armchair including the seat, backrest,
+     * armrests, cushions, and supporting legs.
+     */
     private void addArmchairRotated(Geometries container, Material fabric, Material darkFabric, Material metal, Material matteDark) {
         Color chairMain = new Color(182, 165, 142);
         Color cushion = new Color(226, 216, 202);
@@ -326,7 +338,9 @@ public class Stage10FinalTests {
         addRotatedCylinder(container, 6.5, -574, -120, -216, 0, 1, 0, 42, pivotX, pivotZ, angle, leg, metal);
         addRotatedCylinder(container, 6.5, -398, -120, -204, 0, 1, 0, 42, pivotX, pivotZ, angle, leg, metal);
     }
-
+    /**
+     * Creates a decorative rug with patterned strips.
+     */
     private void addRug(Geometries container, Material rug) {
         addBox(container, -430, 760, -119.5, -114.0, -630, 55, new Color(190, 175, 160), rug);
         for (int i = 0; i < 6; i++) {
@@ -338,7 +352,10 @@ public class Stage10FinalTests {
             addBox(container, x, x + 2, -113.8, -113.2, -605, 35, new Color(175, 160, 145), rug);
         }
     }
-
+    /**
+     * Builds the coffee table including the tabletop,
+     * support legs, and decorative objects.
+     */
     private void addCoffeeTable(Geometries container, Material blackWood, Material metal, Material matteDark, Material topMaterial) {
         double cx = -120;
         double cz = -170;
@@ -354,7 +371,10 @@ public class Stage10FinalTests {
 
         addPlant(container, matteDark);
     }
-
+    /**
+     * Creates a decorative plant including a vase,
+     * stems, and foliage clusters.
+     */
     private void addPlant(Geometries container, Material branchMat) {
         Color stem = new Color(58, 48, 36);
         Color flower = new Color(40, 140, 60);
@@ -382,7 +402,10 @@ public class Stage10FinalTests {
         addLeafCluster(container, baseX - 8, 38, baseZ + 8, 7, flower, branchMat);
         addLeafCluster(container, baseX + 8, 42, baseZ + 6, 7, flower, branchMat);
     }
-
+    /**
+     * Builds the wall decoration area including the TV,
+     * wall panel, cabinet, and supporting elements.
+     */
     private void addWallArt(Geometries container, Material metal, Material tvScreen, Material wood, Material matteDark) {
         addBox(container, -240, 140, 72, 228, -878, -870, new Color(14, 14, 14), metal);
 
@@ -404,7 +427,9 @@ public class Stage10FinalTests {
         addBox(container, -290, -55, -115, -65, -785, -775, new Color(55, 48, 42), wood);
         addBox(container, -45, 190, -115, -65, -785, -775, new Color(55, 48, 42), wood);
     }
-
+    /**
+     * Creates ceiling spotlights distributed across the room.
+     */
     private void addCeilingSpots(Geometries container, Material metal, Material glass) {
         double[] xs = {-620, -280, 60, 400, 740};
         for (double x : xs) {
@@ -414,7 +439,10 @@ public class Stage10FinalTests {
             );
         }
     }
-
+    /**
+     * Configures all scene light sources including directional,
+     * point, and spot lights.
+     */
     private void addLights(Scene scene) {
         scene.lights.add(new DirectionalLight(new Color(4, 4, 5), new Vector(0.95, -0.32, -0.18)));
         scene.lights.add(new PointLight(new Color(18, 20, 24), new Point(120, 315, -220)).setKl(0.00025).setKq(0.000003).setRadius(180));
@@ -429,14 +457,18 @@ public class Stage10FinalTests {
         scene.lights.add(new SpotLight(new Color(160, 118, 76), new Point(740, 372, -445), new Vector(-0.22, -1, -0.24)).setKl(0.0013).setKq(0.000007).setRadius(64).setNarrowBeam(2.5));
         scene.lights.add(new PointLight(new Color(75, 80, 90), new Point(320, 85, -270)).setKl(0.0001).setKq(0.000001).setRadius(150));
     }
-
+    /**
+     * Creates a hollow frame using multiple thin boxes.
+     */
     private void addOutlineBox(Geometries container, double x1, double x2, double y1, double y2, double z1, double z2, double t, Color color, Material material) {
         addBox(container, x1, x2, y1, y1 + t, z1, z1 + t, color, material);
         addBox(container, x1, x2, y2 - t, y2, z1, z1 + t, color, material);
         addBox(container, x1, x1 + t, y1, y2, z1, z1 + t, color, material);
         addBox(container, x2 - t, x2, y1, y2, z1, z1 + t, color, material);
     }
-
+    /**
+     * Creates a box rotated around the Y-axis using local coordinates.
+     */
     private void addRotatedBox(Geometries container, double centerX, double centerY, double centerZ, double sizeX, double sizeY, double sizeZ, double angleDegrees, Color color, Material material) {
         double hx = sizeX / 2.0;
         double hy = sizeY / 2.0;
@@ -460,7 +492,9 @@ public class Stage10FinalTests {
                 new Polygon(p001, p101, p111, p011).setEmission(color).setMaterial(material)
         );
     }
-
+    /**
+     * Rotates a local point around the Y-axis relative to a center point.
+     */
     private Point rotateLocal(double centerX, double centerY, double centerZ, double dx, double dy, double dz, double angleDegrees) {
         double angle = Math.toRadians(angleDegrees);
         double cos = Math.cos(angle);
@@ -469,7 +503,9 @@ public class Stage10FinalTests {
         double rz = dx * sin + dz * cos;
         return new Point(centerX + rx, centerY + dy, centerZ + rz);
     }
-
+    /**
+     * Rotates a world-space point around a specified pivot point.
+     */
     private Point rotatePoint(double x, double y, double z, double centerX, double centerY, double centerZ, double angleDegrees) {
         double dx = x - centerX;
         double dy = y - centerY;
@@ -481,7 +517,9 @@ public class Stage10FinalTests {
         double rz = dx * sin + dz * cos;
         return new Point(centerX + rx, centerY + dy, centerZ + rz);
     }
-
+    /**
+     * Creates a box from six polygon faces.
+     */
     private void addBox(Geometries container, double x1, double x2, double y1, double y2, double z1, double z2, Color color, Material material) {
         container.add(
                 new Polygon(new Point(x1, y1, z1), new Point(x2, y1, z1), new Point(x2, y1, z2), new Point(x1, y1, z2)).setEmission(color).setMaterial(material),
@@ -492,7 +530,9 @@ public class Stage10FinalTests {
                 new Polygon(new Point(x1, y1, z2), new Point(x2, y1, z2), new Point(x2, y2, z2), new Point(x1, y2, z2)).setEmission(color).setMaterial(material)
         );
     }
-
+    /**
+     * Creates a box rotated around a custom pivot point.
+     */
     private void addRotatedBoxRelative(Geometries container, double x1, double x2, double y1, double y2, double z1, double z2, double pivotX, double pivotZ, double angleDegrees, Color color, Material material) {
         Point p000 = rotatePoint(x1, y1, z1, pivotX, 0, pivotZ, angleDegrees);
         Point p100 = rotatePoint(x2, y1, z1, pivotX, 0, pivotZ, angleDegrees);
@@ -513,7 +553,9 @@ public class Stage10FinalTests {
                 new Polygon(p001, p101, p111, p011).setEmission(color).setMaterial(material)
         );
     }
-
+    /**
+     * Creates a cylinder rotated around a specified pivot point.
+     */
     private void addRotatedCylinder(Geometries container, double radius, double x, double y, double z, double dirX, double dirY, double dirZ, double height, double pivotX, double pivotZ, double angleDegrees, Color color, Material material) {
         Point p = rotatePoint(x, y, z, pivotX, 0, pivotZ, angleDegrees);
         double angle = Math.toRadians(angleDegrees);
@@ -526,7 +568,9 @@ public class Stage10FinalTests {
                 new Cylinder(radius, new Ray(p, new Vector(rDirX, dirY, rDirZ).normalize()), height).setEmission(color).setMaterial(material)
         );
     }
-
+    /**
+     * Creates a cluster of spheres to simulate plant foliage.
+     */
     private void addLeafCluster(Geometries container, double cx, double cy, double cz, double r, Color color, Material mat) {
         container.add(
                 new Sphere(new Point(cx, cy, cz), r).setEmission(color).setMaterial(mat),
