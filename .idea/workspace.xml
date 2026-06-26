@@ -6,12 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="3f23cdba-42a2-494c-a300-83fa17f67ee9" name="Changes" comment="Add BoundingBox class for BVH/CBR acceleration; update geometries to utilize bounding boxes for intersection calculations">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186.zip" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/Stage10FinalTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/Stage10FinalTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/api/Intersectable$Intersection.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/api/Intersectable$Intersection.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/api/Intersectable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/api/Intersectable.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Geometries.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Geometries.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Polygon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Polygon.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Sphere.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/geometries/impl/Sphere.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/Camera.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/Camera.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/sampling/Blackboard.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ISE5786_7360_8186/renderer/sampling/Blackboard.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/renderer/MiniProjectImagesTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/renderer/MiniProjectImagesTests.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/renderer/PerformanceTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/renderer/PerformanceTests.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/renderer/Stage10FinalTests.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/ISE5786_7360_8186/renderer/Stage10FinalTests.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,6 +104,8 @@
     "JUnit.RenderTests.testBasicRenderXml.executor": "Run",
     "JUnit.ShadowTests.executor": "Run",
     "JUnit.SphereTests.executor": "Run",
+    "JUnit.Stage10FinalTests.stage10_13_optimized_noAntiAliasing.executor": "Run",
+    "JUnit.Stage10FinalTests.stage10_14_optimized_noSoftShadows.executor": "Run",
     "JUnit.Stage10FinalTests.stage10_noAcceleration_noThreads.executor": "Run",
     "JUnit.Stage10FinalTests.stage10_noAcceleration_withThreads.executor": "Run",
     "JUnit.Stage10FinalTests.stage10_withAcceleration_noThreads.executor": "Run",
@@ -140,7 +144,7 @@
       <recent name="C:\Users\saraa\source\repos\IdeaProjects\Homework1\ex0_SarahAlvesson" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.Stage10FinalTests.stage10_withAcceleration_withThreads">
+  <component name="RunManager" selected="JUnit.Stage10FinalTests.stage10_14_optimized_noSoftShadows">
     <configuration name="MiniProjectImagesTests.testLivingRoomWithoutImprovements" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE5786_7360_8186" />
       <extension name="coverage">
@@ -157,6 +161,38 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Stage10FinalTests.stage10_13_optimized_noAntiAliasing" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ISE5786_7360_8186" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="renderer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="renderer" />
+      <option name="MAIN_CLASS_NAME" value="renderer.Stage10FinalTests" />
+      <option name="METHOD_NAME" value="stage10_13_optimized_noAntiAliasing" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Stage10FinalTests.stage10_14_optimized_noSoftShadows" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="ISE5786_7360_8186" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="renderer.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="renderer" />
+      <option name="MAIN_CLASS_NAME" value="renderer.Stage10FinalTests" />
+      <option name="METHOD_NAME" value="stage10_14_optimized_noSoftShadows" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Stage10FinalTests.stage10_noAcceleration_noThreads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="ISE5786_7360_8186" />
       <extension name="coverage">
@@ -168,38 +204,6 @@
       <option name="PACKAGE_NAME" value="renderer" />
       <option name="MAIN_CLASS_NAME" value="renderer.Stage10FinalTests" />
       <option name="METHOD_NAME" value="stage10_noAcceleration_noThreads" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Stage10FinalTests.stage10_noAcceleration_withThreads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ISE5786_7360_8186" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="renderer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="renderer" />
-      <option name="MAIN_CLASS_NAME" value="renderer.Stage10FinalTests" />
-      <option name="METHOD_NAME" value="stage10_noAcceleration_withThreads" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Stage10FinalTests.stage10_withAcceleration_noThreads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="ISE5786_7360_8186" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="renderer.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="renderer" />
-      <option name="MAIN_CLASS_NAME" value="renderer.Stage10FinalTests" />
-      <option name="METHOD_NAME" value="stage10_withAcceleration_noThreads" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -223,11 +227,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.Stage10FinalTests.stage10_14_optimized_noSoftShadows" />
+        <item itemvalue="JUnit.Stage10FinalTests.stage10_13_optimized_noAntiAliasing" />
         <item itemvalue="JUnit.Stage10FinalTests.stage10_withAcceleration_withThreads" />
         <item itemvalue="JUnit.Stage10FinalTests.stage10_noAcceleration_noThreads" />
         <item itemvalue="JUnit.MiniProjectImagesTests.testLivingRoomWithoutImprovements" />
-        <item itemvalue="JUnit.Stage10FinalTests.stage10_withAcceleration_noThreads" />
-        <item itemvalue="JUnit.Stage10FinalTests.stage10_noAcceleration_withThreads" />
       </list>
     </recent_temporary>
   </component>
@@ -433,6 +437,17 @@
     <MESSAGE value="Adjust SpotLight parameters for wider glow; refine triangle material properties and ambient light settings in ShadowTests" />
     <MESSAGE value="Add BoundingBox class for BVH/CBR acceleration; update geometries to utilize bounding boxes for intersection calculations" />
     <option name="LAST_COMMIT_MESSAGE" value="Add BoundingBox class for BVH/CBR acceleration; update geometries to utilize bounding boxes for intersection calculations" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ISE5786_7360_8186/unittests/renderer/Stage10FinalTests.java</url>
+          <line>558</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

@@ -2,10 +2,10 @@ package renderer;
 
 import geometries.impl.Cylinder;
 import geometries.impl.Geometries;
+import geometries.impl.Plane;
 import geometries.impl.Polygon;
 import geometries.impl.Sphere;
 import geometries.impl.Triangle;
-import geometries.impl.Plane;
 import lighting.AmbientLight;
 import lighting.DirectionalLight;
 import lighting.PointLight;
@@ -23,6 +23,7 @@ import scene.Scene;
  * Final compliance test suite for Stage 10 (Mini-Project 2).
  * Runs the comprehensive 12-configuration performance benchmarking matrix
  * to analyze multi-threading and Bounding Volume Hierarchy (BVH/CBR) speedup.
+ * Includes additional optimized specific feature omission tests.
  */
 public class Stage10FinalTests {
 
@@ -47,32 +48,36 @@ public class Stage10FinalTests {
 
     @Test
     void stage10_1_noAcceleration_flattened_noThreads() {
-        renderStage10Image("stage10_1_noAcceleration_flattened_noThreads", SceneStructure.FLATTENED, false, 0);
+        renderStage10Image("stage10_1_noAcceleration_flattened_noThreads", SceneStructure.FLATTENED, false, 0, true, true);
     }
 
     @Test
     void stage10_2_noAcceleration_flattened_withThreads() {
-        renderStage10Image("stage10_2_noAcceleration_flattened_withThreads", SceneStructure.FLATTENED, false, -2);
+        renderStage10Image("stage10_2_noAcceleration_flattened_withThreads", SceneStructure.FLATTENED, false, -2, true, true);
     }
 
     @Test
     void stage10_3_noAcceleration_manualHierarchy_noThreads() {
-        renderStage10Image("stage10_3_noAcceleration_manualHierarchy_noThreads", SceneStructure.MANUAL_HIERARCHY, false, 0);
+        renderStage10Image("stage10_3_noAcceleration_manualHierarchy_noThreads",
+                SceneStructure.MANUAL_HIERARCHY, false, 0, true, true);
     }
 
     @Test
     void stage10_4_noAcceleration_manualHierarchy_withThreads() {
-        renderStage10Image("stage10_4_noAcceleration_manualHierarchy_withThreads", SceneStructure.MANUAL_HIERARCHY, false, -2);
+        renderStage10Image("stage10_4_noAcceleration_manualHierarchy_withThreads",
+                SceneStructure.MANUAL_HIERARCHY, false, -2, true, true);
     }
 
     @Test
     void stage10_5_noAcceleration_automaticHierarchy_noThreads() {
-        renderStage10Image("stage10_5_noAcceleration_automaticHierarchy_noThreads", SceneStructure.AUTOMATIC_HIERARCHY, false, 0);
+        renderStage10Image("stage10_5_noAcceleration_automaticHierarchy_noThreads",
+                SceneStructure.AUTOMATIC_HIERARCHY, false, 0, true, true);
     }
 
     @Test
     void stage10_6_noAcceleration_automaticHierarchy_withThreads() {
-        renderStage10Image("stage10_6_noAcceleration_automaticHierarchy_withThreads", SceneStructure.AUTOMATIC_HIERARCHY, false, -2);
+        renderStage10Image("stage10_6_noAcceleration_automaticHierarchy_withThreads",
+                SceneStructure.AUTOMATIC_HIERARCHY, false, -2, true, true);
     }
 
     // =========================================================================
@@ -81,39 +86,50 @@ public class Stage10FinalTests {
 
     @Test
     void stage10_7_withCBR_flattened_noThreads() {
-        renderStage10Image("stage10_7_withCBR_flattened_noThreads", SceneStructure.FLATTENED, true, 0);
+        renderStage10Image("stage10_7_withCBR_flattened_noThreads", SceneStructure.FLATTENED, true, 0, true, true);
     }
 
     @Test
     void stage10_8_withCBR_flattened_withThreads() {
-        renderStage10Image("stage10_8_withCBR_flattened_withThreads", SceneStructure.FLATTENED, true, -2);
+        renderStage10Image("stage10_8_withCBR_flattened_withThreads", SceneStructure.FLATTENED, true, -2, true, true);
     }
 
     @Test
     void stage10_9_withCBR_manualHierarchy_noThreads() {
-        renderStage10Image("stage10_9_withCBR_manualHierarchy_noThreads", SceneStructure.MANUAL_HIERARCHY, true, 0);
+        renderStage10Image("stage10_9_withCBR_manualHierarchy_noThreads", SceneStructure.MANUAL_HIERARCHY, true, 0, true, true);
     }
 
     @Test
     void stage10_10_withCBR_manualHierarchy_withThreads() {
-        renderStage10Image("stage10_10_withCBR_manualHierarchy_withThreads", SceneStructure.MANUAL_HIERARCHY, true, -2);
+        renderStage10Image("stage10_10_withCBR_manualHierarchy_withThreads", SceneStructure.MANUAL_HIERARCHY, true, -2, true, true);
     }
 
     @Test
     void stage10_11_withCBR_automaticHierarchy_noThreads() {
-        renderStage10Image("stage10_11_withCBR_automaticHierarchy_noThreads", SceneStructure.AUTOMATIC_HIERARCHY, true, 0);
+        renderStage10Image("stage10_11_withCBR_automaticHierarchy_noThreads", SceneStructure.AUTOMATIC_HIERARCHY, true, 0, true, true);
     }
 
     @Test
     void stage10_12_withCBR_automaticHierarchy_withThreads() {
-        renderStage10Image("stage10_12_withCBR_automaticHierarchy_withThreads", SceneStructure.AUTOMATIC_HIERARCHY, true, -2);
+        renderStage10Image("stage10_12_withCBR_automaticHierarchy_withThreads", SceneStructure.AUTOMATIC_HIERARCHY, true, -2, true, true);
     }
+
+    // =========================================================================
+    // ADDED OPTIMIZED TESTS (MAXIMUM ACCELERATION SPEEDUP)
+    // =========================================================================
+
+    @Test
+    void stage10_13_optimized_noAntiAliasing() {
+        // Runs with Automatic Hierarchy, CBR enabled, and Multithreading, WITHOUT Anti-Aliasing (samples = 1)
+        renderStage10Image("stage10_13_optimized_noAntiAliasing", SceneStructure.AUTOMATIC_HIERARCHY, true, -2, false, true);
+    }
+    
 
     /**
      * Master benchmarking driver method that configures the requested structural mode,
      * CBR settings, and multi-threading variables fairly across a consistent rich scene.
      */
-    private void renderStage10Image(String imageName, SceneStructure structure, boolean useCBR, int multithreading) {
+    private void renderStage10Image(String imageName, SceneStructure structure, boolean useCBR, int multithreading, boolean useAntiAliasing, boolean useSoftShadow) {
         Scene scene = buildLivingRoomScene(); // Built as a Manual Hierarchy initially
 
         double overheadSeconds = 0.0;
@@ -136,7 +152,8 @@ public class Stage10FinalTests {
         } else {
             scene.geometries.disableCBR();
         }
-        // Configure camera settings
+
+        // Configure camera settings dynamically based on test requirements
         Camera.Builder builder = Camera.getBuilder()
                 .setResolution(RESOLUTION, RESOLUTION)
                 .setRayTracer(scene, RayTracerType.SIMPLE)
@@ -144,12 +161,13 @@ public class Stage10FinalTests {
                 .setDirection(new Point(-430, 82, -505), Vector.AXIS_Y)
                 .setVpDistance(VP_DISTANCE)
                 .setVpSize(VP_SIZE, VP_SIZE)
-                .setAntiAliasingSamples(ANTI_ALIASING_SAMPLES)
+                .setAntiAliasingSamples(useAntiAliasing ? ANTI_ALIASING_SAMPLES : 1)
                 .setAntiAliasingShape(Blackboard.AreaShape.SQUARE)
                 .setAntiAliasingPattern(Blackboard.SamplePattern.JITTERED)
-                .setSoftShadowsSamples(SOFT_SHADOW_SAMPLES)
+                .setSoftShadowsSamples(useSoftShadow ? SOFT_SHADOW_SAMPLES : 1)
                 .setMultithreading(multithreading)
                 .setDebugPrint(1.0);
+
         // Measure rendering time
         long start = System.nanoTime();
 
@@ -165,6 +183,8 @@ public class Stage10FinalTests {
         System.out.println("Scene Structure Mode: " + structure);
         System.out.println("CBR Acceleration Checks: " + (useCBR ? "ENABLED" : "DISABLED"));
         System.out.println("Multithreading Count Mode: " + multithreading);
+        System.out.println("Anti-Aliasing State: " + (useAntiAliasing ? "ENABLED (" + ANTI_ALIASING_SAMPLES + " samples)" : "DISABLED"));
+        System.out.println("Soft Shadows State: " + (useSoftShadow ? "ENABLED (" + SOFT_SHADOW_SAMPLES + " samples)" : "DISABLED"));
         if (structure == SceneStructure.AUTOMATIC_HIERARCHY) {
             System.out.println("Automatic BVH Tree Build Overhead: " + overheadSeconds + " seconds");
         }
@@ -237,6 +257,7 @@ public class Stage10FinalTests {
 
         return scene;
     }
+
     /**
      * Creates the room geometry including floor, ceiling, walls,
      * decorative floor planks, and a hidden plane.
@@ -249,7 +270,6 @@ public class Stage10FinalTests {
                 new Polygon(new Point(-980, -120, 560), new Point(-980, -120, -1150), new Point(-980, 410, -1150), new Point(-980, 410, 560)).setEmission(new Color(45, 36, 31)).setMaterial(wall),
 
                 // Hidden Plane behind the back wall, added only to include Plane geometry in the rich scene.
-                // It is fully covered by the opaque back wall, so it should not change the rendered image.
                 new Plane(new Point(0, 0, -910), new Vector(0, 0, 1))
                         .setEmission(new Color(8, 7, 6)).setMaterial(matteDark)
         );
@@ -270,6 +290,7 @@ public class Stage10FinalTests {
 
         addBox(container, -980, 980, -102, -94, -876, -868, new Color(112, 86, 62), matteDark);
     }
+
     /**
      * Builds the left wall window and cabinet structure,
      * including glass panels, frames, and decorative separators.
@@ -292,6 +313,7 @@ public class Stage10FinalTests {
         addBox(container, -982, -966, 45, 57, -720, 380, new Color(58, 51, 44), matteDark);
         addBox(container, -982, -966, 180, 192, -720, 380, new Color(58, 51, 44), matteDark);
     }
+
     /**
      * Creates a floor lamp composed of support legs,
      * a central hub, a lampshade, and a light bulb.
@@ -309,6 +331,7 @@ public class Stage10FinalTests {
                 new Sphere(new Point(-650, 188, -430), 17).setEmission(new Color(255, 242, 186)).setMaterial(new Material().setKD(0.2).setKS(0.2).setShininess(10))
         );
     }
+
     /**
      * Builds a rotated armchair including the seat, backrest,
      * armrests, cushions, and supporting legs.
@@ -338,6 +361,7 @@ public class Stage10FinalTests {
         addRotatedCylinder(container, 6.5, -574, -120, -216, 0, 1, 0, 42, pivotX, pivotZ, angle, leg, metal);
         addRotatedCylinder(container, 6.5, -398, -120, -204, 0, 1, 0, 42, pivotX, pivotZ, angle, leg, metal);
     }
+
     /**
      * Creates a decorative rug with patterned strips.
      */
@@ -352,6 +376,7 @@ public class Stage10FinalTests {
             addBox(container, x, x + 2, -113.8, -113.2, -605, 35, new Color(175, 160, 145), rug);
         }
     }
+
     /**
      * Builds the coffee table including the tabletop,
      * support legs, and decorative objects.
@@ -371,6 +396,7 @@ public class Stage10FinalTests {
 
         addPlant(container, matteDark);
     }
+
     /**
      * Creates a decorative plant including a vase,
      * stems, and foliage clusters.
@@ -402,13 +428,13 @@ public class Stage10FinalTests {
         addLeafCluster(container, baseX - 8, 38, baseZ + 8, 7, flower, branchMat);
         addLeafCluster(container, baseX + 8, 42, baseZ + 6, 7, flower, branchMat);
     }
+
     /**
      * Builds the wall decoration area including the TV,
      * wall panel, cabinet, and supporting elements.
      */
     private void addWallArt(Geometries container, Material metal, Material tvScreen, Material wood, Material matteDark) {
         addBox(container, -240, 140, 72, 228, -878, -870, new Color(14, 14, 14), metal);
-
 
         container.add(
                 new Triangle(
@@ -427,6 +453,7 @@ public class Stage10FinalTests {
         addBox(container, -290, -55, -115, -65, -785, -775, new Color(55, 48, 42), wood);
         addBox(container, -45, 190, -115, -65, -785, -775, new Color(55, 48, 42), wood);
     }
+
     /**
      * Creates ceiling spotlights distributed across the room.
      */
@@ -439,6 +466,7 @@ public class Stage10FinalTests {
             );
         }
     }
+
     /**
      * Configures all scene light sources including directional,
      * point, and spot lights.
@@ -457,6 +485,7 @@ public class Stage10FinalTests {
         scene.lights.add(new SpotLight(new Color(160, 118, 76), new Point(740, 372, -445), new Vector(-0.22, -1, -0.24)).setKl(0.0013).setKq(0.000007).setRadius(64).setNarrowBeam(2.5));
         scene.lights.add(new PointLight(new Color(75, 80, 90), new Point(320, 85, -270)).setKl(0.0001).setKq(0.000001).setRadius(150));
     }
+
     /**
      * Creates a hollow frame using multiple thin boxes.
      */
@@ -466,6 +495,7 @@ public class Stage10FinalTests {
         addBox(container, x1, x1 + t, y1, y2, z1, z1 + t, color, material);
         addBox(container, x2 - t, x2, y1, y2, z1, z1 + t, color, material);
     }
+
     /**
      * Creates a box rotated around the Y-axis using local coordinates.
      */
@@ -492,6 +522,7 @@ public class Stage10FinalTests {
                 new Polygon(p001, p101, p111, p011).setEmission(color).setMaterial(material)
         );
     }
+
     /**
      * Rotates a local point around the Y-axis relative to a center point.
      */
@@ -503,6 +534,7 @@ public class Stage10FinalTests {
         double rz = dx * sin + dz * cos;
         return new Point(centerX + rx, centerY + dy, centerZ + rz);
     }
+
     /**
      * Rotates a world-space point around a specified pivot point.
      */
@@ -517,6 +549,7 @@ public class Stage10FinalTests {
         double rz = dx * sin + dz * cos;
         return new Point(centerX + rx, centerY + dy, centerZ + rz);
     }
+
     /**
      * Creates a box from six polygon faces.
      */
@@ -530,6 +563,7 @@ public class Stage10FinalTests {
                 new Polygon(new Point(x1, y1, z2), new Point(x2, y1, z2), new Point(x2, y2, z2), new Point(x1, y2, z2)).setEmission(color).setMaterial(material)
         );
     }
+
     /**
      * Creates a box rotated around a custom pivot point.
      */
@@ -553,6 +587,7 @@ public class Stage10FinalTests {
                 new Polygon(p001, p101, p111, p011).setEmission(color).setMaterial(material)
         );
     }
+
     /**
      * Creates a cylinder rotated around a specified pivot point.
      */
@@ -568,6 +603,7 @@ public class Stage10FinalTests {
                 new Cylinder(radius, new Ray(p, new Vector(rDirX, dirY, rDirZ).normalize()), height).setEmission(color).setMaterial(material)
         );
     }
+
     /**
      * Creates a cluster of spheres to simulate plant foliage.
      */
